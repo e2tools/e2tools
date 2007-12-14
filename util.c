@@ -276,10 +276,9 @@ make_regexp(char *shell)
   char *tmpstr;
   char *ptr;
   static regex_t reg;
-  int l;
   char c;
 
-  if (NULL == (tmpstr = alloca((strlen(shell)) << 1 + 3)))
+  if (NULL == (tmpstr = alloca(((strlen(shell)) << 1) + 3)))
     {
       perror("make_regexp");
       return(NULL);

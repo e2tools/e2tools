@@ -9,8 +9,6 @@
  * and modified by Robert Sanders <gt8134b@prism.gatech.edu>
  */
 
-static char rcsid[] = "$Id: write.c,v 0.5 2004/04/07 01:12:30 ksheff Exp $";
-
 #ifndef WRITE_C
 #define WRITE_C
 #endif

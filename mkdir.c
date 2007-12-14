@@ -281,7 +281,6 @@ create_dir(ext2_filsys fs, ext2_ino_t root, ext2_ino_t *cwd,
   ext2_ino_t parent;          /* the parent directory inode number*/
   ext2_ino_t child;           /* the inode number of the new directory */
   struct ext2_inode inode;    /* inode of file/directory dirname */
-  char *name;                 /* basename of the new directory */
   long retval;                /* function return value */
   char *buf;
   int len;
@@ -315,7 +314,7 @@ create_dir(ext2_filsys fs, ext2_ino_t root, ext2_ino_t *cwd,
         parent = *cwd;
 
       /* allocate memory for the lookups */
-      if ((retval = ext2fs_get_mem(fs->blocksize, (void **) &buf)))
+      if ((retval = ext2fs_get_mem(fs->blocksize, (void *) &buf)))
         {
           fprintf(stderr, "%s\n", error_message(retval));
           return retval;
@@ -357,16 +356,16 @@ create_dir(ext2_filsys fs, ext2_ino_t root, ext2_ino_t *cwd,
                                               def_stat)))
                     {
                       fprintf(stderr,
-                              "create_dir: error creating directory %s/%s:%d\n",
+                              "create_dir: error creating directory %s/%s:%ld\n",
                               dirname, dname, retval);
-                      ext2fs_free_mem((void **) &buf);
+                      ext2fs_free_mem((void *) &buf);
                       return(retval);
                     }
                 }
               else
                 {
                   fprintf(stderr, "%s\n", error_message(retval));
-                  ext2fs_free_mem((void **) &buf);
+                  ext2fs_free_mem((void *) &buf);
                   return retval;
                 }
             }
@@ -380,7 +379,7 @@ create_dir(ext2_filsys fs, ext2_ino_t root, ext2_ino_t *cwd,
                                                &parent)))
                 {
                   fprintf(stderr, "%s\n", error_message(retval));
-                  ext2fs_free_mem((void **) &buf);
+                  ext2fs_free_mem((void *) &buf);
                   return retval;
                 }
 
@@ -388,7 +387,7 @@ create_dir(ext2_filsys fs, ext2_ino_t root, ext2_ino_t *cwd,
               if ((retval = ext2fs_read_inode(fs, parent, &inode)))
                 {
                   fprintf(stderr, "%s\n", error_message(retval));
-                  ext2fs_free_mem((void **) &buf);
+                  ext2fs_free_mem((void *) &buf);
                   return retval;
                 }
 
@@ -397,7 +396,7 @@ create_dir(ext2_filsys fs, ext2_ino_t root, ext2_ino_t *cwd,
                 {
                   fprintf(stderr, "create_dir: %s/%s is not a directory: %o\n",
                           dirname, dname, inode.i_mode);
-                  ext2fs_free_mem((void **) &buf);
+                  ext2fs_free_mem((void *) &buf);
                   return(-1);
                 }
             }
@@ -407,7 +406,7 @@ create_dir(ext2_filsys fs, ext2_ino_t root, ext2_ino_t *cwd,
             *--dname = '/';
           dname = ptr;
         }
-      ext2fs_free_mem((void **) &buf);
+      ext2fs_free_mem((void *) &buf);
       *cwd = parent;
     }
   else
@@ -415,7 +414,7 @@ create_dir(ext2_filsys fs, ext2_ino_t root, ext2_ino_t *cwd,
       if ((retval = create_subdir(fs, root, cwd, dirname, def_stat)))
         {
           fprintf(stderr,
-                  "create_dir: error creating directory %s:%d\n",
+                  "create_dir: error creating directory %s:%ld\n",
                   dirname, retval);
           return(retval);
         }
@@ -493,7 +492,7 @@ long create_subdir(ext2_filsys fs, ext2_ino_t root, ext2_ino_t *cwd,
       return(0);
     }
   
-  /* ok, the directory doesn't exist
+  /* ok, the directory doesn't exist */
   /* get a new inode number */
   if ((retval = ext2fs_new_inode(fs, parent, LINUX_S_IFDIR | 0755, 0, &child)))
     {

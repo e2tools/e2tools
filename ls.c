@@ -143,7 +143,6 @@ static int
 list_dir_proc(ext2_ino_t dir, int entry, struct ext2_dir_entry *dirent,
               int offset, int blocksize, char *buf, void *private)
 {
-  struct ext2_inode	inode;
   char			name[EXT2_NAME_LEN];
   struct list_dir_struct *ls = (struct list_dir_struct *) private;
   int thislen;
@@ -485,7 +484,7 @@ do_list_dir(int argc, char *argv[])
       if (ls.options & DELETED_OPT)
         flags |= DIRENT_FLAG_INCLUDE_REMOVED;
             
-      if (retval = ext2fs_check_directory(fs, inode))
+      if ((retval = ext2fs_check_directory(fs, inode)))
         {
         if (retval != EXT2_ET_NO_DIRECTORY)
             {
@@ -703,7 +702,7 @@ void short_disp(ls_file_t *info, int *col, int options)
   char lbr, rbr;
   char tmp[300];
   int thislen;
-  static max_col_size = 0;
+  static int max_col_size = 0;
 
   if (max_col_size == 0)
     {
@@ -1023,9 +1022,7 @@ int creat_time_sort(void *n1, void *n2)
 elist_t * remove_ls_dups(elist_t *list)
 {
   elist_t *start = list;
-  elist_t *next;
   ls_file_t *cd;
-  ls_file_t *nd;
   int cnt=0;
 
   while(list != NULL)

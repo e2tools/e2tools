@@ -251,7 +251,6 @@ tail(ext2_filsys *fs_ptr, ext2_ino_t root, char *input, int num_lines,
   unsigned int bytes_to_read;
   unsigned int bytes_read;
   char *ptr;
-  off_t pos;
   struct ext2_inode inode;
   ext2_file_t tail_fd;    
   ext2_off_t offset;
@@ -320,7 +319,11 @@ tail(ext2_filsys *fs_ptr, ext2_ino_t root, char *input, int num_lines,
               if (bytes_to_read != bytes_read - 1)
                 {
                   ptr++;
-                  write(1, ptr, bytes_read - bytes_to_read - 1);
+		  if (0 > write(1, ptr, bytes_read - bytes_to_read - 1))
+		    {
+		      perror("writing bytes to stdout");
+		      return -1;
+		    }
                 }
               offset = 0;       /* make sure we break out of the main loop */
               break;
@@ -338,7 +341,12 @@ tail(ext2_filsys *fs_ptr, ext2_ino_t root, char *input, int num_lines,
    */
   
   if (num_lines > 0)
-    write(1, buf, bytes_read);
+    {
+      if (0 > write(1, buf, bytes_read)) {
+	perror("writing bytes to stdout");
+	return -1;
+      }
+    }
     
   /* retreive the current position in the file */
   if ((retval = ext2fs_file_lseek(tail_fd, 0, EXT2_SEEK_CUR, &cur_pos)))

@@ -239,11 +239,10 @@ copy(int argc, char *argv[])
 {
   ext2_filsys fs = NULL;
   ext2_ino_t root;
-  ext2_ino_t orig_cwd;
+  ext2_ino_t orig_cwd = -1;
   ext2_ino_t cwd;
   char tmpbuf[BUF_SIZE];
   char outpath[BUF_SIZE];
-  char *last_filesys = NULL;
   char *cur_filesys = NULL;
   int retval;
   int c;
@@ -251,7 +250,7 @@ copy(int argc, char *argv[])
   char *dest_dir = NULL;
   char *in_file = NULL;
   char *out_file = NULL;
-  int max_out_len;
+  int max_out_len = -1;
   int keep = 0;
   int absolute = 0;
   int verbose = 0;
@@ -1054,7 +1053,6 @@ read_string(char *inbuf)
   char *ptr;
   char *boundary;
   int c;
-  int cnt;
 
   boundary = inbuf + BUF_SIZE - 1;
   ptr = inbuf;

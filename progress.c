@@ -27,6 +27,7 @@
 /* System Headers */
 #include <stdio.h>
 #include <unistd.h>
+#include <string.h>
 #include <sys/stat.h>
 #include <sys/time.h>
 
@@ -154,7 +155,7 @@ void update_progress(unsigned long num_bytes)
   if (prog_sbuf != NULL && prog_time != tv.tv_sec)
     {
       prog_time = tv.tv_sec;
-      fprintf(stderr, "%s %10d / %10d\r", prog_file, num_bytes,
+      fprintf(stderr, "%s %10ld / %10ld\r", prog_file, num_bytes,
               prog_sbuf->st_size);
       fflush(stderr);
     }

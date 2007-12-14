@@ -41,6 +41,7 @@
 /* Feature Test Switches */
 /* Headers */
 #include <memory.h>
+#include <stdlib.h>
 #include "elist.h"
 
 #ifndef NULL
@@ -79,8 +80,6 @@ elist_delete(elist_t *l, void (*data_free)(void *))
 void
 elist_free(elist_t *l, void (*data_free)(void *))
 {
-  elist_t *n;
-  
   if (l)
     {
       do
@@ -136,7 +135,7 @@ elist_insert(elist_t *l, void *data)
   return(l);
 }
 
-void elist_sort(elist_t *l, int (sort_func)(void *, void *), int reverse)
+void elist_sort(elist_t *l, int (*sort_func)(const void *, const void *), int reverse)
 {
   int c=0;
   elist_t *tl;

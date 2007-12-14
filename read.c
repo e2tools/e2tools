@@ -9,9 +9,7 @@
  *
  */
 
-static char rcsid[] = "$Id: read.c,v 0.2 2002/08/08 07:58:35 ksheff Exp $";
-
-static char copyright[] = "Copyright 2002 Keith W Sheffield";
+static char __attribute__ ((used)) copyright[] = "Copyright 2002 Keith W Sheffield";
 
 #ifndef READ_C
 #define READ_C
@@ -106,7 +104,6 @@ long
 get_file(ext2_filsys fs, ext2_ino_t root, ext2_ino_t cwd,
          char *infile, char *outfile, int keep)
 {
-  int fd;
   ext2_ino_t src;
   int dest;
   int retval;

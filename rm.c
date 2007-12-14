@@ -244,8 +244,8 @@ e2rm(int argc, char *argv[])
                   retval = ext2fs_dir_iterate2(gbl_fs, curr_ino,
                                                DIRENT_FLAG_INCLUDE_EMPTY, 0,
                                                rm_dir_proc,
-                                               (void *)
-                                               (verbose) ? &verbose : NULL);
+                                               (void *) 
+                                               ((verbose) ? &verbose : NULL));
                 }
               else
                 {

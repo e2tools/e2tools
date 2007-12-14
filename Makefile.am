@@ -27,3 +27,11 @@ install-exec-hook:
 	$(LN_S) -f e2cp $(DESTDIR)$(bindir)/e2mv
 	$(LN_S) -f e2cp $(DESTDIR)$(bindir)/e2rm
 	$(LN_S) -f e2cp $(DESTDIR)$(bindir)/e2tail
+
+uninstall-exec-hook:
+	$(RM) -f $(DESTDIR)$(bindir)/e2ln
+	$(RM) -f $(DESTDIR)$(bindir)/e2ls
+	$(RM) -f $(DESTDIR)$(bindir)/e2mkdir
+	$(RM) -f $(DESTDIR)$(bindir)/e2mv
+	$(RM) -f $(DESTDIR)$(bindir)/e2rm
+	$(RM) -f $(DESTDIR)$(bindir)/e2tail

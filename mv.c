@@ -84,7 +84,6 @@ do_mv(int argc, char *argv[])
   int verbose=0;
   int force=0;
   int swap_files=0;
-  int num_files;
   int errcnt=0;
   char *cur_filesys = NULL;
   ext2_filsys fs = NULL;
