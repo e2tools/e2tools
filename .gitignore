@@ -1,2 +1,8 @@
 *~
+aclocal.m4
 autom4te.cache
+build-aux/depcomp
+build-aux/install-sh
+build-aux/missing
+configure
+INSTALL

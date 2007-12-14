@@ -1,3 +1,6 @@
+SUBDIRS = lib .
+ACLOCAL_AMFLAGS = -I m4
+
 AM_CPPFLAGS = -I@includedir@
 
 bin_PROGRAMS = e2cp
