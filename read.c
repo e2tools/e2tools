@@ -11,9 +11,6 @@
 
 static char __attribute__ ((used)) copyright[] = "Copyright 2002 Keith W Sheffield";
 
-#ifndef READ_C
-#define READ_C
-#endif
 
 /* Description */
 /*
@@ -309,7 +306,7 @@ read_to_eof(ext2_file_t infile, int dest_fd, ext2_off_t offset,
   while (bytes_read > 0 &&
          bytes_read == (bytes_written = write(dest_fd, buf, bytes_read)));
 
-  if (bytes_read)
+  if (bytes_read != 0)
     {
       perror("read_to_eof");
       return(-1);

@@ -10,10 +10,6 @@
  * as well as portions of the ext2fs library (C) 1993-1995 Theodore Ts'o
  */
 
-#ifndef RM_C
-#define RM_C
-#endif
-
 /* Description */
 /*
  * This file contains function used to remove files in an ext2fs filesystem.
@@ -288,9 +284,9 @@ e2rm(int argc, char *argv[])
   
 } /* end of e2rm */ 
 
-static int rm_dir_proc(ext2_ino_t dir, int entry,
-                       struct ext2_dir_entry *dirent, int offset,
-                       int blocksize, char *buf, void *verbose)
+static int rm_dir_proc(ext2_ino_t UNUSED_PARM(dir), int entry,
+                       struct ext2_dir_entry *dirent, int UNUSED_PARM(offset),
+                       int UNUSED_PARM(blocksize), char UNUSED_PARM(*buf), void *verbose)
 {
   char name[EXT2_NAME_LEN];
   int thislen;
@@ -354,7 +350,7 @@ recursive_rm(ext2_ino_t dir, char *name, struct ext2_dir_entry *dirent,
 
 static int
 rm_regex_proc(ext2_ino_t dir, int entry, struct ext2_dir_entry *dirent,
-              int offset, int blocksize, char *buf, void *arg)
+              int UNUSED_PARM(offset), int UNUSED_PARM(blocksize), char *UNUSED_PARM(buf), void *arg)
 {
   long retval;
   char name[EXT2_NAME_LEN];

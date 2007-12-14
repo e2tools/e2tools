@@ -7,10 +7,6 @@
  *
  */
 
-#ifndef COPY_C
-#define COPY_C
-#endif
-
 /* Description */
 /*
  * This module contains functions used to copy files to and from an ext2fs
@@ -106,14 +102,8 @@ typedef struct
 elist_t *link_list = NULL;
 static char cur_out_dir[BUF_SIZE];
 
-/* External Prototypes */
-
-extern void init_progress(char *file, struct stat *sbuf);
-
 /* Local Prototypes */
 
-long
-copy(int argc, char *argv[]);
 long
 open_destination(char **dest_dir, char **cur_filesys, ext2_filsys *fs,
                  ext2_ino_t *root, ext2_ino_t *cwd, char *outfile,

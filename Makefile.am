@@ -4,19 +4,19 @@ INCLUDES = -I@includedir@
 	$(COMPILE) -c $<
 
 bin_PROGRAMS = e2cp
-e2cp_SOURCES = copy.c \
+e2cp_SOURCES = copy.c copy.h \
 	e2tools.c e2tools.h \
 	elist.c elist.h \
-	ln.c \
-	ls.c \
-	mkdir.c \
-	mv.c \
-	progress.c \
-	read.c \
-	rm.c \
-	tail.c \
-	util.c \
-	write.c
+	ln.c ln.h \
+	ls.c ls.h \
+	mkdir.c mkdir.h \
+	mv.c mv.h \
+	progress.c progress.h \
+	read.c read.h \
+	rm.c rm.h \
+	tail.c tail.h \
+	util.c util.h \
+	write.c write.h
 e2cp_LDADD = -L@libdir@ -lext2fs -lcom_err
 EXTRA_DIST = README TODO e2tools.spec
 

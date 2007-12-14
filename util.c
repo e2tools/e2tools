@@ -9,10 +9,6 @@
  * and modified by Robert Sanders <gt8134b@prism.gatech.edu>
  */
 
-#ifndef UTIL_C
-#define UTIL_C
-#endif
-
 /* Description */
 /*
  * Misc. utility functions
@@ -229,7 +225,7 @@ delete_file(ext2_filsys fs, ext2_ino_t inode)
 
 static int
 release_blocks_proc(ext2_filsys fs, blk_t *blocknr,
-                    int blockcnt, void *private)
+                    int UNUSED_PARM(blockcnt), void UNUSED_PARM(*private))
 {
 	blk_t	block;
 

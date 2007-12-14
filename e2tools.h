@@ -64,74 +64,22 @@ extern int optreset;		/* defined by BSD, but not others */
 #define E2T_FORCE 1
 #define E2T_DO_MV 2
 
-/* from copy.c */
-extern long copy(int argc, char *argv[]);
-extern int my_strcmp(const void *n1, const void *n2);
+#include "copy.h"
+#include "util.h"
+#include "write.h"
+#include "mkdir.h"
+#include "progress.h"
+#include "read.h"
+#include "ln.h"
+#include "mv.h"
+#include "rm.h"
+#include "tail.h"
+#include "ls.h"
 
-
-/* from ln.c */
-extern long do_ln(int argc, char *argv[]);
-
-extern long create_hard_link(ext2_filsys fs, ext2_ino_t cwd, ext2_ino_t
-                             new_file_ino, char *newfile, int ln_flags);
-
-
-/* from ls.c */
-extern long do_list_dir(int argc, char *argv[]);
-
-
-/* from mkdir.c */
-extern long e2mkdir(int argc, char *argv[]);
-extern long create_dir(ext2_filsys fs, ext2_ino_t root, ext2_ino_t *cwd,
-                       char *dirname, struct stat *def_stat);
-extern long change_cwd(ext2_filsys fs, ext2_ino_t root, ext2_ino_t *cwd,
-		       char *dirname);
-
-
-/* from mv.c */
-extern long do_mv(int argc, char *argv[]);
-extern long get_file_parts(ext2_filsys fs, ext2_ino_t root, char *pathname,
-                           ext2_ino_t *dir_ino, char **dir_name,
-                           char **base_name);
-
-
-/* from read.c */
-extern long get_file(ext2_filsys fs, ext2_ino_t root, ext2_ino_t cwd,
-                     char *infile, char *outfile, int keep);
-extern long retrieve_data(ext2_filsys fs, ext2_ino_t src, int dest_fd,
-                          char *dest_name, int keep, ext2_off_t offset,
-                          ext2_off_t *ret_pos);
-extern long read_to_eof(ext2_file_t infile, int dest_fd, ext2_off_t offset,
-                        ext2_off_t *ret_pos);
-
-
-/* from rm.c */
-extern long e2rm(int argc, char *argv[]);
+#if __GNUC__ >= 4
+# define UNUSED_PARM(foo) foo __attribute__((unused))
+#else
+# define UNUSED_PARM(foo) foo ## __UNUSED
 #endif
 
-/* from tail.c */
-extern long do_tail(int argc, char *argv[]);
-
-
-/* from util.c */
-extern mode_t ext2_mode_xlate(__u16 lmode);
-extern __u16 host_mode_xlate(mode_t hmode);
-extern long open_filesystem(char *name, ext2_filsys *fs, ext2_ino_t *root, int
-                            rw_mode);
-extern long read_inode(ext2_filsys fs, ext2_ino_t file, struct ext2_inode
-                       *inode); 
-extern long write_inode(ext2_filsys fs, ext2_ino_t file, struct ext2_inode
-                        *inode); 
-extern long rm_file(ext2_filsys fs, ext2_ino_t cwd, char *outfile, ext2_ino_t
-                    delfile); 
-extern long delete_file(ext2_filsys fs, ext2_ino_t inode);
-extern void init_stat_buf(struct stat *buf);
-extern int  is_file_regexp(char *ptr);
-extern regex_t *make_regexp(char *shell);
-
-/* from write.c */
-extern long
-put_file(ext2_filsys fs, ext2_ino_t cwd, char *infile, char *outfile,
-         ext2_ino_t *outfile_ino, int keep, struct stat *def_stat);
-
-
+#endif

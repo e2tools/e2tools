@@ -143,7 +143,8 @@ remove_ls_dups(elist_t *list);
  */
 static int
 list_dir_proc(ext2_ino_t dir, int entry, struct ext2_dir_entry *dirent,
-              int offset, int blocksize, char *buf, void *private)
+              int UNUSED_PARM(offset), int UNUSED_PARM(blocksize),
+	      char UNUSED_PARM(*buf), void *private)
 {
   char			name[EXT2_NAME_LEN];
   struct list_dir_struct *ls = (struct list_dir_struct *) private;
@@ -619,7 +620,7 @@ do_list_dir(int argc, char *argv[])
  * 04/06/04      K.Sheffield        Modified to show entries with an inode of 0
  *                                  as deleted.
  */
-void long_disp(ls_file_t *info, int *col, int options)
+void long_disp(ls_file_t *info, int UNUSED_PARM(*col), int options)
 {
   char lbr, rbr;
   char datestr[80];
