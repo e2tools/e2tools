@@ -44,6 +44,8 @@
 #include "e2tools.h"
 #include "elist.h"
 #include <regex.h>
+#include <stdint.h>
+#include <inttypes.h>
 
 /*
  * list directory
@@ -657,8 +659,8 @@ void long_disp(ls_file_t *info, int *col, int options)
   if (LINUX_S_ISDIR(info->inode.i_mode))
     printf("%7d", info->inode.i_size);
   else
-    printf("%7lld", info->inode.i_size |
-           ((__u64)info->inode.i_size_high << 32));
+    printf("%7" PRIu64, (uint64_t)(info->inode.i_size |
+				  ((__u64)info->inode.i_size_high << 32)));
   printf(" %s %s\n", datestr, info->name);
 
 } /* end of long_disp */ 
