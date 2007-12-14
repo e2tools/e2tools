@@ -1,0 +1,183 @@
+2004-04-06  Keith W. Sheffield  <sheff@pobox.com>
+
+	* README: Added some basic user documentation.
+
+	* mkdir.c (e2mkdir): Updated the usage string and modified to
+	always use the default user and group information.
+
+	* write.c (put_file): Added a default file stat parameter.
+
+	* copy.c (copy): Corrected usage when -d is to a local directory.
+	Updated the usage string.  Modified to pass the default file stat
+	to put_file().
+
+	* rm.c (e2rm): Corrected getopt and usage strings.
+
+	* elist.c (elist_delete): Modified to correctly update the
+	previous and next nodes in the list.
+
+	* ls.c: Modified to print "No files found!" for empty directories,
+	corrected the directory name display, and fixed REGEX_OPT masking.
+
+2003-07-12  Keith W. Sheffield  <sheff@pobox.com>
+
+	* Makefile.am (install-exec-hook): using $(LN_S)
+
+	* tail.c (do_tail): fixed a bug when no arguments are given
+
+2003-07-10  Keith W. Sheffield  <sheff@pobox.com>
+
+	* configure.in: initial version
+
+	* Makefile.am: initial version
+
+2002-08-08  Keith W. Sheffield  <sheff@pobox.com>
+
+	* e2tools.c: Added a new feature suggested by Ralf Spenneberg:
+	e2tail.  It can operate in follow mode or just dump N lines mode.
+
+	* read.c (retrieve_data): Split out the copy loop into its own
+	function read_to_eof() which can jump to an offset if needed.
+
+2002-07-08  Keith W. Sheffield  <sheff@pobox.com>
+
+	* mkdir.c (create_dir): fixed a bug in the error reporting that
+	was truncating the full file name.
+
+	* copy.c: Corrected the destination directory name for verbose and
+	error output.
+
+2002-06-30  Keith W. Sheffield  <sheff@pobox.com>
+
+	* ln.c (create_hard_link): Testing file type before linking to
+	directory. 
+
+2002-06-26  Keith W. Sheffield  <sheff@pobox.com>
+
+	* write.c (store_data): Added call to update_progress
+	(put_file): Called ext2fs_flush() before returning
+
+	* copy.c: Corrected copying from stdin and added a call to
+	initialize the file copy progress information.
+	
+
+2002-06-05  Keith W. Sheffield  <sheff@pobox.com>
+
+	* ls.c (long_disp): Increased file size field width.
+	(do_list_dir): Added -f and -D options.  Allow for multiple file
+	specifications. 
+
+	* elist.c: Added a new function: elist_delete
+
+2002-06-03  Keith W. Sheffield  <sheff@pobox.com>
+
+	* ls.c (do_list_dir): Added -t -c -r -a -i options and modular
+	display and sort functions.
+	(list_dir_proc): Removed display code and just adds inode and
+	filename information to a linked list.
+
+	* elist.c: Added a new function: elist_sort
+
+2002-05-31  Keith W. Sheffield  <sheff@pobox.com>
+
+	* ls.c: Added regular expression support.
+
+	* rm.c: Added code to handle regular expressions and recursive
+	directory removal.
+
+	* util.c: Added routines to check if a file is a shell regular
+	expression and one to create a standard regular expression and
+	compile it.
+
+2002-05-21  Keith W. Sheffield  <sheff@pobox.com>
+
+	* copy.c (find_link): Fixed the list ordered search bug.
+
+2002-05-06  Keith W. Sheffield  <sheff@pobox.com>
+
+	* copy.c (open_destination): Fixed a bug where if the destination
+	filespec was just localpath:, the file would not be copied to the
+	root directory.
+
+2002-05-02  Keith W. Sheffield  <sheff@pobox.com>
+
+	* copy.c (open_destination): Fixed a bug that was causing a file
+	to be copied to the home directory if the destination file already
+	existed.
+
+2002-04-10  Keith W. Sheffield  <sheff@pobox.com>
+
+	* e2tools.c (main): new feature: e2rm command
+
+	* e2tools.h: new feature: e2rm() function
+
+	* copy.c: Added the ability to set the file attributes for a
+	directory from defaults or the values from an existing directory.
+
+	* util.c: Added function init_stat_buf
+
+	* mkdir.c: Added a parameter to contain the default file
+	attributes for a directory.
+
+2002-03-21  Keith W. Sheffield  <sheff@pobox.com>
+
+	* mv.c (do_swap): new feature: in-place file name swap
+
+	* ln.c (do_ln): Removed code that retrieved the directory name,
+	directory inode number, and base filename and replaced it with a
+	function call to get_file_parts().
+
+2002-03-20  Keith W. Sheffield  <sheff@pobox.com>
+
+	* ln.c (do_ln): separated the ln/mv operations into two separate
+	functions. b
+
+2002-03-07  Keith W. Sheffield  <sheff@pobox.com>
+
+	* write.c (put_file): Added ability to store the original file's
+	owner, group, access, modification, and create times.
+
+	* copy.c (copy): Copying hard links to ext2fs correctly, verbose
+	works
+	
+
+2002-03-06  Keith W. Sheffield  <sheff@pobox.com>
+
+	* ln.c (do_ln): Modified to perform a file rename/move
+
+	* e2tools.c (main): Added a call to do_ln to implement e2mv
+
+	* util.c (rm_file): checked for return of ext2fs_unlink
+
+2002-03-05  Keith W. Sheffield  <sheff@pobox.com>
+
+	* e2tools.c (main): Added a call to do_ln
+
+	* write.c (put_file): Fixed a bug with reading from stdin.
+
+	* ls.c (do_list_dir): Removed setting optind for SCO
+
+	* mkdir.c (e2mkdir): Removed setting optind for SCO
+
+2002-02-27  Keith W. Sheffield  <sheff@pobox.com>
+
+	* write.c (put_file): Added parameter to pass back the output
+	file's inode number.
+
+	* copy.c (copy): Added a directory check for file names being read
+	in from stdin and copied to an ext2fs.
+
+2002-02-26  Keith W. Sheffield  <sheff@pobox.com>
+
+	* Makefile: added definitions to auto-checkout and added new
+	program	e2mkdir.
+
+	* e2tools.c (main): added a call to e2mkdir
+
+	* mkdir.c: Added a new function e2mkdir
+
+	* e2tools.h: Added a section for external prototypes.
+
+	* copy.c (copy): removed unnecessary printf.
+	
+

@@ -1,0 +1,8 @@
+Create user documentation
+htree and extended attribute support
+automated test suite
+Add e2rm with regular expressions
+Make copy aware of symbolic links
+Add comments
+Add e2mknod
+Add e2test
