@@ -1,7 +1,4 @@
-INCLUDES = -I@includedir@
-
-.c.o:
-	$(COMPILE) -c $<
+AM_CPPFLAGS = -I@includedir@
 
 bin_PROGRAMS = e2cp
 e2cp_SOURCES = copy.c copy.h \
