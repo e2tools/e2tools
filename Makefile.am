@@ -21,6 +21,8 @@ e2cp_SOURCES = \
 	write.c write.h
 
 EXTRA_DIST = README TODO e2tools.spec
+dist_man_MANS = e2tools.7
+dist_man_MANS += e2cp.1 e2ln.1 e2ls.1 e2mkdir.1 e2mv.1 e2rm.1 e2tail.1
 
 install-exec-hook:
 	$(LN_S) -f e2cp $(DESTDIR)$(bindir)/e2ln
