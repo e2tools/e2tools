@@ -9,10 +9,6 @@
  * and modified by Robert Sanders <gt8134b@prism.gatech.edu>
  */
 
-#ifndef WRITE_C
-#define WRITE_C
-#endif
-
 /* Description */
 /* This file contains the functions used to write a file to an ext2fs
  * filesystem.
@@ -42,6 +38,7 @@
 
 /* Headers */
 
+#include <errno.h>
 #include "e2tools.h"
 
 /* External Prototypes */
