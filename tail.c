@@ -284,7 +284,7 @@ tail(ext2_filsys *fs_ptr, ext2_ino_t root, char *input, int num_lines,
     bytes_to_read = BLK_SIZE;
 
   offset -= bytes_to_read;
-  if (offset < 0)
+  if (((int32_t)offset) < 0)
     offset = 0;
 
   do
