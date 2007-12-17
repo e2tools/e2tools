@@ -890,7 +890,7 @@ int inode_sort(void *n1, void *n2)
   
   return((retval = (f1->dir - f2->dir)) ? retval :
          ((retval = (f1->type - f2->type)) ? retval :
-          (f1->inode_num - f2->inode_num)));
+          (int)(f1->inode_num - f2->inode_num)));
 } /* end of inode_sort */ 
 
 /* Name:	mod_time_sort()
@@ -935,7 +935,7 @@ int mod_time_sort(void *n1, void *n2)
   
   return((retval = (f1->dir - f2->dir)) ? retval :
          ((retval = (f1->type - f2->type)) ? retval :
-          (f2->inode.i_mtime - f1->inode.i_mtime)));
+          (int)(f2->inode.i_mtime - f1->inode.i_mtime)));
   
 } /* end of mod_time_sort */
 
@@ -981,7 +981,7 @@ int creat_time_sort(void *n1, void *n2)
   
   return((retval = (f1->dir - f2->dir)) ? retval :
          ((retval = (f1->type - f2->type)) ? retval :
-          (f2->inode.i_ctime - f1->inode.i_ctime)));
+          (int)(f2->inode.i_ctime - f1->inode.i_ctime)));
 } /* end of creat_time_sort */ 
 
 /* Name:	remove_ls_dups()
