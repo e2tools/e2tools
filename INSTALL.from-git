@@ -1,0 +1,7 @@
+To compile from e2tools' git repository, you need to run these steps:
+
+  $ git clone to-be-announced e2tools
+  $ cd e2tools
+  $ autoreconf -vis .
+
+Now you can compile as if you had just extracted a source tarball.
