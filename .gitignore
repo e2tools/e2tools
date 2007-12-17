@@ -7,3 +7,4 @@ build-aux/missing
 config.h.in
 configure
 INSTALL
+Makefile.in
