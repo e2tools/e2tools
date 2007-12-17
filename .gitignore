@@ -4,5 +4,6 @@ autom4te.cache
 build-aux/depcomp
 build-aux/install-sh
 build-aux/missing
+config.h.in
 configure
 INSTALL
