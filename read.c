@@ -279,12 +279,11 @@ retrieve_data(ext2_filsys fs, ext2_ino_t src, int dest_fd,
  *
  */
 long
-read_to_eof(ext2_file_t infile, int dest_fd, ext2_off_t offset,
+read_to_eof(ext2_file_t infile, int UNUSED_PARM(dest_fd), ext2_off_t offset,
             ext2_off_t *ret_pos)
 {
   char buf[4096];
   unsigned int bytes_read;
-  int bytes_written;
   int retval;
 
   if (offset != 0 &&
@@ -295,16 +294,19 @@ read_to_eof(ext2_file_t infile, int dest_fd, ext2_off_t offset,
     }
   
   /* read all that we can and dump it to the output file descriptor */
-  do
+  while (1)
     {
+      ssize_t bytes_written;
       if ((retval = ext2fs_file_read(infile, buf, sizeof(buf), &bytes_read)))
         {
           fputs(error_message(retval), stderr);
           return retval;
         }
+      if (bytes_read <= 0) break;
+      bytes_written = write(dest_fd, buf, bytes_read);
+      if (bytes_written < 0) break;
+      if (bytes_read != (size_t)bytes_written) break;
     }
-  while (bytes_read > 0 &&
-         bytes_read == (bytes_written = write(dest_fd, buf, bytes_read)));
 
   if (bytes_read != 0)
     {
