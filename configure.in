@@ -1,6 +1,6 @@
 dnl Process this file with autoconf to produce a configure script.
 AC_PREREQ(2.59)
-AC_INIT([e2tools], [0.0.16.1], [hun@n-dimensional.de], [e2tools])
+AC_INIT([e2tools], [0.0.16.2], [hun@n-dimensional.de], [e2tools])
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_HEADER([config.h])
 AC_CONFIG_SRCDIR([e2tools.c])
@@ -13,10 +13,13 @@ gl_EARLY
 AC_PROG_INSTALL
 AC_PROG_LN_S
 AC_PROG_MAKE_SET
-AC_PROG_CC_C_O
 
 dnl Checks for libraries.
 gl_INIT
+PKG_CHECK_MODULES([EXT2FS], [ext2fs], [], [
+	AC_MSG_ERROR([Sorry, but we do require libext2fs.])])
+PKG_CHECK_MODULES([COM_ERR], [com_err], [], [
+	AC_MSG_ERROR([Sorry, but we do require libcom_err.])])
 
 dnl Checks for header files.
 AC_HEADER_STDC

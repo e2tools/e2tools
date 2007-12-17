@@ -1,10 +1,12 @@
 SUBDIRS = lib .
 ACLOCAL_AMFLAGS = -I m4
 
-AM_CPPFLAGS = -I@includedir@
-
 bin_PROGRAMS = e2cp
-e2cp_SOURCES = copy.c copy.h \
+
+AM_CPPFLAGS = $(EXT2FS_CFLAGS) $(COM_ERR_CFLAGS)
+e2cp_LDADD = $(EXT2FS_LIBS) $(COM_ERR_LIBS)
+e2cp_SOURCES = \
+	copy.c copy.h \
 	e2tools.c e2tools.h \
 	elist.c elist.h \
 	ln.c ln.h \
@@ -17,7 +19,7 @@ e2cp_SOURCES = copy.c copy.h \
 	tail.c tail.h \
 	util.c util.h \
 	write.c write.h
-e2cp_LDADD = -L@libdir@ -lext2fs -lcom_err
+
 EXTRA_DIST = README TODO e2tools.spec
 
 install-exec-hook:
