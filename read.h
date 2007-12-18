@@ -1,7 +1,6 @@
 #ifndef E2TOOLS_READ_H
 #define E2TOOLS_READ_H
 
-/* from read.c */
 extern long get_file(ext2_filsys fs, ext2_ino_t root, ext2_ino_t cwd,
                      char *infile, char *outfile, int keep);
 extern long retrieve_data(ext2_filsys fs, ext2_ino_t src, int dest_fd,

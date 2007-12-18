@@ -1,7 +1,6 @@
 #ifndef E2TOOLS_UTIL_H
 #define E2TOOLS_UTIL_H
 
-/* from util.c */
 extern mode_t ext2_mode_xlate(__u16 lmode);
 extern __u16 host_mode_xlate(mode_t hmode);
 extern long open_filesystem(char *name, ext2_filsys *fs, ext2_ino_t *root, int
