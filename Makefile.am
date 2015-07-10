@@ -20,7 +20,7 @@ e2cp_SOURCES = \
 	util.c util.h \
 	write.c write.h
 
-EXTRA_DIST = README TODO e2tools.spec
+EXTRA_DIST = README TODO
 dist_man_MANS = e2tools.7
 dist_man_MANS += e2cp.1 e2ln.1 e2ls.1 e2mkdir.1 e2mv.1 e2rm.1 e2tail.1
 
