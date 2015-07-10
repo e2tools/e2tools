@@ -50,7 +50,7 @@ e2cp
 -----
 
 This program copies files to/from an e2fs filesystem from/to the machine's
-native filesystem. 
+native filesystem.
 
 Usage:
 
@@ -159,7 +159,7 @@ e2rm [-vr] filesystem:filepath ...fileN
 -v  Be verbose
 
 Note: This program expects to have a full ext2 file specification for each
-argument. 
+argument.
 
 Examples:
 
@@ -189,7 +189,7 @@ e2mkdir [-G gid][-O uid][-P mode][-v] filesystem:directory...dirN
 -v      Be verbose.
 
 Note: This program expects to have a full ext2 file specification for each
-argument. 
+argument.
 
 Examples:
 

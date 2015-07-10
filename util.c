@@ -103,7 +103,7 @@ __u16 host_mode_xlate(mode_t hmode)
 {
   __u16	mode = 0;
   int	i;
-  
+
   for (i=0; xlat_tbl[i].lmask; i++)
     {
       if (hmode & xlat_tbl[i].mask)
@@ -117,8 +117,8 @@ open_filesystem(char *name, ext2_filsys *fs, ext2_ino_t *root, int rw_mode)
 {
   int retval;
   int closeval;
-  
-  
+
+
   if ((retval = ext2fs_open(name, (rw_mode) ? EXT2_FLAG_RW : 0, 0, 0,
                             unix_io_manager, fs)))
     {
@@ -131,7 +131,7 @@ open_filesystem(char *name, ext2_filsys *fs, ext2_ino_t *root, int rw_mode)
     {
       fprintf(stderr, "%s\n", error_message(retval));
       if ((closeval = ext2fs_close(*fs)))
-        fputs(error_message(closeval), stderr);        
+        fputs(error_message(closeval), stderr);
       *fs = NULL;
       return retval;
     }
@@ -175,7 +175,7 @@ rm_file(ext2_filsys fs, ext2_ino_t cwd, char *outfile, ext2_ino_t delfile)
 {
   struct ext2_inode inode;
   long retval;
-  
+
   if ((retval = read_inode(fs, delfile, &inode)))
     return(retval);
 
@@ -185,10 +185,10 @@ rm_file(ext2_filsys fs, ext2_ino_t cwd, char *outfile, ext2_ino_t delfile)
 
   if ((retval = ext2fs_unlink(fs, cwd, outfile, 0, 0)))
       return(retval);
-  
+
   if (inode.i_links_count == 0)
     return(delete_file(fs, delfile));
-  
+
   return(0);
 }
 
@@ -197,29 +197,29 @@ delete_file(ext2_filsys fs, ext2_ino_t inode)
 {
   struct ext2_inode inode_buf;
   long retval;
-  
+
   if ((retval = read_inode(fs, inode, &inode_buf)))
     {
       fprintf(stderr, "%s\n", error_message(retval));
       return(retval);
     }
-  
+
   inode_buf.i_dtime = time(NULL);
   if ((retval = write_inode(fs, inode, &inode_buf)))
     {
       fprintf(stderr, "%s\n", error_message(retval));
       return(retval);
     }
-  
+
   if ((retval = ext2fs_block_iterate(fs, inode, 0, NULL,
                                      release_blocks_proc, NULL)))
     {
       fprintf(stderr, "%s\n", error_message(retval));
       return(retval);
     }
-  
+
   ext2fs_inode_alloc_stats(fs, inode, -1);
-  
+
   return(0);
 }
 
@@ -282,7 +282,7 @@ make_regexp(char *shell)
 
   ptr = tmpstr;
   *ptr++ = '^';
-  
+
   while ((c = *shell++) != '\0')
     {
       switch(c)
@@ -304,7 +304,7 @@ make_regexp(char *shell)
     }
   *ptr++ = '$';
   *ptr = '\0';
-  
+
   if (regcomp(&reg, tmpstr, REG_NOSUB))
     {
       perror("make_regexp");

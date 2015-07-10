@@ -44,7 +44,7 @@
 /*
 #ifdef HAVE_GETOPT_H
 #include <getopt.h>
-#else 
+#else
 #endif
 */
 

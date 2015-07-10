@@ -89,7 +89,7 @@ void init_progress(char *file, struct stat *sbuf)
     {
       if (strcmp(file, "-") == 0)
         file = "<stdin>";
-      
+
       len = strlen(file);
       if (len > PROG_FILE_SIZE)
         {
@@ -109,8 +109,8 @@ void init_progress(char *file, struct stat *sbuf)
       prog_sbuf = NULL;
       prog_start = prog_time = 0;
     }
-  
-} /* end of init_progress */ 
+
+} /* end of init_progress */
 
 /* Name:	update_progress()
  *
@@ -159,7 +159,7 @@ void update_progress(unsigned long num_bytes)
               prog_sbuf->st_size);
       fflush(stderr);
     }
-} /* end of update_progress */ 
+} /* end of update_progress */
 
 /* Name:	finish_progress()
  *
@@ -195,5 +195,5 @@ void finish_progress()
 {
   if (prog_start != prog_time)
     fputs(PROG_CLEAR, stderr);
-  
-} /* end of finish_progress */ 
+
+} /* end of finish_progress */

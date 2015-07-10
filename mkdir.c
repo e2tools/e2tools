@@ -66,7 +66,7 @@ create_subdir(ext2_filsys fs, ext2_ino_t root, ext2_ino_t *cwd,
  *
  * Description:
  *
- * This function extracts the command line parameters and creates 
+ * This function extracts the command line parameters and creates
  * directories based on user input
  *
  * Algorithm:
@@ -123,7 +123,7 @@ e2mkdir(int argc, char *argv[])
 
   init_stat_buf(&def_stat);
   def_stat.st_ino = 1;
-    
+
 #ifdef HAVE_OPTRESET
   optreset = 1;		/* Makes BSD getopt happy */
 #endif
@@ -160,7 +160,7 @@ e2mkdir(int argc, char *argv[])
   cur_opt = argv + optind;
   if (num_files > 1 )
     qsort(cur_opt, num_files, sizeof(char *), my_strcmp);
-  
+
   for(i=0;i<num_files;i++)
     {
       filespec = *cur_opt++;
@@ -183,7 +183,7 @@ e2mkdir(int argc, char *argv[])
                   fprintf(stderr, "%s\n", error_message(retval));
                   return retval;
                 }
-              
+
               if ((retval = open_filesystem(cur_filesys, &fs, &root, 1)))
                 {
                   fprintf(stderr, "%s\n", error_message(retval));
@@ -216,8 +216,8 @@ e2mkdir(int argc, char *argv[])
       return retval;
     }
   return(0);
-  
-} /* end of e2mkdir */ 
+
+} /* end of e2mkdir */
 
 /* Name:	create_dir()
  *
@@ -255,7 +255,7 @@ e2mkdir(int argc, char *argv[])
  * ext2_filsys fs;			  The current file system
  * ext2_ino_t root;			  The inode number of the root directory
  * ext2_ino_t *cwd;			  Pointer to the inode number of the current
- *							  directory 
+ *							  directory
  * char *dirname;			  The directory to create
  * struct stat *def_stat;     Default directory status, owner, group, etc.
  *
@@ -286,7 +286,7 @@ create_dir(ext2_filsys fs, ext2_ino_t root, ext2_ino_t *cwd,
   int len;
   char c;
   char *dname;                 /* name of the sub directory */
-    
+
   /* make sure we have valid parameters */
   if (fs == NULL || cwd == NULL || dirname == NULL || *dirname == '\0')
     {
@@ -319,7 +319,7 @@ create_dir(ext2_filsys fs, ext2_ino_t root, ext2_ino_t *cwd,
           fprintf(stderr, "%s\n", error_message(retval));
           return retval;
         }
-        
+
       c = *dname;
       ptr = dname;
       while (c != '\0')
@@ -341,7 +341,7 @@ create_dir(ext2_filsys fs, ext2_ino_t root, ext2_ino_t *cwd,
               /* restore /'s */
               if (dname > dirname)
                 *--dname = '/';
-                
+
               dname = ptr;
               continue;
             }
@@ -400,7 +400,7 @@ create_dir(ext2_filsys fs, ext2_ino_t root, ext2_ino_t *cwd,
                   return(-1);
                 }
             }
-            
+
           /* restore /'s */
           if (dname > dirname)
             *--dname = '/';
@@ -420,7 +420,7 @@ create_dir(ext2_filsys fs, ext2_ino_t root, ext2_ino_t *cwd,
         }
     }
   return(0);
-} /* end of create_dir */ 
+} /* end of create_dir */
 
 /* Name:	create_subdir()
  *
@@ -443,7 +443,7 @@ create_dir(ext2_filsys fs, ext2_ino_t root, ext2_ino_t *cwd,
  * ext2_filsys fs;			  The current file system
  * ext2_ino_t root;			  The inode number of the root directory
  * ext2_ino_t *cwd;			  Pointer to the inode number of the current
- *							  or parent directory 
+ *							  or parent directory
  * char *dirname;			  The directory to create
  * struct stat *def_stat;     Default directory status, owner, group, etc.
  *
@@ -470,7 +470,7 @@ long create_subdir(ext2_filsys fs, ext2_ino_t root, ext2_ino_t *cwd,
   struct ext2_inode inode;
 
   parent = *cwd;
-  
+
   if ((retval = ext2fs_namei(fs, root, parent, dirname, &child)))
     {
       if (retval != EXT2_ET_FILE_NOT_FOUND)
@@ -491,7 +491,7 @@ long create_subdir(ext2_filsys fs, ext2_ino_t root, ext2_ino_t *cwd,
       *cwd = child;
       return(0);
     }
-  
+
   /* ok, the directory doesn't exist */
   /* get a new inode number */
   if ((retval = ext2fs_new_inode(fs, parent, LINUX_S_IFDIR | 0755, 0, &child)))
@@ -515,7 +515,7 @@ long create_subdir(ext2_filsys fs, ext2_ino_t root, ext2_ino_t *cwd,
 
       if (def_stat->st_mode != 0)
         inode.i_mode = LINUX_S_IFDIR | host_mode_xlate(def_stat->st_mode);
-      
+
       inode.i_uid = def_stat->st_uid;
       inode.i_gid = def_stat->st_gid;
       inode.i_atime = def_stat->st_atime;
@@ -570,7 +570,7 @@ change_cwd(ext2_filsys fs, ext2_ino_t root, ext2_ino_t *cwd, char *dirname)
 {
   ext2_ino_t inode;
   long retval;
-  
+
   if ((retval = ext2fs_namei(fs, root, *cwd, dirname, &inode)))
     {
       fprintf(stderr, "%s\n", error_message(retval));
@@ -583,4 +583,4 @@ change_cwd(ext2_filsys fs, ext2_ino_t root, ext2_ino_t *cwd, char *dirname)
     }
   *cwd = inode;
   return(0);
-} /* end of change_cwd */ 
+} /* end of change_cwd */

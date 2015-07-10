@@ -105,10 +105,10 @@ do_ln(int argc, char *argv[])
   char *src_dir;
   char *dest_dir;
   char *src_name;
-  char *dest_name;  
+  char *dest_name;
   long retval;
   int c;
-  
+
 #ifdef HAVE_OPTRESET
   optreset = 1;		/* Makes BSD getopt happy */
 #endif
@@ -142,7 +142,7 @@ do_ln(int argc, char *argv[])
       fputs("Not implemented yet\n", stderr);
       return(1);
     }
-  
+
   cur_filesys = argv[optind++];
   if (NULL == (src_dir = strchr(cur_filesys, ':')))
     {
@@ -156,7 +156,7 @@ do_ln(int argc, char *argv[])
       fputs(USAGE, stderr);
       return(1);
     }
-      
+
   if ((retval = open_filesystem(cur_filesys, &fs, &root, 1)))
     {
       fprintf(stderr, "%s: %s\n", error_message(retval), cur_filesys);
@@ -170,7 +170,7 @@ do_ln(int argc, char *argv[])
       ext2fs_close(fs);
       return(-1);
     }
-  
+
   /* get the inode number for the source file */
   if ((retval = ext2fs_namei(fs, srcd, srcd, src_name, &source_file)))
     {
@@ -197,21 +197,21 @@ do_ln(int argc, char *argv[])
   if ((retval = create_hard_link(fs, destd, source_file, dest_name, force)))
     {
       fprintf(stderr, "Error linking %s/%s as %s/%s\n",
-              ((src_dir == NULL) ? "." : src_dir), src_name, 
+              ((src_dir == NULL) ? "." : src_dir), src_name,
               ((dest_dir == NULL) ? "." : dest_dir), dest_name);
       ext2fs_close(fs);
       return(1);
     }
-        
+
   if (verbose)
     fprintf(stderr, "linked %s/%s as %s/%s\n",
-            ((src_dir == NULL) ? "." : src_dir), src_name, 
+            ((src_dir == NULL) ? "." : src_dir), src_name,
             ((dest_dir == NULL) ? "." : dest_dir), dest_name);
-  
+
   ext2fs_close(fs);
   return(0);
-  
-} /* end of do_ln */ 
+
+} /* end of do_ln */
 
 /* Name:	create_hard_link()
  *
@@ -266,7 +266,7 @@ create_hard_link(ext2_filsys fs, ext2_ino_t cwd, ext2_ino_t new_file_ino,
   struct ext2_inode inode;
   long retval;
   int dir_flag;
-  
+
   if (fs == NULL || newfile == NULL)
     {
       fputs("Invalid input parameter.  Exiting create_hard_link() with -1\n",
@@ -351,7 +351,7 @@ create_hard_link(ext2_filsys fs, ext2_ino_t cwd, ext2_ino_t new_file_ino,
       dir_flag = EXT2_FT_UNKNOWN;
       break;
     }
-  
+
 
   if ((retval = ext2fs_link(fs, cwd, newfile, new_file_ino, dir_flag)))
     {
@@ -380,7 +380,7 @@ create_hard_link(ext2_filsys fs, ext2_ino_t cwd, ext2_ino_t new_file_ino,
           return (retval);
         }
     }
-  
+
   return(0);
 
 } /* end of create_hard_link */

@@ -83,7 +83,7 @@ tail(ext2_filsys *fs, ext2_ino_t root, char *input, int num_lines,
  * Tail the file
  * Close the file system
  * return the status of the tail
- *	  
+ *
  * Global Variables:
  *
  * None
@@ -121,8 +121,8 @@ do_tail(int argc, char *argv[])
   int curidx;
   char *tail_dir;
   int c;
-  
-  
+
+
 #ifdef HAVE_OPTRESET
   optreset = 1;		/* Makes BSD getopt happy */
 #endif
@@ -154,7 +154,7 @@ do_tail(int argc, char *argv[])
     }
 
   curidx = optind;
-  
+
   if (errcnt || argc <= curidx)
     {
       fputs(USAGE, stderr);
@@ -168,7 +168,7 @@ do_tail(int argc, char *argv[])
       return(1);
     }
   *tail_dir++ = '\0';
-  
+
   if ((retval = open_filesystem(cur_filesys, &fs, &root, 0)))
     {
       fprintf(stderr, "%s: %s\n", error_message(retval), cur_filesys);
@@ -206,8 +206,8 @@ do_tail(int argc, char *argv[])
  *		  If the size has changed
  *			  Display the file from the saved point on
  *            Save the current location of the file.
- *	  
- *	  
+ *
+ *
  * Global Variables:
  *
  * None
@@ -252,7 +252,7 @@ tail(ext2_filsys *fs_ptr, ext2_ino_t root, char *input, int num_lines,
   unsigned int bytes_read;
   char *ptr;
   struct ext2_inode inode;
-  ext2_file_t tail_fd;    
+  ext2_file_t tail_fd;
   ext2_off_t offset;
   ext2_off_t cur_pos;
 
@@ -260,7 +260,7 @@ tail(ext2_filsys *fs_ptr, ext2_ino_t root, char *input, int num_lines,
     {
       ext2fs_close(fs);
       return(-1);
-    }          
+    }
 
   /* get the inode number for the source file */
   if ((retval = ext2fs_namei(fs, cwd, cwd, tail_name, &tail_ino)))
@@ -307,7 +307,7 @@ tail(ext2_filsys *fs_ptr, ext2_ino_t root, char *input, int num_lines,
           fputs("error reading file\n", stderr);
           return(-1);
         }
-      
+
       ptr = buf + bytes_read - 1;
       while (bytes_to_read--)
         {
@@ -339,7 +339,7 @@ tail(ext2_filsys *fs_ptr, ext2_ino_t root, char *input, int num_lines,
   /* if we are here and have any lines left, we hit the beginning, so
    * dump the rest of what's in memory out.
    */
-  
+
   if (num_lines > 0)
     {
       if (0 > write(1, buf, bytes_read)) {
@@ -347,7 +347,7 @@ tail(ext2_filsys *fs_ptr, ext2_ino_t root, char *input, int num_lines,
 	return -1;
       }
     }
-    
+
   /* retreive the current position in the file */
   if ((retval = ext2fs_file_lseek(tail_fd, 0, EXT2_SEEK_CUR, &cur_pos)))
     {
@@ -393,7 +393,7 @@ tail(ext2_filsys *fs_ptr, ext2_ino_t root, char *input, int num_lines,
           if (follow == FOLLOW_NAME)
             {
               cwd = root;
-              
+
               if (tail_dir != NULL && *tail_dir != '\0' &&
                   strcmp(tail_dir, ",") != 0 &&
                   (retval = change_cwd(fs, root, &cwd, tail_dir)))
@@ -415,14 +415,14 @@ tail(ext2_filsys *fs_ptr, ext2_ino_t root, char *input, int num_lines,
               /* if we are dealing with a new file, then start from the
                * beginning.
                */
-              
+
               if (t_tail_ino != tail_ino)
                 {
                   tail_ino = t_tail_ino;
                   cur_pos = 0;
                 }
             }
-          
+
           if ((retval = ext2fs_read_inode(fs, tail_ino, &inode)))
             {
               fputs(error_message(retval), stderr);
@@ -441,7 +441,7 @@ tail(ext2_filsys *fs_ptr, ext2_ino_t root, char *input, int num_lines,
             {
               /* the file was truncated, so bail */
               return(0);
-            }          
+            }
         }
     }
   return(0);

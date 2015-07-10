@@ -19,7 +19,7 @@
  */
 
 
-typedef struct _elist_t 
+typedef struct _elist_t
 {
     struct _elist_t *prev;
     struct _elist_t *next;

@@ -46,14 +46,14 @@ int
 main(int argc, char *argv[])
 {
   char *ptr;
-  
+
   if (NULL != (ptr = strrchr(argv[0], '/')))
     ptr++;
   else
     ptr = argv[0];
-  
+
   initialize_ext2_error_table();
-  
+
   if (strcmp(ptr, "e2ls") == 0)
     exit(do_list_dir(argc, argv));
   else if (strcmp(ptr, "e2cp") == 0)
