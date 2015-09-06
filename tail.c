@@ -104,7 +104,6 @@ tail(ext2_filsys *fs, ext2_ino_t root, char *input, int num_lines,
 long
 do_tail(int argc, char *argv[])
 {
-  int verbose=0;
   int follow=0;
   int num_lines = 5;
   int sleep_int = 1;
@@ -121,13 +120,10 @@ do_tail(int argc, char *argv[])
 #ifdef HAVE_OPTRESET
   optreset = 1;     /* Makes BSD getopt happy */
 #endif
-  while ((c = getopt(argc, argv, "vFfn:s:")) != EOF)
+  while ((c = getopt(argc, argv, "Ffn:s:")) != EOF)
     {
       switch (c)
         {
-        case 'v':
-          verbose = 1;
-          break;
         case 'f':
           follow = FOLLOW_INODE;
           break;
