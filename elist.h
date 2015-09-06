@@ -33,7 +33,7 @@ extern void elist_free(elist_t *l, void (*data_free)(void *));
 extern elist_t * elist_append(elist_t *l, void *data);
 extern elist_t * elist_insert(elist_t *l, void *data);
 extern void
-elist_sort(elist_t *l, int (sort_func)(void *, void *), int reverse);
+elist_sort(elist_t *l, int (sort_func)(const void *, const void *), int reverse);
 #endif
 
 #endif

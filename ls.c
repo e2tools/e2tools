@@ -100,15 +100,15 @@ long_disp(ls_file_t *info, int *col, int options);
 void
 short_disp(ls_file_t *info, int *col, int options);
 int
-no_sort(void *n1, void *n2);
+no_sort(const void *n1, const void *n2);
 int
-name_sort(void *n1, void *n2);
+name_sort(const void *n1, const void *n2);
 int
-inode_sort(void *n1, void *n2);
+inode_sort(const void *n1, const void *n2);
 int
-mod_time_sort(void *n1, void *n2);
+mod_time_sort(const void *n1, const void *n2);
 int
-creat_time_sort(void *n1, void *n2);
+creat_time_sort(const void *n1, const void *n2);
 long
 add_ls_file(char *name, int namelen, ext2_ino_t dir, ext2_ino_t ino,
             int entry, int type, struct list_dir_struct *ls);
@@ -333,7 +333,7 @@ do_list_dir(int argc, char *argv[])
   char *dup_path = NULL;
   char *dir_name;
   char *base_name;
-  int (*file_sort)(void *n1, void *n2) = name_sort;
+  int (*file_sort)(const void *n1, const void *n2) = name_sort;
   void (*file_disp)(ls_file_t *n, int *col, int options) = short_disp;
   elist_t *files=NULL;
   int col=0;
@@ -793,7 +793,7 @@ void short_disp(ls_file_t *info, int *col, int options)
  * MM/DD/YY      Name               Description
  *
  */
-int no_sort(void *n1, void *n2)
+int no_sort(const void *n1, const void *n2)
 {
   ls_file_t *f1 = *((ls_file_t **) n1);
   ls_file_t *f2 = *((ls_file_t **) n2);
@@ -837,7 +837,7 @@ int no_sort(void *n1, void *n2)
  * MM/DD/YY      Name               Description
  *
  */
-int name_sort(void *n1, void *n2)
+int name_sort(const void *n1, const void *n2)
 {
   ls_file_t *f1 = *((ls_file_t **) n1);
   ls_file_t *f2 = *((ls_file_t **) n2);
@@ -882,7 +882,7 @@ int name_sort(void *n1, void *n2)
  * MM/DD/YY      Name               Description
  *
  */
-int inode_sort(void *n1, void *n2)
+int inode_sort(const void *n1, const void *n2)
 {
   ls_file_t *f1 = *((ls_file_t **) n1);
   ls_file_t *f2 = *((ls_file_t **) n2);
@@ -927,7 +927,7 @@ int inode_sort(void *n1, void *n2)
  * MM/DD/YY      Name               Description
  *
  */
-int mod_time_sort(void *n1, void *n2)
+int mod_time_sort(const void *n1, const void *n2)
 {
   ls_file_t *f1 = *((ls_file_t **) n1);
   ls_file_t *f2 = *((ls_file_t **) n2);
@@ -973,7 +973,7 @@ int mod_time_sort(void *n1, void *n2)
  * MM/DD/YY      Name               Description
  *
  */
-int creat_time_sort(void *n1, void *n2)
+int creat_time_sort(const void *n1, const void *n2)
 {
   ls_file_t *f1 = *((ls_file_t **) n1);
   ls_file_t *f2 = *((ls_file_t **) n2);
