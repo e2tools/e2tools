@@ -45,6 +45,8 @@ AC_FUNC_ALLOCA
 AC_FUNC_UTIME_NULL
 AC_CHECK_FUNCS(gettimeofday regcomp strdup strtol)
 
+CFLAGS="$CFLAGS -Wall"
+
 AC_CONFIG_FILES([
     Makefile
     lib/Makefile
