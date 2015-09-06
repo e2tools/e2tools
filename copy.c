@@ -76,6 +76,7 @@
 
 #include "e2tools.h"
 #include "elist.h"
+#include "copy.h"
 
 /* Macros */
 #define USAGE "Usage: e2cp [-0apv][-P mode][-O uid][-G gid][-d dest_dir][-s src_dir][file1...N dest]\n"
@@ -125,9 +126,6 @@ int
 read_line(char *inbuf);
 int
 read_string(char *inbuf);
-
-int
-my_strcmp(const void *n1, const void *n2);
 
 INODE_XREF_T *
 find_link(struct stat *sbuf);

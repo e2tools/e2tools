@@ -32,6 +32,7 @@
 
 /*  Headers */
 #include "e2tools.h"
+#include "rm.h"
 #include <regex.h>
 
 static ext2_filsys gbl_fs = NULL;
@@ -47,8 +48,6 @@ struct regexp_args
 };
 
 /* Local Prototypes */
-long
-e2rm(int argc, char *argv[]);
 static
 int rm_dir_proc(ext2_ino_t dir,int	entry, struct ext2_dir_entry *dirent,
                 int	offset, int	blocksize, char	*buf, void *verbose);

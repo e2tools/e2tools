@@ -40,18 +40,10 @@
 
 #include <errno.h>
 #include "e2tools.h"
-
-/* External Prototypes */
-
-extern void init_progress(char *file, struct stat *sbuf);
-extern void update_progress(unsigned long num_bytes);
-extern void finish_progress();
+#include "write.h"
+#include "progress.h"
 
 /* Local Prototypes */
-
-long
-put_file(ext2_filsys fs, ext2_ino_t cwd, char *infile, char *outfile,
-         ext2_ino_t *outfile_ino, int keep, struct stat *def_stat);
 
 static long
 store_data(ext2_filsys fs, int fd, ext2_ino_t newfile, off_t *file_size);

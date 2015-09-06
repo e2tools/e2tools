@@ -47,14 +47,9 @@
 
 /*  Headers */
 #include "e2tools.h"
+#include "mkdir.h"
 
 /* Local Prototypes */
-long
-e2mkdir(int argc, char *argv[]);
-
-long
-create_dir(ext2_filsys fs, ext2_ino_t root, ext2_ino_t *cwd,
-           char *dirname, struct stat *def_stat);
 long
 create_subdir(ext2_filsys fs, ext2_ino_t root, ext2_ino_t *cwd,
               char *dirname, struct stat *def_stat);

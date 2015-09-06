@@ -32,6 +32,7 @@
 
 /*  Headers */
 #include "e2tools.h"
+#include "util.h"
 #include <regex.h>
 
 /* Macros */
@@ -74,15 +75,9 @@ static MODE_XLAT_T xlat_tbl[] =
 
 /* Local Prototypes */
 
-mode_t
-ext2_mode_xlate(__u16 lmode);
-__u16
-host_mode_xlate(mode_t hmode);
 static int
 release_blocks_proc(ext2_filsys fs, blk_t *blocknr,
                     int blockcnt, void *private);
-long
-delete_file(ext2_filsys fs, ext2_ino_t inode);
 
 /* translate a ext2 mode to the host OS representation */
 mode_t ext2_mode_xlate(__u16 lmode)

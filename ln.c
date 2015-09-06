@@ -30,17 +30,10 @@
 /* Feature Test Switches */
 /*  Headers */
 #include "e2tools.h"
+#include "ln.h"
 
 /* Macros */
 #define USAGE "Usage: e2ln [-vfs] source destination\n"
-
-/* Local Prototypes */
-long
-do_ln(int argc, char *argv[]);
-
-long
-create_hard_link(ext2_filsys fs, ext2_ino_t cwd, ext2_ino_t new_file_ino,
-                 char *newfile, int ln_flags);
 
 /* Name:	do_ln()
  *

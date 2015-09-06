@@ -38,7 +38,7 @@
 /*  Headers */
 
 #include "e2tools.h"
-
+#include "tail.h"
 
 /* Macros */
 #define USAGE "Usage: e2tail [-n num_lines][-fF][-s sleep_interval] file\n"
@@ -58,8 +58,6 @@
 /* External Prototypes */
 
 /* Local Prototypes */
-long
-do_tail(int argc, char *argv[]);
 static long
 tail(ext2_filsys *fs, ext2_ino_t root, char *input, int num_lines,
      int follow, int sleep_int, char *cur_filesys);

@@ -43,6 +43,7 @@
 
 #include "e2tools.h"
 #include "elist.h"
+#include "ls.h"
 #include <regex.h>
 #include <stdint.h>
 #include <inttypes.h>
@@ -93,8 +94,6 @@ list_dir_proc(ext2_ino_t dir, int entry, struct ext2_dir_entry *dirent,
               int offset, int blocksize, char *buf, void *private);
 void
 free_ls_file_t(void *f);
-long
-do_list_dir(int argc, char *argv[]);
 void
 long_disp(ls_file_t *info, int *col, int options);
 void

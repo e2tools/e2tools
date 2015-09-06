@@ -32,23 +32,9 @@ static char __attribute__ ((used)) copyright[] = "Copyright 2002 Keith W Sheffie
 /* Feature Test Switches */
 /*  Headers */
 #include "e2tools.h"
+#include "read.h"
 
 /* Local Prototypes */
-
-long
-get_file(ext2_filsys fs, ext2_ino_t root, ext2_ino_t cwd,
-         char *infile, char *outfile, int keep);
-
-long
-retrieve_data(ext2_filsys fs, ext2_ino_t src, int dest_fd,
-              char *dest_name, int keep, ext2_off_t offset,
-              ext2_off_t *ret_pos);
-
-long
-read_to_eof(ext2_file_t infile, int dest_fd, ext2_off_t offset,
-            ext2_off_t *ret_pos);
-
-
 static void
 fix_perms(const struct ext2_inode *inode, int fd, const char *name);
 
