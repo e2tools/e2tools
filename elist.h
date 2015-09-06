@@ -26,14 +26,12 @@ typedef struct _elist_t
     void *data;
 } elist_t;
 
-#ifndef ELIST_C
-extern elist_t * elist_new();
-extern elist_t *elist_delete(elist_t *l, void (*data_free)(void *));
-extern void elist_free(elist_t *l, void (*data_free)(void *));
-extern elist_t * elist_append(elist_t *l, void *data);
-extern elist_t * elist_insert(elist_t *l, void *data);
-extern void
+elist_t * elist_new();
+elist_t *elist_delete(elist_t *l, void (*data_free)(void *));
+void elist_free(elist_t *l, void (*data_free)(void *));
+elist_t * elist_append(elist_t *l, void *data);
+elist_t * elist_insert(elist_t *l, void *data);
+void
 elist_sort(elist_t *l, int (sort_func)(const void *, const void *), int reverse);
-#endif
 
 #endif

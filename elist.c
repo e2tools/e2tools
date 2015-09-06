@@ -7,10 +7,6 @@
  *
  */
 
-#ifndef ELIST_C
-#define ELIST_C
-#endif
-
 /* Description */
 /*
  *
