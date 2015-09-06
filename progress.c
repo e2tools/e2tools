@@ -7,10 +7,6 @@
  *
  */
 
-#ifndef PROGRESS_C
-#define PROGRESS_C
-#endif
-
 /* Description */
 /*
  *

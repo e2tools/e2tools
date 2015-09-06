@@ -7,11 +7,6 @@
  *
  */
 
-
-#ifndef MV_C
-#define MV_C
-#endif
-
 /* Description */
 /*
  * Module to move/rename files

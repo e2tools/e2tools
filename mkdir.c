@@ -10,10 +10,6 @@
  * as well as portions of the ext2fs library (C) 1993-1995 Theodore Ts'o
  */
 
-#ifndef MKDIR_C
-#define MKDIR_C
-#endif
-
 /* Description */
 /*
  * This file contains the functions used to create a directory in an ext2fs

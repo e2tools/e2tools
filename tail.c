@@ -6,9 +6,6 @@
  * under the terms of the GNU Public License.
  *
  */
-#ifndef TAIL_C
-#define TAIL_C
-#endif
 
 /* Description */
 /* This module implements a basic version of the tail command.

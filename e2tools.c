@@ -3,10 +3,6 @@
  * e2tools.c
  */
 
-#ifndef E2TOOLS_C
-#define E2TOOLS_C
-#endif
-
 /* Description */
 /*
  *

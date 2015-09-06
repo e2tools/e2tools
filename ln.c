@@ -7,10 +7,6 @@
  *
  */
 
-#ifndef LN_C
-#define LN_C
-#endif
-
 /* Description */
 /*
  * Module to create links
