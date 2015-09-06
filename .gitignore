@@ -14,7 +14,7 @@ config.log
 config.status
 configure
 .deps
-e2cp
+e2tools
 INSTALL
 Makefile
 Makefile.in

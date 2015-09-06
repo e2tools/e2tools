@@ -38,6 +38,20 @@
 
 #include "e2tools.h"
 
+void
+usage()
+{
+    fprintf(stderr, "Usage: e2tools <command> [OPTION...]\n");
+    fprintf(stderr, "\n");
+    fprintf(stderr, " Commands:\n");
+    fprintf(stderr, "  e2cp\n");
+    fprintf(stderr, "  e2mkdir\n");
+    fprintf(stderr, "  e2ln\n");
+    fprintf(stderr, "  e2mv\n");
+    fprintf(stderr, "  e2rm\n");
+    fprintf(stderr, "  e2tail\n");
+}
+
 int
 main(int argc, char *argv[])
 {
@@ -47,6 +61,18 @@ main(int argc, char *argv[])
     ptr++;
   else
     ptr = argv[0];
+
+  if (strcmp(ptr, "e2tools") == 0)
+    {
+      if (argc < 2)
+        {
+            usage();
+            exit(1);
+        }
+      ++argv;
+      --argc;
+      ptr = argv[0];
+    }
 
   initialize_ext2_error_table();
 
