@@ -52,8 +52,8 @@
  * list directory
  */
 
-#define LONG_OPT	0x0001
-#define DELETED_OPT	0x0002
+#define LONG_OPT    0x0001
+#define DELETED_OPT 0x0002
 #define REGEX_OPT   0x0004
 #define REVERSE_OPT 0x0008
 #define HIDDEN_OPT  0x0010
@@ -65,7 +65,7 @@
 
 struct list_dir_struct
 {
-  int	options;
+  int options;
   regex_t *reg;
   elist_t *files;
 };
@@ -114,7 +114,7 @@ add_ls_file(char *name, int namelen, ext2_ino_t dir, ext2_ino_t ino,
 elist_t *
 remove_ls_dups(elist_t *list);
 
-/* Name:	list_dir_proc()
+/* Name:    list_dir_proc()
  *
  * Description:
  *
@@ -143,9 +143,9 @@ remove_ls_dups(elist_t *list);
 static int
 list_dir_proc(ext2_ino_t dir, int entry, struct ext2_dir_entry *dirent,
               int UNUSED_PARM(offset), int UNUSED_PARM(blocksize),
-	      char UNUSED_PARM(*buf), void *private)
+              char UNUSED_PARM(*buf), void *private)
 {
-  char			name[EXT2_NAME_LEN];
+  char name[EXT2_NAME_LEN];
   struct list_dir_struct *ls = (struct list_dir_struct *) private;
   int thislen;
 
@@ -168,7 +168,7 @@ list_dir_proc(ext2_ino_t dir, int entry, struct ext2_dir_entry *dirent,
 
 }
 
-/* Name:	add_ls_file()
+/* Name:    add_ls_file()
  *
  * Description:
  *
@@ -242,7 +242,7 @@ add_ls_file(char *name, int namelen, ext2_ino_t dir, ext2_ino_t ino,
   return 0;
 }
 
-/* Name:	free_ls_file_t()
+/* Name:    free_ls_file_t()
  *
  * Description:
  *
@@ -286,7 +286,7 @@ void free_ls_file_t(void *f)
     }
 } /* end of free_ls_file_t */
 
-/* Name:	do_list_dir()
+/* Name:    do_list_dir()
  *
  * Description:
  *
@@ -319,12 +319,12 @@ void free_ls_file_t(void *f)
 long
 do_list_dir(int argc, char *argv[])
 {
-  ext2_ino_t	root;
-  ext2_ino_t	cwd;
-  ext2_ino_t	inode=0;
-  int		retval;
-  int		c;
-  int		flags;
+  ext2_ino_t root;
+  ext2_ino_t cwd;
+  ext2_ino_t inode=0;
+  int retval;
+  int c;
+  int flags;
   struct list_dir_struct ls;
   char *fs_name;
   char *last_fs_name;
@@ -343,7 +343,7 @@ do_list_dir(int argc, char *argv[])
 
   last_fs_name = NULL;
 #ifdef HAVE_OPTRESET
-  optreset = 1;		/* Makes BSD getopt happy */
+  optreset = 1;     /* Makes BSD getopt happy */
 #endif
   while ((c = getopt (argc, argv, "acDd:filrt")) != EOF)
     {
@@ -584,7 +584,7 @@ do_list_dir(int argc, char *argv[])
   return(0);
 }
 
-/* Name:	long_disp()
+/* Name:    long_disp()
  *
  * Description:
  *
@@ -632,11 +632,11 @@ void long_disp(ls_file_t *info, int UNUSED_PARM(*col), int options)
     {
       lbr = '>';
       rbr = '<';
-	}
+    }
   else
     {
-		lbr = rbr = ' ';
-	}
+        lbr = rbr = ' ';
+    }
 
 
   if (info->inode_num)
@@ -660,13 +660,13 @@ void long_disp(ls_file_t *info, int UNUSED_PARM(*col), int options)
     printf("%7d", info->inode.i_size);
   else
     printf("%7" PRIu64, (uint64_t)(info->inode.i_size |
-				  ((__u64)info->inode.i_size_high << 32)));
+                  ((__u64)info->inode.i_size_high << 32)));
   printf(" %s %s\n", datestr, info->name);
 
 } /* end of long_disp */
 
 
-/* Name:	short_disp()
+/* Name:    short_disp()
  *
  * Description:
  *
@@ -721,12 +721,12 @@ void short_disp(ls_file_t *info, int *col, int options)
     {
       lbr = '>';
       rbr = '<';
-	}
+    }
   else
     {
       lbr = 0;
       rbr = ' ';
-	}
+    }
 
   if (lbr == 0)
     {
@@ -758,7 +758,7 @@ void short_disp(ls_file_t *info, int *col, int options)
   *col += max_col_size;
 }
 
-/* Name:	no_sort()
+/* Name:    no_sort()
  *
  * Description:
  *
@@ -802,7 +802,7 @@ int no_sort(const void *n1, const void *n2)
 
 } /* end of name_sort */
 
-/* Name:	name_sort()
+/* Name:    name_sort()
  *
  * Description:
  *
@@ -847,7 +847,7 @@ int name_sort(const void *n1, const void *n2)
           strcmp(f1->name, f2->name)));
 } /* end of name_sort */
 
-/* Name:	inode_sort()
+/* Name:    inode_sort()
  *
  * Description:
  *
@@ -892,7 +892,7 @@ int inode_sort(const void *n1, const void *n2)
           (int)(f1->inode_num - f2->inode_num)));
 } /* end of inode_sort */
 
-/* Name:	mod_time_sort()
+/* Name:    mod_time_sort()
  *
  * Description:
  *
@@ -938,7 +938,7 @@ int mod_time_sort(const void *n1, const void *n2)
 
 } /* end of mod_time_sort */
 
-/* Name:	creat_time_sort()
+/* Name:    creat_time_sort()
  *
  * Description:
  *
@@ -983,7 +983,7 @@ int creat_time_sort(const void *n1, const void *n2)
           (int)(f2->inode.i_ctime - f1->inode.i_ctime)));
 } /* end of creat_time_sort */
 
-/* Name:	remove_ls_dups()
+/* Name:    remove_ls_dups()
  *
  * Description:
  *

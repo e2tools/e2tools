@@ -49,7 +49,7 @@
 */
 
 #ifdef HAVE_OPTRESET
-extern int optreset;		/* defined by BSD, but not others */
+extern int optreset;        /* defined by BSD, but not others */
 #endif
 #ifdef HAVE_ERRNO_H
 #include <errno.h>

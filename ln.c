@@ -35,7 +35,7 @@
 /* Macros */
 #define USAGE "Usage: e2ln [-vfs] source destination\n"
 
-/* Name:	do_ln()
+/* Name:    do_ln()
  *
  * Description:
  *
@@ -99,7 +99,7 @@ do_ln(int argc, char *argv[])
   int c;
 
 #ifdef HAVE_OPTRESET
-  optreset = 1;		/* Makes BSD getopt happy */
+  optreset = 1;     /* Makes BSD getopt happy */
 #endif
   while ((c = getopt(argc, argv, "vfs")) != EOF)
     {
@@ -202,7 +202,7 @@ do_ln(int argc, char *argv[])
 
 } /* end of do_ln */
 
-/* Name:	create_hard_link()
+/* Name:    create_hard_link()
  *
  * Description:
  *
@@ -225,11 +225,11 @@ do_ln(int argc, char *argv[])
  *
  * Arguments:
  *
- * ext2_filsys fs;			  The current file system
- * ext2_ino_t cwd;			  The current working directory
- * ext2_ino_t new_file_ino;	  The inode number of the new file
- * char *newfile;			  The name of the new file
- * int ln_flags;			  Flags affecting hard_link action
+ * ext2_filsys fs;            The current file system
+ * ext2_ino_t cwd;            The current working directory
+ * ext2_ino_t new_file_ino;   The inode number of the new file
+ * char *newfile;             The name of the new file
+ * int ln_flags;              Flags affecting hard_link action
  *
  * Return Values:
  *
@@ -241,11 +241,11 @@ do_ln(int argc, char *argv[])
  *
  * Modification History:
  *
- * MM/DD/YY		 Name				Description
- * 06/30/02		 K.Sheffield		Directory link flag is now based on the
- *									type of file being linked.	This was
- *									causing problems if a directory was
- *									renamed.
+ * MM/DD/YY      Name               Description
+ * 06/30/02      K.Sheffield        Directory link flag is now based on the
+ *                                  type of file being linked.  This was
+ *                                  causing problems if a directory was
+ *                                  renamed.
  */
 long
 create_hard_link(ext2_filsys fs, ext2_ino_t cwd, ext2_ino_t new_file_ino,

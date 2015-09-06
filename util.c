@@ -82,8 +82,8 @@ release_blocks_proc(ext2_filsys fs, blk_t *blocknr,
 /* translate a ext2 mode to the host OS representation */
 mode_t ext2_mode_xlate(__u16 lmode)
 {
-  mode_t	mode = 0;
-  int	i;
+  mode_t mode = 0;
+  int i;
 
   for (i=0; xlat_tbl[i].lmask; i++)
     {
@@ -96,8 +96,8 @@ mode_t ext2_mode_xlate(__u16 lmode)
 /* translate a host OS mode to the ext2 representation */
 __u16 host_mode_xlate(mode_t hmode)
 {
-  __u16	mode = 0;
-  int	i;
+  __u16 mode = 0;
+  int i;
 
   for (i=0; xlat_tbl[i].lmask; i++)
     {
@@ -222,11 +222,11 @@ static int
 release_blocks_proc(ext2_filsys fs, blk_t *blocknr,
                     int UNUSED_PARM(blockcnt), void UNUSED_PARM(*private))
 {
-	blk_t	block;
+    blk_t block;
 
-	block = *blocknr;
-	ext2fs_block_alloc_stats(fs, block, -1);
-	return 0;
+    block = *blocknr;
+    ext2fs_block_alloc_stats(fs, block, -1);
+    return 0;
 }
 
 void

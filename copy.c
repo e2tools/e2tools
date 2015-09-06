@@ -86,7 +86,7 @@
 #define ISSPACE(c) isspace(c)
 #else
 #define ISSPACE(c) ((c) == ' ' || (c) == '\t' || (c) == '\n' || (c) == '\r' \
-		    || (c) == '\f' || (c) == '\v')
+            || (c) == '\f' || (c) == '\v')
 #endif
 
 /* Structures and Unions */
@@ -136,7 +136,7 @@ cp_to_ext2fs(ext2_filsys fs, ext2_ino_t cwd, char *in_file, char *out_file,
              struct stat *statbuf, int keep, struct stat *def_stat);
 
 
-/* Name:	copy()
+/* Name:    copy()
  *
  * Description:
  *
@@ -145,10 +145,10 @@ cp_to_ext2fs(ext2_filsys fs, ext2_ino_t cwd, char *in_file, char *out_file,
  * as command line arguments or are read from standard input.  The files are
  * in the form:
  *
- * host filesystem:	  /this/is/a/file
+ * host filesystem:   /this/is/a/file
  * ext2fs filesystem:  filesystem_path:/this/is/another/file
  *
- * The - character represents stdin/stdout.	 The meaning will vary depending if
+ * The - character represents stdin/stdout.  The meaning will vary depending if
  * it used as a source of destination.
  *
  * Where filesystem_path represents where the ext2fs is located in the
@@ -157,44 +157,44 @@ cp_to_ext2fs(ext2_filsys fs, ext2_ino_t cwd, char *in_file, char *out_file,
  *
  * The parameters are:
  *
- * -0		Input lines terminated by a null character
- * -a		Absolute directory names - create directories instead of just
- *			copying into the destination.  Only valid for copying into an
- *			ext2fs filesystem
- * -d		Destination of files to be copied.	May be in the ext2fs filesystem
- *			or the host filesystem
- * -p		Preserve host file attributes (permissions, times, etc.) when
- *			copying files.
- * -s		The source of the files to be copied.
- * -v		Be verbose.
+ * -0       Input lines terminated by a null character
+ * -a       Absolute directory names - create directories instead of just
+ *          copying into the destination.  Only valid for copying into an
+ *          ext2fs filesystem
+ * -d       Destination of files to be copied.  May be in the ext2fs filesystem
+ *          or the host filesystem
+ * -p       Preserve host file attributes (permissions, times, etc.) when
+ *          copying files.
+ * -s       The source of the files to be copied.
+ * -v       Be verbose.
  *
  *
  * Algorithm:
  *
  * Parse the command line for flags and special parameters
  * If there are any parameters left, they are the files to be copied
- *	   If no -s or -d parameters have been processed
- *		   Retrieve the last parameter which is the destination
- *		   If the destination is a ext2fs file specificiation
- *			   Open the filesystem with write capability
- *		   Test to make sure that is a directory and not a file
- *	   Sort the names of the files to be copied.
- *	   For each file
- *		   If it is an ext2fs file specification
- *			   Check to see if it is the same as the last ext2fs spec
- *			   If not, close the prior ext2fs and open the new one
- *		   If the source and destination files are of the same type
- *			   Print a warning message and continue
- *		   Copy the file
+ *     If no -s or -d parameters have been processed
+ *         Retrieve the last parameter which is the destination
+ *         If the destination is a ext2fs file specificiation
+ *             Open the filesystem with write capability
+ *         Test to make sure that is a directory and not a file
+ *     Sort the names of the files to be copied.
+ *     For each file
+ *         If it is an ext2fs file specification
+ *             Check to see if it is the same as the last ext2fs spec
+ *             If not, close the prior ext2fs and open the new one
+ *         If the source and destination files are of the same type
+ *             Print a warning message and continue
+ *         Copy the file
  * Otherwise, no parameters are left, file list is on stdin
- *	   For each line of input
- *		   If the -0 is not given, strip whitespace off the end
- *		   If the -a option is given
- *			   determine the dirname of the file
- *			   Compare the directory to the last directory processed
- *			   If different
- *				   Make a new directory
- *		   Copy the file
+ *     For each line of input
+ *         If the -0 is not given, strip whitespace off the end
+ *         If the -a option is given
+ *             determine the dirname of the file
+ *             Compare the directory to the last directory processed
+ *             If different
+ *                 Make a new directory
+ *         Copy the file
  * Close any open ext2fs filesystems
  *
  * Global Variables:
@@ -203,8 +203,8 @@ cp_to_ext2fs(ext2_filsys fs, ext2_ino_t cwd, char *in_file, char *out_file,
  *
  * Arguments:
  *
- * int argc;			 The number of arguments
- * char *argv[];		 The command line arguments
+ * int argc;             The number of arguments
+ * char *argv[];         The command line arguments
  *
  * Return Values:
  *
@@ -216,11 +216,11 @@ cp_to_ext2fs(ext2_filsys fs, ext2_ino_t cwd, char *in_file, char *out_file,
  *
  * Modification History:
  *
- * MM/DD/YY		 Name				Description
- * 02/27/02		 K. Sheffield		Added directory check for file names being
- *									read from stdin and copied to an ext2fs.
+ * MM/DD/YY      Name               Description
+ * 02/27/02      K. Sheffield       Added directory check for file names being
+ *                                  read from stdin and copied to an ext2fs.
  *
- * 03/06/02		 K. Sheffield		Copying hard links to ext2fs correctly
+ * 03/06/02      K. Sheffield       Copying hard links to ext2fs correctly
  */
 long
 copy(int argc, char *argv[])
@@ -258,7 +258,7 @@ copy(int argc, char *argv[])
   init_stat_buf(&def_stat);
 
 #ifdef HAVE_OPTRESET
-  optreset = 1;		/* Makes BSD getopt happy */
+  optreset = 1;     /* Makes BSD getopt happy */
 #endif
   while ((c = getopt(argc, argv, "0ad:G:O:pP:s:v")) != EOF)
     {
@@ -616,7 +616,7 @@ open_destination(char **dest_dir, char **cur_filesys, ext2_filsys *fs,
                  struct stat *def_stat)
 {
   char *ptr;
-  struct stat	statbuf;
+  struct stat statbuf;
   char *dptr;
   int retval;
   ext2_ino_t inode;
@@ -781,7 +781,7 @@ copy_files(int num_files, char **cur_file_names, char *dest_dir, char *dest_fs,
   ext2_ino_t cwd = orig_cwd;
   int retval;
   int i;
-  struct stat	statbuf;
+  struct stat statbuf;
   INODE_XREF_T *xref;
 
   strncpy(cur_out_dir, (dest_dir) ? dest_dir : ".", BUF_SIZE);

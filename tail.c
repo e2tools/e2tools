@@ -11,17 +11,17 @@
 /* This module implements a basic version of the tail command.
  *
  * The user can specify the number of lines to view from the bottom of the
- * file.  This is done by specifying -n #of_lines on the command line.	The
+ * file. This is done by specifying -n #of_lines on the command line. The
  * default is 5.
  *
  * The user can also run in 'follow' mode which prints new lines as they are
- * appended to the end of the file.	 This can be specified by the -f option,
+ * appended to the end of the file. This can be specified by the -f option,
  * which is dependent on the initial inode of the file being tailed or the -F
- * option which will always use the inode associated with the file name.  The
+ * option which will always use the inode associated with the file name. The
  * latter can be useful for log files that get switched out.
  *
  * The -s #seconds option allows the user to specify the sleep interval while
- * in follow mode.	The default is 1.
+ * in follow mode. The default is 1.
  *
  */
 /*
@@ -63,7 +63,7 @@ tail(ext2_filsys *fs, ext2_ino_t root, char *input, int num_lines,
      int follow, int sleep_int, char *cur_filesys);
 
 
-/* Name:	do_tail()
+/* Name:    do_tail()
  *
  * Description:
  *
@@ -85,8 +85,8 @@ tail(ext2_filsys *fs, ext2_ino_t root, char *input, int num_lines,
  *
  * Arguments:
  *
- * int argc;			 The number of arguments
- * char *argv[];		 The command line arguments
+ * int argc;             The number of arguments
+ * char *argv[];         The command line arguments
  *
  * Return Values:
  *
@@ -98,7 +98,7 @@ tail(ext2_filsys *fs, ext2_ino_t root, char *input, int num_lines,
  *
  * Modification History:
  *
- * MM/DD/YY		 Name				Description
+ * MM/DD/YY      Name               Description
  * 07/12/03      K.Sheffield        fixed a bug when no arguments are given.
  */
 long
@@ -119,7 +119,7 @@ do_tail(int argc, char *argv[])
 
 
 #ifdef HAVE_OPTRESET
-  optreset = 1;		/* Makes BSD getopt happy */
+  optreset = 1;     /* Makes BSD getopt happy */
 #endif
   while ((c = getopt(argc, argv, "vFfn:s:")) != EOF)
     {
@@ -176,7 +176,7 @@ do_tail(int argc, char *argv[])
   return(retval);
 }
 
-/* Name:	tail()
+/* Name:    tail()
  *
  * Description:
  *
@@ -190,16 +190,16 @@ do_tail(int argc, char *argv[])
  * Open the file for reading
  * Skip to the last block in the file
  * While we have not found the last num_lines of newline characters
- *	  Skip backwards in the file one block and read it
+ *    Skip backwards in the file one block and read it
  * Display the contents of the block from that point on.
  * Display the rest of the file if not contained in the block
  * Save the current location of the file.
  * If we are following the file as it grows
- *	  While forever
- *		  Sleep
- *		  Re-read the inode for the file
- *		  If the size has changed
- *			  Display the file from the saved point on
+ *    While forever
+ *        Sleep
+ *        Re-read the inode for the file
+ *        If the size has changed
+ *            Display the file from the saved point on
  *            Save the current location of the file.
  *
  *
@@ -229,7 +229,7 @@ do_tail(int argc, char *argv[])
  *
  * Modification History:
  *
- * MM/DD/YY		 Name				Description
+ * MM/DD/YY      Name               Description
  */
 static long
 tail(ext2_filsys *fs_ptr, ext2_ino_t root, char *input, int num_lines,
@@ -314,11 +314,11 @@ tail(ext2_filsys *fs_ptr, ext2_ino_t root, char *input, int num_lines,
               if (bytes_to_read != bytes_read - 1)
                 {
                   ptr++;
-		  if (0 > write(1, ptr, bytes_read - bytes_to_read - 1))
-		    {
-		      perror("writing bytes to stdout");
-		      return -1;
-		    }
+                  if (0 > write(1, ptr, bytes_read - bytes_to_read - 1))
+                    {
+                      perror("writing bytes to stdout");
+                      return -1;
+                    }
                 }
               offset = 0;       /* make sure we break out of the main loop */
               break;
@@ -338,8 +338,8 @@ tail(ext2_filsys *fs_ptr, ext2_ino_t root, char *input, int num_lines,
   if (num_lines > 0)
     {
       if (0 > write(1, buf, bytes_read)) {
-	perror("writing bytes to stdout");
-	return -1;
+        perror("writing bytes to stdout");
+        return -1;
       }
     }
 

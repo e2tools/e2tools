@@ -48,7 +48,7 @@
 static long
 store_data(ext2_filsys fs, int fd, ext2_ino_t newfile, off_t *file_size);
 
-/* Name:	put_file()
+/* Name:    put_file()
  *
  * Description:
  *
@@ -109,7 +109,7 @@ put_file(ext2_filsys fs, ext2_ino_t cwd, char *infile, char *outfile,
          ext2_ino_t *outfile_ino, int keep, struct stat *def_stat)
 {
   int fd;
-  struct stat	statbuf;
+  struct stat statbuf;
   ext2_ino_t newfile;
   long  retval;
   struct ext2_inode inode;
@@ -269,7 +269,7 @@ put_file(ext2_filsys fs, ext2_ino_t cwd, char *infile, char *outfile,
 
 } /* end of put_file */
 
-/* Name:	store_data()
+/* Name:    store_data()
  *
  * Description:
  *
@@ -280,7 +280,7 @@ put_file(ext2_filsys fs, ext2_ino_t cwd, char *infile, char *outfile,
  *
  * Open a new file in the ext2 file system
  * While data can be read from the input file descriptor
- *	   Write the data to the file on the ext2 filesystem
+ *     Write the data to the file on the ext2 filesystem
  * Close the file
  *
  * Global Variables:
@@ -289,10 +289,10 @@ put_file(ext2_filsys fs, ext2_ino_t cwd, char *infile, char *outfile,
  *
  * Arguments:
  *
- * ext2_filsys fs;			  The current file system
- * int fd;					  Input file descriptor
- * ext2_ino_t newfile;		  Inode number of the new file
- * off_t *file_size;		  The size of the file written
+ * ext2_filsys fs;            The current file system
+ * int fd;                    Input file descriptor
+ * ext2_ino_t newfile;        Inode number of the new file
+ * off_t *file_size;          The size of the file written
  *
  * Return Values:
  *
@@ -304,13 +304,13 @@ put_file(ext2_filsys fs, ext2_ino_t cwd, char *infile, char *outfile,
  *
  * Modification History:
  *
- * MM/DD/YY		 Name				Description
+ * MM/DD/YY      Name               Description
  * 06/26/02      K.Sheffield        Added a call to update_progress()
  */
 static long
 store_data(ext2_filsys fs, int fd, ext2_ino_t newfile, off_t *file_size)
 {
-  ext2_file_t	outfile;
+  ext2_file_t outfile;
   long retval;
   int bytes_read;
   unsigned int bytes_written;

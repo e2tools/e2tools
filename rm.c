@@ -49,8 +49,8 @@ struct regexp_args
 
 /* Local Prototypes */
 static
-int rm_dir_proc(ext2_ino_t dir,int	entry, struct ext2_dir_entry *dirent,
-                int	offset, int	blocksize, char	*buf, void *verbose);
+int rm_dir_proc(ext2_ino_t dir, int entry, struct ext2_dir_entry *dirent,
+                int offset, int blocksize, char *buf, void *verbose);
 static int
 recursive_rm(ext2_ino_t dir, char *name, struct ext2_dir_entry *dirent,
              int verbose);
@@ -58,7 +58,7 @@ static int
 rm_regex_proc(ext2_ino_t dir, int entry, struct ext2_dir_entry *dirent,
               int offset, int blocksize, char *buf, void *private);
 
-/* Name:	e2rm()
+/* Name:    e2rm()
  *
  * Description:
  *
@@ -118,7 +118,7 @@ e2rm(int argc, char *argv[])
   struct regexp_args reg;
 
 #ifdef HAVE_OPTRESET
-  optreset = 1;		/* Makes BSD getopt happy */
+  optreset = 1;     /* Makes BSD getopt happy */
 #endif
   while ((c = getopt(argc, argv, "vr")) != EOF)
     {

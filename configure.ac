@@ -17,9 +17,9 @@ AC_PROG_MAKE_SET
 dnl Checks for libraries.
 gl_INIT
 PKG_CHECK_MODULES([EXT2FS], [ext2fs >= 1.27], [], [
-	AC_MSG_ERROR([Sorry, but we do require libext2fs.])])
+    AC_MSG_ERROR([Sorry, but we do require libext2fs.])])
 PKG_CHECK_MODULES([COM_ERR], [com_err], [], [
-	AC_MSG_ERROR([Sorry, but we do require libcom_err.])])
+    AC_MSG_ERROR([Sorry, but we do require libcom_err.])])
 
 dnl Checks for header files.
 AC_HEADER_STDC
@@ -46,7 +46,7 @@ AC_FUNC_UTIME_NULL
 AC_CHECK_FUNCS(gettimeofday regcomp strdup strtol)
 
 AC_CONFIG_FILES([
-	Makefile
-	lib/Makefile
+    Makefile
+    lib/Makefile
 ])
 AC_OUTPUT

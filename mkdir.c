@@ -53,7 +53,7 @@
 long
 create_subdir(ext2_filsys fs, ext2_ino_t root, ext2_ino_t *cwd,
               char *dirname, struct stat *def_stat);
-/* Name:	e2mkdir()
+/* Name:    e2mkdir()
  *
  * Description:
  *
@@ -116,7 +116,7 @@ e2mkdir(int argc, char *argv[])
   def_stat.st_ino = 1;
 
 #ifdef HAVE_OPTRESET
-  optreset = 1;		/* Makes BSD getopt happy */
+  optreset = 1;     /* Makes BSD getopt happy */
 #endif
   while ((c = getopt(argc, argv, "G:O:P:v")) != EOF)
     {
@@ -210,7 +210,7 @@ e2mkdir(int argc, char *argv[])
 
 } /* end of e2mkdir */
 
-/* Name:	create_dir()
+/* Name:    create_dir()
  *
  * Description:
  *
@@ -224,18 +224,18 @@ e2mkdir(int argc, char *argv[])
  * Check the input parameters
  * Check to see if the directory name contains a /
  * If it exists
- *	   Break the entire path into specific directory names
- *	   For each section of the path
- *	   Check to see if the name exists in the current directory
- *	   If it doesn't
- *		   Call create_subdir for that section of the path
- *	   Otherwise
- *		   If it is a symbolic link, follow it
- *		   Read the inode structure for the current section of the path
- *		   If it is not a directory
- *			   Print an error message and return an error.
+ *     Break the entire path into specific directory names
+ *     For each section of the path
+ *     Check to see if the name exists in the current directory
+ *     If it doesn't
+ *         Call create_subdir for that section of the path
+ *     Otherwise
+ *         If it is a symbolic link, follow it
+ *         Read the inode structure for the current section of the path
+ *         If it is not a directory
+ *             Print an error message and return an error.
  * Otherwise
- *	  Call create_subdir for that section of the path
+ *    Call create_subdir for that section of the path
  *
  * Global Variables:
  *
@@ -243,11 +243,11 @@ e2mkdir(int argc, char *argv[])
  *
  * Arguments:
  *
- * ext2_filsys fs;			  The current file system
- * ext2_ino_t root;			  The inode number of the root directory
- * ext2_ino_t *cwd;			  Pointer to the inode number of the current
- *							  directory
- * char *dirname;			  The directory to create
+ * ext2_filsys fs;            The current file system
+ * ext2_ino_t root;           The inode number of the root directory
+ * ext2_ino_t *cwd;           Pointer to the inode number of the current
+ *                            directory
+ * char *dirname;             The directory to create
  * struct stat *def_stat;     Default directory status, owner, group, etc.
  *
  * Return Values:
@@ -260,7 +260,7 @@ e2mkdir(int argc, char *argv[])
  *
  * Modification History:
  *
- * MM/DD/YY		 Name				Description
+ * MM/DD/YY      Name               Description
  * 04/10/02      K.Sheffield        Added a default directory permission
  * 07/08/02      K.Sheffield        Fixed bugs in error reporting
  */
@@ -413,7 +413,7 @@ create_dir(ext2_filsys fs, ext2_ino_t root, ext2_ino_t *cwd,
   return(0);
 } /* end of create_dir */
 
-/* Name:	create_subdir()
+/* Name:    create_subdir()
  *
  * Description:
  *
@@ -431,11 +431,11 @@ create_dir(ext2_filsys fs, ext2_ino_t root, ext2_ino_t *cwd,
  *
  * Arguments:
  *
- * ext2_filsys fs;			  The current file system
- * ext2_ino_t root;			  The inode number of the root directory
- * ext2_ino_t *cwd;			  Pointer to the inode number of the current
- *							  or parent directory
- * char *dirname;			  The directory to create
+ * ext2_filsys fs;            The current file system
+ * ext2_ino_t root;           The inode number of the root directory
+ * ext2_ino_t *cwd;           Pointer to the inode number of the current
+ *                            or parent directory
+ * char *dirname;             The directory to create
  * struct stat *def_stat;     Default directory status, owner, group, etc.
  *
  * Return Values:
@@ -448,7 +448,7 @@ create_dir(ext2_filsys fs, ext2_ino_t root, ext2_ino_t *cwd,
  *
  * Modification History:
  *
- * MM/DD/YY		 Name				Description
+ * MM/DD/YY      Name               Description
  * 04/10/02      K.Sheffield        Added a default directory permission
  *
  */
@@ -520,7 +520,7 @@ long create_subdir(ext2_filsys fs, ext2_ino_t root, ext2_ino_t *cwd,
   return(0);
 } /* end of create_subdir */
 
-/* Name:	change_cwd()
+/* Name:    change_cwd()
  *
  * Description:
  *

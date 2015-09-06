@@ -30,7 +30,7 @@
 static long
 do_swap(int force, int verbose, int curidx, int argc, char **argv);
 
-/* Name:	do_mv()
+/* Name:    do_mv()
  *
  * Description:
  *
@@ -44,13 +44,13 @@ do_swap(int force, int verbose, int curidx, int argc, char **argv);
  * If we are performing a file swap, call do_swap()
  * Open the file system
  * Get the destination and determine if it is a directory
- *	  If not, then get the destination's directory and basename
- *	  Also check that the number of source files are no more than one
+ *    If not, then get the destination's directory and basename
+ *    Also check that the number of source files are no more than one
  * For each source file
- *	  Get the directory and basename of the source file
- *	  Determine the inode number for the source file
- *	  Create the link
- *	  Unlink the original source file.
+ *    Get the directory and basename of the source file
+ *    Determine the inode number for the source file
+ *    Create the link
+ *    Unlink the original source file.
  *
  * Global Variables:
  *
@@ -58,8 +58,8 @@ do_swap(int force, int verbose, int curidx, int argc, char **argv);
  *
  * Arguments:
  *
- * int argc;			 The number of arguments
- * char *argv[];		 The command line arguments
+ * int argc;             The number of arguments
+ * char *argv[];         The command line arguments
  *
  * Return Values:
  *
@@ -71,7 +71,7 @@ do_swap(int force, int verbose, int curidx, int argc, char **argv);
  *
  * Modification History:
  *
- * MM/DD/YY		 Name				Description
+ * MM/DD/YY      Name               Description
  */
 long
 do_mv(int argc, char *argv[])
@@ -96,7 +96,7 @@ do_mv(int argc, char *argv[])
   int curidx;
 
 #ifdef HAVE_OPTRESET
-  optreset = 1;		/* Makes BSD getopt happy */
+  optreset = 1;     /* Makes BSD getopt happy */
 #endif
   while ((c = getopt(argc, argv, "vfs")) != EOF)
     {
@@ -240,7 +240,7 @@ do_mv(int argc, char *argv[])
 
 } /* end of do_mv */
 
-/* Name:	get_file_parts()
+/* Name:    get_file_parts()
  *
  * Description:
  *
@@ -251,11 +251,11 @@ do_mv(int argc, char *argv[])
  *
  * Use the root directory as the current working directory
  * Find the last / in the full pathname
- *	   If none are found, set the basename to the full pathname,
- *	   and the directory to NULL
+ *     If none are found, set the basename to the full pathname,
+ *     and the directory to NULL
  * Otherwise,
- *	   Separate the basename from the directory
- *	   Change the working directory
+ *     Separate the basename from the directory
+ *     Change the working directory
  * Set the return pointers.
  *
  * Global Variables:
@@ -264,12 +264,12 @@ do_mv(int argc, char *argv[])
  *
  * Arguments:
  *
- * ext2_filsys fs;			  the filesystem being used
- * ext2_ino_t root;			  the root directory of the filesystem
- * char *pathname;			  the full pathname of the file
- * ext2_ino_t *dir_ino;		  The inode number of the directory
- * char **dir_name;			  the directory the file is in
- * char **base_name;		  The basename of the file
+ * ext2_filsys fs;            the filesystem being used
+ * ext2_ino_t root;           the root directory of the filesystem
+ * char *pathname;            the full pathname of the file
+ * ext2_ino_t *dir_ino;       The inode number of the directory
+ * char **dir_name;           the directory the file is in
+ * char **base_name;          The basename of the file
  *
  * Return Values:
  *
@@ -281,7 +281,7 @@ do_mv(int argc, char *argv[])
  *
  * Modification History:
  *
- * MM/DD/YY		 Name				Description
+ * MM/DD/YY      Name               Description
  *
  */
 long
@@ -316,7 +316,7 @@ get_file_parts(ext2_filsys fs, ext2_ino_t root, char *pathname,
 } /* end of get_file_parts */
 
 
-/* Name:	do_swap()
+/* Name:    do_swap()
  *
  * Description:
  *

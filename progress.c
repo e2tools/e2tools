@@ -38,7 +38,7 @@ static struct stat *prog_sbuf = NULL;
 static long prog_start;
 static long prog_time;
 
-/* Name:	init_progress()
+/* Name:    init_progress()
  *
  * Description:
  *
@@ -108,7 +108,7 @@ void init_progress(char *file, struct stat *sbuf)
 
 } /* end of init_progress */
 
-/* Name:	update_progress()
+/* Name:    update_progress()
  *
  * Description:
  *
@@ -157,7 +157,7 @@ void update_progress(unsigned long num_bytes)
     }
 } /* end of update_progress */
 
-/* Name:	finish_progress()
+/* Name:    finish_progress()
  *
  * Description:
  *

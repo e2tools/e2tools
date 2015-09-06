@@ -38,7 +38,7 @@ static char __attribute__ ((used)) copyright[] = "Copyright 2002 Keith W Sheffie
 static void
 fix_perms(const struct ext2_inode *inode, int fd, const char *name);
 
-/* Name:	get_file()
+/* Name:    get_file()
  *
  * Description:
  *
@@ -145,7 +145,7 @@ get_file(ext2_filsys fs, ext2_ino_t root, ext2_ino_t cwd,
 } /* end of get_file */
 
 
-/* Name:	retrieve_data()
+/* Name:    retrieve_data()
  *
  * Description:
  *
@@ -229,7 +229,7 @@ retrieve_data(ext2_filsys fs, ext2_ino_t src, int dest_fd,
 
 } /* end of retrieve_data */
 
-/* Name:	read_to_eof()
+/* Name:    read_to_eof()
  *
  * Description:
  *
