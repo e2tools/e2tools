@@ -1,6 +1,6 @@
 ## DO NOT EDIT! GENERATED AUTOMATICALLY!
 ## Process this file with automake to produce Makefile.in.
-# Copyright (C) 2002-2014 Free Software Foundation, Inc.
+# Copyright (C) 2002-2015 Free Software Foundation, Inc.
 #
 # This file is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -220,6 +220,31 @@ MOSTLYCLEANFILES += stdint.h stdint.h-t
 EXTRA_DIST += stdint.in.h
 
 ## end   gnulib module stdint
+
+## begin gnulib module sys_types
+
+BUILT_SOURCES += sys/types.h
+
+# We need the following in order to create <sys/types.h> when the system
+# doesn't have one that works with the given compiler.
+sys/types.h: sys_types.in.h $(top_builddir)/config.status
+	$(AM_V_at)$(MKDIR_P) sys
+	$(AM_V_GEN)rm -f $@-t $@ && \
+	{ echo '/* DO NOT EDIT! GENERATED AUTOMATICALLY! */'; \
+	  sed -e 's|@''GUARD_PREFIX''@|GL|g' \
+	      -e 's|@''INCLUDE_NEXT''@|$(INCLUDE_NEXT)|g' \
+	      -e 's|@''PRAGMA_SYSTEM_HEADER''@|@PRAGMA_SYSTEM_HEADER@|g' \
+	      -e 's|@''PRAGMA_COLUMNS''@|@PRAGMA_COLUMNS@|g' \
+	      -e 's|@''NEXT_SYS_TYPES_H''@|$(NEXT_SYS_TYPES_H)|g' \
+	      -e 's|@''WINDOWS_64_BIT_OFF_T''@|$(WINDOWS_64_BIT_OFF_T)|g' \
+	      < $(srcdir)/sys_types.in.h; \
+	} > $@-t && \
+	mv $@-t $@
+MOSTLYCLEANFILES += sys/types.h sys/types.h-t
+
+EXTRA_DIST += sys_types.in.h
+
+## end   gnulib module sys_types
 
 ## begin gnulib module dummy
 

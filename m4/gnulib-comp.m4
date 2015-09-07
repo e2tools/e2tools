@@ -1,5 +1,5 @@
 # DO NOT EDIT! GENERATED AUTOMATICALLY!
-# Copyright (C) 2002-2014 Free Software Foundation, Inc.
+# Copyright (C) 2002-2015 Free Software Foundation, Inc.
 #
 # This file is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -39,6 +39,8 @@ AC_DEFUN([gl_EARLY],
   m4_pattern_allow([^gl_LTLIBOBJS$])dnl a variable
   AC_REQUIRE([gl_PROG_AR_RANLIB])
   # Code from module absolute-header:
+  # Code from module extensions:
+  AC_REQUIRE([gl_USE_SYSTEM_EXTENSIONS])
   # Code from module include_next:
   # Code from module inttypes:
   # Code from module inttypes-incomplete:
@@ -46,7 +48,9 @@ AC_DEFUN([gl_EARLY],
   # Code from module snippet/arg-nonnull:
   # Code from module snippet/c++defs:
   # Code from module snippet/warn-on-use:
+  # Code from module ssize_t:
   # Code from module stdint:
+  # Code from module sys_types:
 ])
 
 # This macro should be invoked from ./configure.ac, in the section
@@ -68,7 +72,10 @@ AC_DEFUN([gl_INIT],
   gl_INTTYPES_H
   gl_INTTYPES_INCOMPLETE
   gl_MULTIARCH
+  gt_TYPE_SSIZE_T
   gl_STDINT_H
+  gl_SYS_TYPES_H
+  AC_PROG_MKDIR_P
   # End of code from modules
   m4_ifval(gl_LIBSOURCES_LIST, [
     m4_syscmd([test ! -d ]m4_defn([gl_LIBSOURCES_DIR])[ ||
@@ -215,15 +222,20 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/dummy.c
   lib/inttypes.in.h
   lib/stdint.in.h
+  lib/sys_types.in.h
   m4/00gnulib.m4
   m4/absolute-header.m4
+  m4/extensions.m4
   m4/gnulib-common.m4
   m4/include_next.m4
   m4/inttypes-pri.m4
   m4/inttypes.m4
   m4/longlong.m4
   m4/multiarch.m4
+  m4/off_t.m4
   m4/onceonly.m4
+  m4/ssize_t.m4
   m4/stdint.m4
+  m4/sys_types_h.m4
   m4/warn-on-use.m4
 ])
