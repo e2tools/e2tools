@@ -140,7 +140,6 @@ do_mv(int argc, char *argv[])
 
   if ((retval = open_filesystem(cur_filesys, &fs, &root, 1)))
     {
-      fprintf(stderr, "%s: %s\n", error_message(retval), cur_filesys);
       return retval;
     }
 
@@ -401,7 +400,6 @@ do_swap(int force, int verbose, int curidx, int argc, char **argv)
 
   if ((retval = open_filesystem(cur_filesys, &fs, &root, 1)))
     {
-      fprintf(stderr, "%s: %s\n", error_message(retval), cur_filesys);
       return retval;
     }
 

@@ -177,9 +177,6 @@ e2mkdir(int argc, char *argv[])
 
               if ((retval = open_filesystem(cur_filesys, &fs, &root, 1)))
                 {
-                  fprintf(stderr, "%s\n", error_message(retval));
-                  fprintf(stderr, "Error opening fileystem %s\n",
-                          cur_filesys);
                   return retval;
                 }
               cwd = root;

@@ -117,14 +117,14 @@ open_filesystem(char *name, ext2_filsys *fs, ext2_ino_t *root, int rw_mode)
   if ((retval = ext2fs_open(name, (rw_mode) ? EXT2_FLAG_RW : 0, 0, 0,
                             unix_io_manager, fs)))
     {
-      fprintf(stderr, "%s\n", error_message(retval));
+      fprintf(stderr, "%s: %s\n", error_message(retval), name);
       *fs = NULL;
       return retval;
     }
 
   if ((retval = ext2fs_read_inode_bitmap(*fs)))
     {
-      fprintf(stderr, "%s\n", error_message(retval));
+      fprintf(stderr, "%s: %s\n", error_message(retval), name);
       if ((closeval = ext2fs_close(*fs)))
         fputs(error_message(closeval), stderr);
       *fs = NULL;
@@ -133,7 +133,7 @@ open_filesystem(char *name, ext2_filsys *fs, ext2_ino_t *root, int rw_mode)
 
   if ((retval = ext2fs_read_block_bitmap(*fs)))
     {
-      fprintf(stderr, "%s\n", error_message(retval));
+      fprintf(stderr, "%s: %s\n", error_message(retval), name);
       if ((closeval = ext2fs_close(*fs)))
         fputs(error_message(closeval), stderr);
       *fs = NULL;

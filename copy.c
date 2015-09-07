@@ -319,7 +319,6 @@ copy(int argc, char *argv[])
           src_category = EXT2_FS;
           if ((retval = open_filesystem(cur_filesys, &fs, &root, 0)))
             {
-              fprintf(stderr, "%s\n", error_message(retval));
               return retval;
             }
           orig_cwd = root;
@@ -647,7 +646,6 @@ open_destination(char **dest_dir, char **cur_filesys, ext2_filsys *fs,
       *dst_cat = EXT2_FS;
       if ((retval = open_filesystem(*cur_filesys, fs, root, 1)))
         {
-          fprintf(stderr, "%s\n", error_message(retval));
           return retval;
         }
 
@@ -840,10 +838,7 @@ copy_files(int num_files, char **cur_file_names, char *dest_dir, char *dest_fs,
                 }
 
               if ((retval = open_filesystem(cur_filesys, fs, root, 0)))
-                  {
-                  fprintf(stderr, "%s\n", error_message(retval));
-                  fprintf(stderr, "Error opening fileystem %s\n",
-                          cur_filesys);
+                {
                   return retval;
                 }
               cwd = *root;

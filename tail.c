@@ -162,7 +162,6 @@ do_tail(int argc, char *argv[])
 
   if ((retval = open_filesystem(cur_filesys, &fs, &root, 0)))
     {
-      fprintf(stderr, "%s: %s\n", error_message(retval), cur_filesys);
       return retval;
     }
 
@@ -373,7 +372,6 @@ tail(ext2_filsys *fs_ptr, ext2_ino_t root, char *input, int num_lines,
           if ((retval = open_filesystem(cur_filesys, &fs, &root, 0)))
             {
               *fs_ptr = NULL;
-              fprintf(stderr, "%s: %s\n", error_message(retval), cur_filesys);
               return retval;
             }
           *fs_ptr = fs;

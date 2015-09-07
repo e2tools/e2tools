@@ -367,7 +367,6 @@ do_list_dir(int argc, char *argv[])
             *path++ = '\0';
           if ((retval = open_filesystem(fs_name, &fs, &root, 0)))
             {
-              fputs(error_message(retval), stderr);
               return(1);
             }
           last_fs_name = fs_name;
@@ -433,7 +432,6 @@ do_list_dir(int argc, char *argv[])
 
           if ((retval = open_filesystem(fs_name, &fs, &root, 0)))
             {
-              fputs(error_message(retval), stderr);
               return(1);
             }
           last_fs_name = fs_name;
