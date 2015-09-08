@@ -41,3 +41,6 @@ uninstall-hook:
 	$(RM) -f $(DESTDIR)$(bindir)/e2mv
 	$(RM) -f $(DESTDIR)$(bindir)/e2rm
 	$(RM) -f $(DESTDIR)$(bindir)/e2tail
+
+test:
+	@echo "no tests yet"

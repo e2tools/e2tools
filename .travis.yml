@@ -1,0 +1,6 @@
+language: c
+before_install:
+    - sudo apt-get update -qq
+    - sudo apt-get install -qq e2fslibs-dev uuid-dev ss-dev
+before_script:
+    - autoreconf -is
