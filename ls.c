@@ -620,6 +620,7 @@ do_list_dir(int argc, char *argv[])
 void long_disp(ls_file_t *info, int UNUSED_PARM(*col), int options)
 {
   char lbr, rbr;
+  char modestr[11];
   char datestr[80];
   time_t modtime;
   struct tm *tm_p;
@@ -636,6 +637,25 @@ void long_disp(ls_file_t *info, int UNUSED_PARM(*col), int options)
         lbr = rbr = ' ';
     }
 
+  sprintf(modestr, "%c%c%c%c%c%c%c%c%c%c",
+          LINUX_S_ISLNK(info->inode.i_mode) ? 'l' :
+          LINUX_S_ISDIR(info->inode.i_mode) ? 'd' :
+          LINUX_S_ISCHR(info->inode.i_mode) ? 'c' :
+          LINUX_S_ISBLK(info->inode.i_mode) ? 'b' :
+          LINUX_S_ISFIFO(info->inode.i_mode) ? 'p' :
+          LINUX_S_ISSOCK(info->inode.i_mode) ? 's' : '-',
+          (info->inode.i_mode & (1 << 8)) ? 'r' : '-',
+          (info->inode.i_mode & (1 << 7)) ? 'w' : '-',
+          (info->inode.i_mode & LINUX_S_ISUID) ? 'S' :
+          (info->inode.i_mode & (1 << 6)) ? 'x' : '-',
+          (info->inode.i_mode & (1 << 5)) ? 'r' : '-',
+          (info->inode.i_mode & (1 << 4)) ? 'w' : '-',
+          (info->inode.i_mode & LINUX_S_ISGID) ? 'S' :
+          (info->inode.i_mode & (1 << 3)) ? 'x' : '-',
+          (info->inode.i_mode & (1 << 2)) ? 'r' : '-',
+          (info->inode.i_mode & (1 << 1)) ? 'w' : '-',
+          (info->inode.i_mode & LINUX_S_ISVTX) ? 'T' :
+          (info->inode.i_mode & (1 << 0)) ? 'x' : '-');
 
   if (info->inode_num)
     {
@@ -652,8 +672,9 @@ void long_disp(ls_file_t *info, int UNUSED_PARM(*col), int options)
   else
     strcpy(datestr, "                 ");
 
-  printf("%c%6u%c %6o %5d %5d  ", lbr, info->inode_num, rbr,
-         info->inode.i_mode, info->inode.i_uid, info->inode.i_gid);
+
+  printf("%c%6u%c %10s %5d %5d  ", lbr, info->inode_num, rbr,
+         modestr, info->inode.i_uid, info->inode.i_gid);
   if (LINUX_S_ISDIR(info->inode.i_mode))
     printf("%7d", info->inode.i_size);
   else
