@@ -241,6 +241,7 @@ e2ls [-acDfilrt][-d dir] file_specification
 -f  No sorting of the file list
 -i  Show the inodes (very useful for the -l option)
 -l  Long listing
+-n  Like -l, but list numeric user and group IDs
 -r  Reverse the sort order
 -t  Sort by time
 
