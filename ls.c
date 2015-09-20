@@ -47,6 +47,8 @@
 #include <regex.h>
 #include <stdint.h>
 #include <inttypes.h>
+#include <pwd.h>
+#include <grp.h>
 
 /*
  * list directory
@@ -59,6 +61,7 @@
 #define HIDDEN_OPT  0x0010
 #define CREATE_OPT  0x0020
 #define INODE_OPT   0x0040
+#define NUMERIC_OPT 0x0080
 
 #define DIRECTORY_TYPE -1
 #define NORMAL_TYPE 0
@@ -345,7 +348,7 @@ do_list_dir(int argc, char *argv[])
 #ifdef HAVE_OPTRESET
   optreset = 1;     /* Makes BSD getopt happy */
 #endif
-  while ((c = getopt (argc, argv, "acDd:filrt")) != EOF)
+  while ((c = getopt (argc, argv, "acDd:filnrt")) != EOF)
     {
       switch (c)
         {
@@ -357,6 +360,10 @@ do_list_dir(int argc, char *argv[])
           break;
         case 'l':
           file_disp = long_disp;
+          break;
+        case 'n':
+          file_disp = long_disp;
+          ls.options |= NUMERIC_OPT;
           break;
         case 'D':
           ls.options |= DELETED_OPT;
@@ -621,6 +628,8 @@ void long_disp(ls_file_t *info, int UNUSED_PARM(*col), int options)
 {
   char lbr, rbr;
   char modestr[11];
+  char userstr[9];
+  char groupstr[9];
   char datestr[80];
   time_t modtime;
   struct tm *tm_p;
@@ -672,9 +681,36 @@ void long_disp(ls_file_t *info, int UNUSED_PARM(*col), int options)
   else
     strcpy(datestr, "                 ");
 
+  if (options & NUMERIC_OPT)
+    {
+      const int userlen = 5;
 
-  printf("%c%6u%c %10s %5d %5d  ", lbr, info->inode_num, rbr,
-         modestr, info->inode.i_uid, info->inode.i_gid);
+      sprintf(userstr, "%*d", userlen, info->inode.i_uid);
+      sprintf(groupstr, "%*d", userlen, info->inode.i_gid);
+    }
+  else
+    {
+      const int userlen = 8;
+      char buf[1024];
+      struct passwd pwd, *p_pwd;
+      struct group grp, *p_grp;
+
+      getpwuid_r(info->inode.i_uid, &pwd, buf, sizeof(buf), &p_pwd);
+      if (p_pwd)
+          snprintf(userstr, userlen+1, "%*s", userlen, pwd.pw_name);
+      else
+          sprintf(userstr, "%*d", userlen, info->inode.i_uid);
+
+      getgrgid_r(info->inode.i_gid, &grp, buf, sizeof(buf), &p_grp);
+      if (p_grp)
+          snprintf(groupstr, userlen+1, "%*s", userlen, grp.gr_name);
+      else
+          sprintf(groupstr, "%*d", userlen, info->inode.i_gid);
+    }
+
+
+  printf("%c%6u%c %10s %s %s  ", lbr, info->inode_num, rbr,
+         modestr, userstr, groupstr);
   if (LINUX_S_ISDIR(info->inode.i_mode))
     printf("%7d", info->inode.i_size);
   else
