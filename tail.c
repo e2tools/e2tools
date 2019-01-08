@@ -109,7 +109,7 @@ tail(ext2_filsys *fs, ext2_ino_t root, char *input, int num_lines,
 long
 do_tail(int argc, char *argv[])
 {
-  int verbose=0;
+  /* UNUSED int verbose=0; */
   int follow=0;
   int num_lines = 5;
   int sleep_int = 1;
@@ -131,7 +131,7 @@ do_tail(int argc, char *argv[])
       switch (c)
         {
         case 'v':
-          verbose = 1;
+          /* UNUSED verbose = 1; */
           break;
         case 'f':
           follow = FOLLOW_INODE;
