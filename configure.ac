@@ -17,7 +17,7 @@ AC_PROG_MAKE_SET
 dnl Checks for libraries.
 gl_INIT
 PKG_CHECK_MODULES([EXT2FS], [ext2fs >= 1.27], [], [
-	AC_MSG_ERROR([Sorry, but we do require libext2fs.])])
+	AC_MSG_ERROR([Sorry, but we do require libext2fs (part of e2fsprogs).])])
 PKG_CHECK_MODULES([COM_ERR], [com_err], [], [
 	AC_MSG_ERROR([Sorry, but we do require libcom_err.])])
 
