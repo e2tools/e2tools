@@ -959,11 +959,11 @@ copy_files(int num_files, char **cur_file_names, char *dest_dir, char *dest_fs,
 static char *
 diag_output_name(char *odir, int file_to_file, char *ofile)
 {
-  static char tmpstr[BUF_SIZE];
+  static char tmpstr[BUF_SIZE+128];
   if (file_to_file)
     {
-      snprintf(tmpstr, BUF_SIZE, "%s/%s", odir, ofile);
-      tmpstr[BUF_SIZE-1] = '\0';
+      snprintf(tmpstr, BUF_SIZE+128, "%s/%s", odir, ofile);
+      tmpstr[BUF_SIZE+128-1] = '\0';
       return(tmpstr);
     }
   else
