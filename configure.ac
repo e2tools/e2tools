@@ -1,6 +1,10 @@
 dnl Process this file with autoconf to produce a configure script.
 AC_PREREQ(2.59)
-AC_INIT([e2tools], [0.0.16.3], [hun@n-dimensional.de], [e2tools])
+AC_INIT([e2tools],
+        [0.0.16.4],
+        [https://github.com/ndim/e2tools/issues],
+        [e2tools],
+        [https://github.com/ndim/e2tools])
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_HEADER([config.h])
 AC_CONFIG_SRCDIR([e2tools.c])
