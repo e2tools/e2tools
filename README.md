@@ -1,5 +1,5 @@
 About e2tools
--------------
+=============
 
 e2tools is a simple set of GPL'ed utilities to read, write, and
 manipulate files in an ext2/ext3 filesystem.  These utilities access a
@@ -36,7 +36,7 @@ or open an issue with a patch attached.
 
 
 Quickstart Documentation
-------------------------
+========================
 
 In general, to specify a directory or file on an ext2 filesystem for the
 e2tools utilities, use the following form:
@@ -55,13 +55,13 @@ Files 1-3 are on `/tmp/boot.img` and the last file is on `/tmp/boot2.img`
 
 
 e2cp
------
+====
 
 This program copies files to/from an e2fs filesystem from/to the machine's
 native filesystem.
 
 Usage:
-~~~~~~
+------
 
     e2cp [-0apv][-P mode][-O uid][-G gid][-d dest_dir][-s src_dir][file1..N dest]
 
@@ -81,7 +81,7 @@ Usage:
     A `-` by itself means to use standard input/output
 
 Examples:
-~~~~~~~~~
+---------
 
 Copy a file and use the default permission and ownership of the current user:
 
@@ -116,12 +116,12 @@ Copy a file to a file system and make the group and ownership root
 
 
 e2mv
-----
+====
 
 This program moves or renames files on an ext2fs filesystem.
 
 Usage:
-~~~~~~
+------
 
     e2mv [-vfs] source1 [... sourceN] destination
 
@@ -133,7 +133,7 @@ Usage:
     expressions, yet.
 
 Examples:
-~~~~~~~~~
+---------
 
 Rename a file:
 
@@ -159,12 +159,12 @@ To swap two files and use a new name for the first one:
 
 
 e2rm
-----
+====
 
 This program removes files and directories on an ext2 filesystem.
 
 Usage:
-~~~~~~
+------
 
     e2rm [-vr] filesystem:filepath ...fileN
 
@@ -175,7 +175,7 @@ Note: This program expects to have a full ext2 file specification for each
 argument.
 
 Examples:
-~~~~~~~~~
+---------
 
 Remove a file
 
@@ -187,13 +187,13 @@ Remove a directory and all the files
 
 
 e2mkdir
--------
+=======
 
 This program creates a directory on an ext2 filesystem.  It behaves similar
 to `mkdir -p`.
 
 Usage:
-~~~~~~
+------
 
     e2mkdir [-G gid][-O uid][-P mode][-v] filesystem:directory...dirN
 
@@ -206,7 +206,7 @@ Note: This program expects to have a full ext2 file specification for each
 argument.
 
 Examples:
-~~~~~~~~~
+---------
 
 This creates the directory `/boot/grub` with on `boot.img` with the current
 user and group ids:
@@ -219,12 +219,12 @@ To override the default ownership and permissions:
 
 
 e2ln
-----
+====
 
 This program is used to create hard links on an ext2 filesystem.
 
 Usage:
-~~~~~~
+------
 
     e2ln [-vsf] source destination
 
@@ -235,7 +235,7 @@ Usage:
 Note: creating symlinks is not operational at this time.
 
 Examples:
-~~~~~~~~~
+---------
 
 This will remove `/data/process_status` if it exists and isn't already a hard
 link to `/data/info/status`.
@@ -244,12 +244,12 @@ link to `/data/info/status`.
 
 
 e2ls
-----
+====
 
 This program is used to list files and directories on an ext2 filesystem.
 
 Usage:
-~~~~~~
+------
 
     e2ls [-acDfilrt][-d dir] file_specification
 
@@ -267,19 +267,19 @@ Note: Files deleted via `e2rm` sometimes will show up even without the `-D`
 option.  It is being investigated.
 
 Examples:
-~~~~~~~~~
+---------
 
     e2ls -a boot.img:.
     e2ls -l /dev/hdb1:/data
 
 
 e2tail
-------
+======
 
 This program implements a basic version of the tail command.
 
 Usage:
-~~~~~~
+------
 
     e2tail [-n num_lines][-fF][-s sleep_interval] file
 
@@ -296,7 +296,7 @@ Usage:
 
 
 Examples:
-~~~~~~~~~
+---------
 
 Check `/var/log/messages` on `/dev/sdc1` every 10 seconds
 
