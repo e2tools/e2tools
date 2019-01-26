@@ -347,7 +347,7 @@ do_list_dir(int argc, char *argv[])
 #ifdef HAVE_OPTRESET
   optreset = 1;		/* Makes BSD getopt happy */
 #endif
-  while ((c = getopt (argc, argv, "acDd:filrtz")) != EOF)
+  while ((c = getopt (argc, argv, "acDd:filrtZ")) != EOF)
     {
       switch (c)
         {
@@ -387,7 +387,7 @@ do_list_dir(int argc, char *argv[])
           file_sort = inode_sort;
           ls.options |= INODE_OPT;
           break;
-        case 'z':
+        case 'Z':
           ls.options |= SELINUX_OPT;
           break;
         }
@@ -395,7 +395,7 @@ do_list_dir(int argc, char *argv[])
 
   if (argc <= optind)
     {
-      fputs("Usage: e2ls [-acDfilrtz][-d dir] file\n", stderr);
+      fputs("Usage: e2ls [-acDfilrtZ][-d dir] file\n", stderr);
       return(1);
     }
 
