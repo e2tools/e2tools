@@ -81,6 +81,7 @@
 /* Macros */
 #define USAGE "Usage: e2cp [-0apv][-P mode][-O uid][-G gid][-d dest_dir][-s src_dir][file1...N dest]\n"
 #define BUF_SIZE 8192
+#define OUTBUF_SIZE ((BUF_SIZE)+1)
 
 #ifdef isspace
 #define ISSPACE(c) isspace(c)
@@ -230,7 +231,7 @@ copy(int argc, char *argv[])
   ext2_ino_t orig_cwd = -1;
   ext2_ino_t cwd;
   char tmpbuf[BUF_SIZE];
-  char outpath[BUF_SIZE];
+  char outpath[OUTBUF_SIZE];
   char *cur_filesys = NULL;
   int retval;
   int c;
@@ -460,7 +461,7 @@ copy(int argc, char *argv[])
         {
           dest_dir = outpath;
           out_file = outpath;
-          max_out_len = BUF_SIZE - 1;
+          max_out_len = OUTBUF_SIZE - 1;
         }
 
       if (dst_category == EXT2_FS)
@@ -580,6 +581,11 @@ copy(int argc, char *argv[])
                 {
                   /* create output file name */
                   strncpy(out_file, ptr, max_out_len);
+		  /* Even though the out_file aka outpath buffer has
+		   * size OUTBUF_SIZE which is larger than BUF_SIZE,
+		   * we still limit the string length to BUF_SIZE as
+		   * some other parts of the code might expect that.
+		   */
                   outpath[BUF_SIZE-1] = '\0';
                 }
 
