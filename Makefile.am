@@ -3,8 +3,16 @@ ACLOCAL_AMFLAGS = -I m4
 
 bin_PROGRAMS = e2tools
 
-AM_CPPFLAGS = $(EXT2FS_CFLAGS) $(COM_ERR_CFLAGS)
-e2tools_LDADD = $(EXT2FS_LIBS) $(COM_ERR_LIBS)
+e2tools_CFLAGS =
+e2tools_CPPFLAGS =
+e2tools_LDADD =
+
+e2tools_CPPFLAGS += $(EXT2FS_CFLAGS)
+e2tools_LDADD    += $(EXT2FS_LIBS)
+
+e2tools_CPPFLAGS += $(COM_ERR_CFLAGS)
+e2tools_LDADD    += $(COM_ERR_LIBS)
+
 e2tools_SOURCES = \
 	copy.c copy.h \
 	e2tools.c e2tools.h \
@@ -24,6 +32,7 @@ e2tools_SOURCES += compiler-definitions.h
 EXTRA_DIST =
 EXTRA_DIST += README.md
 EXTRA_DIST += TODO
+
 dist_man_MANS = e2tools.7
 dist_man_MANS += e2cp.1 e2ln.1 e2ls.1 e2mkdir.1 e2mv.1 e2rm.1 e2tail.1
 
