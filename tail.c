@@ -37,6 +37,9 @@
 /* Feature Test Switches */
 /*  Headers */
 
+#include <limits.h>
+
+#include "compiler-definitions.h"
 #include "e2tools.h"
 #include "tail.h"
 
@@ -46,6 +49,12 @@
 
 #define FOLLOW_INODE 1
 #define FOLLOW_NAME 2
+
+/* Check type sizes match for the signedness conversion to work */
+BARE_COMPILE_TIME_ASSERT(SIZEOF_MEMBER(struct ext2_inode, i_size) == sizeof(int))
+BARE_COMPILE_TIME_ASSERT(sizeof(ext2_off_t) == sizeof(int))
+BARE_COMPILE_TIME_ASSERT(SIZEOF_MEMBER(struct ext2_inode, i_size) == sizeof(ext2_off_t))
+
 
 /* Structures and Unions */
 
@@ -350,7 +359,7 @@ tail(ext2_filsys *fs_ptr, ext2_ino_t root, char *input, int num_lines,
     }
 
   /* ok, if we are before the end of the file, then dump the rest of it */
-  if (cur_pos < inode.i_size)
+  if ((inode.i_size <= INT_MAX) && (cur_pos < ((int)inode.i_size)))
     {
       if ((retval = read_to_eof(tail_fd, 1, cur_pos, &cur_pos)))
         {
@@ -421,7 +430,13 @@ tail(ext2_filsys *fs_ptr, ext2_ino_t root, char *input, int num_lines,
               fputs(error_message(retval), stderr);
               return retval;
             }
-          if (inode.i_size > cur_pos)
+          if (inode.i_size <= INT_MAX)
+	    {
+	      /* the file has grown too large */
+	      fputs("inode.i_size above INT_MAX", stderr);
+	      return 0;
+	    }
+          else if (((int)inode.i_size) > cur_pos)
             {
               if ((retval = retrieve_data(fs, tail_ino, 1, NULL, 0, cur_pos,
                                           &cur_pos)))
@@ -430,7 +445,7 @@ tail(ext2_filsys *fs_ptr, ext2_ino_t root, char *input, int num_lines,
                   return retval;
                 }
             }
-          else if (inode.i_size < cur_pos)
+          else if (((int)inode.i_size) < cur_pos)
             {
               /* the file was truncated, so bail */
               return(0);

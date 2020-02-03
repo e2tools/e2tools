@@ -19,6 +19,7 @@ e2tools_SOURCES = \
 	tail.c tail.h \
 	util.c util.h \
 	write.c write.h
+e2tools_SOURCES += compiler-definitions.h
 
 EXTRA_DIST =
 EXTRA_DIST += README.md
