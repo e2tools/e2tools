@@ -1,15 +1,26 @@
 dnl Process this file with autoconf to produce a configure script.
 AC_PREREQ(2.59)
 AC_INIT([e2tools],
-        [0.0.16.4],
-        [https://github.com/ndim/e2tools/issues],
+        [0.0.17],
+        [https://github.com/e2tools/e2tools/issues],
         [e2tools],
-        [https://github.com/ndim/e2tools])
+        [https://e2tools.github.io/])
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_HEADER([config.h])
 AC_CONFIG_SRCDIR([e2tools.c])
 AC_CONFIG_MACRO_DIR([m4])
-AM_INIT_AUTOMAKE([-Wall -Werror 1.9.6 dist-bzip2])
+AM_INIT_AUTOMAKE([
+-Wall
+-Werror
+1.9.6
+dist-bzip2
+foreign
+])
+
+dnl Ensure that these Macros are actually available at the time of
+dnl running autoreconf
+m4_pattern_forbid([gl_EARLY])dnl
+m4_pattern_forbid([PKG_CHECK_MODULES])dnl
 
 dnl Checks for programs.
 AC_PROG_CC
@@ -21,9 +32,9 @@ AC_PROG_MAKE_SET
 dnl Checks for libraries.
 gl_INIT
 PKG_CHECK_MODULES([EXT2FS], [ext2fs >= 1.27], [], [
-	AC_MSG_ERROR([Sorry, but we do require libext2fs (part of e2fsprogs).])])
+    AC_MSG_ERROR([Sorry, but we do require libext2fs (part of e2fsprogs).])])
 PKG_CHECK_MODULES([COM_ERR], [com_err], [], [
-	AC_MSG_ERROR([Sorry, but we do require libcom_err.])])
+    AC_MSG_ERROR([Sorry, but we do require libcom_err (part of e2fsprogs).])])
 
 dnl Checks for header files.
 AC_HEADER_STDC
@@ -49,8 +60,10 @@ AC_FUNC_ALLOCA
 AC_FUNC_UTIME_NULL
 AC_CHECK_FUNCS(gettimeofday regcomp strdup strtol)
 
+CFLAGS="$CFLAGS -Wall"
+
 AC_CONFIG_FILES([
-	Makefile
-	lib/Makefile
+    Makefile
+    lib/Makefile
 ])
 AC_OUTPUT

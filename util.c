@@ -32,6 +32,7 @@
 
 /*  Headers */
 #include "e2tools.h"
+#include "util.h"
 #include <regex.h>
 
 /* Macros */
@@ -74,21 +75,15 @@ static MODE_XLAT_T xlat_tbl[] =
 
 /* Local Prototypes */
 
-mode_t
-ext2_mode_xlate(__u16 lmode);
-__u16
-host_mode_xlate(mode_t hmode);
 static int
 release_blocks_proc(ext2_filsys fs, blk_t *blocknr,
                     int blockcnt, void *private);
-long
-delete_file(ext2_filsys fs, ext2_ino_t inode);
 
 /* translate a ext2 mode to the host OS representation */
 mode_t ext2_mode_xlate(__u16 lmode)
 {
-  mode_t	mode = 0;
-  int	i;
+  mode_t mode = 0;
+  int i;
 
   for (i=0; xlat_tbl[i].lmask; i++)
     {
@@ -101,9 +96,9 @@ mode_t ext2_mode_xlate(__u16 lmode)
 /* translate a host OS mode to the ext2 representation */
 __u16 host_mode_xlate(mode_t hmode)
 {
-  __u16	mode = 0;
-  int	i;
-  
+  __u16 mode = 0;
+  int i;
+
   for (i=0; xlat_tbl[i].lmask; i++)
     {
       if (hmode & xlat_tbl[i].mask)
@@ -117,28 +112,28 @@ open_filesystem(char *name, ext2_filsys *fs, ext2_ino_t *root, int rw_mode)
 {
   int retval;
   int closeval;
-  
-  
+
+
   if ((retval = ext2fs_open(name, (rw_mode) ? EXT2_FLAG_RW : 0, 0, 0,
                             unix_io_manager, fs)))
     {
-      fprintf(stderr, "%s\n", error_message(retval));
+      fprintf(stderr, "%s: %s\n", error_message(retval), name);
       *fs = NULL;
       return retval;
     }
 
   if ((retval = ext2fs_read_inode_bitmap(*fs)))
     {
-      fprintf(stderr, "%s\n", error_message(retval));
+      fprintf(stderr, "%s: %s\n", error_message(retval), name);
       if ((closeval = ext2fs_close(*fs)))
-        fputs(error_message(closeval), stderr);        
+        fputs(error_message(closeval), stderr);
       *fs = NULL;
       return retval;
     }
 
   if ((retval = ext2fs_read_block_bitmap(*fs)))
     {
-      fprintf(stderr, "%s\n", error_message(retval));
+      fprintf(stderr, "%s: %s\n", error_message(retval), name);
       if ((closeval = ext2fs_close(*fs)))
         fputs(error_message(closeval), stderr);
       *fs = NULL;
@@ -175,7 +170,7 @@ rm_file(ext2_filsys fs, ext2_ino_t cwd, char *outfile, ext2_ino_t delfile)
 {
   struct ext2_inode inode;
   long retval;
-  
+
   if ((retval = read_inode(fs, delfile, &inode)))
     return(retval);
 
@@ -185,10 +180,10 @@ rm_file(ext2_filsys fs, ext2_ino_t cwd, char *outfile, ext2_ino_t delfile)
 
   if ((retval = ext2fs_unlink(fs, cwd, outfile, 0, 0)))
       return(retval);
-  
+
   if (inode.i_links_count == 0)
     return(delete_file(fs, delfile));
-  
+
   return(0);
 }
 
@@ -197,29 +192,29 @@ delete_file(ext2_filsys fs, ext2_ino_t inode)
 {
   struct ext2_inode inode_buf;
   long retval;
-  
+
   if ((retval = read_inode(fs, inode, &inode_buf)))
     {
       fprintf(stderr, "%s\n", error_message(retval));
       return(retval);
     }
-  
+
   inode_buf.i_dtime = time(NULL);
   if ((retval = write_inode(fs, inode, &inode_buf)))
     {
       fprintf(stderr, "%s\n", error_message(retval));
       return(retval);
     }
-  
+
   if ((retval = ext2fs_block_iterate(fs, inode, 0, NULL,
                                      release_blocks_proc, NULL)))
     {
       fprintf(stderr, "%s\n", error_message(retval));
       return(retval);
     }
-  
+
   ext2fs_inode_alloc_stats(fs, inode, -1);
-  
+
   return(0);
 }
 
@@ -227,11 +222,11 @@ static int
 release_blocks_proc(ext2_filsys fs, blk_t *blocknr,
                     int UNUSED_PARM(blockcnt), void UNUSED_PARM(*private))
 {
-	blk_t	block;
+    blk_t block;
 
-	block = *blocknr;
-	ext2fs_block_alloc_stats(fs, block, -1);
-	return 0;
+    block = *blocknr;
+    ext2fs_block_alloc_stats(fs, block, -1);
+    return 0;
 }
 
 void
@@ -282,7 +277,7 @@ make_regexp(char *shell)
 
   ptr = tmpstr;
   *ptr++ = '^';
-  
+
   while ((c = *shell++) != '\0')
     {
       switch(c)
@@ -304,7 +299,7 @@ make_regexp(char *shell)
     }
   *ptr++ = '$';
   *ptr = '\0';
-  
+
   if (regcomp(&reg, tmpstr, REG_NOSUB))
     {
       perror("make_regexp");

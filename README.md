@@ -26,11 +26,11 @@ Requirements:
 
 For questions, suggestions, or remarks please open an issue at
 
-     https://github.com/ndim/e2tools/issues
+     https://github.com/e2tools/e2tools/issues
 
 For patches, please create a pull request at
 
-     https://github.com/ndim/e2tools/pulls
+     https://github.com/e2tools/e2tools/pulls
 
 or open an issue with a patch attached.
 
@@ -251,7 +251,7 @@ This program is used to list files and directories on an ext2 filesystem.
 Usage:
 ------
 
-    e2ls [-acDfilrt][-d dir] file_specification
+    e2ls [-acDfilnrt][-d dir] file_specification
 
     -a  Show hidden directories
     -c  Sort by creation time (must include -t when using -l)
@@ -260,6 +260,7 @@ Usage:
     -f  No sorting of the file list
     -i  Show the inodes (very useful for the -l option)
     -l  Long listing
+    -n  Like -l, but list numeric user and group IDs
     -r  Reverse the sort order
     -t  Sort by time
 
@@ -293,7 +294,6 @@ Usage:
         computer security field for monitoring 'honeypot' type machines.
     -s  The number of seconds to sleep before checking if the file has grown
         while in 'follow' mode.  The default is 1.
-
 
 Examples:
 ---------

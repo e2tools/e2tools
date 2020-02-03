@@ -6,25 +6,22 @@
  * under the terms of the GNU Public License.
  *
  */
-#ifndef TAIL_C
-#define TAIL_C
-#endif
 
 /* Description */
 /* This module implements a basic version of the tail command.
  *
  * The user can specify the number of lines to view from the bottom of the
- * file.  This is done by specifying -n #of_lines on the command line.	The
+ * file. This is done by specifying -n #of_lines on the command line. The
  * default is 5.
  *
  * The user can also run in 'follow' mode which prints new lines as they are
- * appended to the end of the file.	 This can be specified by the -f option,
+ * appended to the end of the file. This can be specified by the -f option,
  * which is dependent on the initial inode of the file being tailed or the -F
- * option which will always use the inode associated with the file name.  The
+ * option which will always use the inode associated with the file name. The
  * latter can be useful for log files that get switched out.
  *
  * The -s #seconds option allows the user to specify the sleep interval while
- * in follow mode.	The default is 1.
+ * in follow mode. The default is 1.
  *
  */
 /*
@@ -41,7 +38,7 @@
 /*  Headers */
 
 #include "e2tools.h"
-
+#include "tail.h"
 
 /* Macros */
 #define USAGE "Usage: e2tail [-n num_lines][-fF][-s sleep_interval] file\n"
@@ -61,14 +58,12 @@
 /* External Prototypes */
 
 /* Local Prototypes */
-long
-do_tail(int argc, char *argv[]);
 static long
 tail(ext2_filsys *fs, ext2_ino_t root, char *input, int num_lines,
      int follow, int sleep_int, char *cur_filesys);
 
 
-/* Name:	do_tail()
+/* Name:    do_tail()
  *
  * Description:
  *
@@ -83,15 +78,15 @@ tail(ext2_filsys *fs, ext2_ino_t root, char *input, int num_lines,
  * Tail the file
  * Close the file system
  * return the status of the tail
- *	  
+ *
  * Global Variables:
  *
  * None
  *
  * Arguments:
  *
- * int argc;			 The number of arguments
- * char *argv[];		 The command line arguments
+ * int argc;             The number of arguments
+ * char *argv[];         The command line arguments
  *
  * Return Values:
  *
@@ -103,7 +98,7 @@ tail(ext2_filsys *fs, ext2_ino_t root, char *input, int num_lines,
  *
  * Modification History:
  *
- * MM/DD/YY		 Name				Description
+ * MM/DD/YY      Name               Description
  * 07/12/03      K.Sheffield        fixed a bug when no arguments are given.
  */
 long
@@ -121,10 +116,10 @@ do_tail(int argc, char *argv[])
   int curidx;
   char *tail_dir;
   int c;
-  
-  
+
+
 #ifdef HAVE_OPTRESET
-  optreset = 1;		/* Makes BSD getopt happy */
+  optreset = 1;     /* Makes BSD getopt happy */
 #endif
   while ((c = getopt(argc, argv, "vFfn:s:")) != EOF)
     {
@@ -154,7 +149,7 @@ do_tail(int argc, char *argv[])
     }
 
   curidx = optind;
-  
+
   if (errcnt || argc <= curidx)
     {
       fputs(USAGE, stderr);
@@ -168,10 +163,9 @@ do_tail(int argc, char *argv[])
       return(1);
     }
   *tail_dir++ = '\0';
-  
+
   if ((retval = open_filesystem(cur_filesys, &fs, &root, 0)))
     {
-      fprintf(stderr, "%s: %s\n", error_message(retval), cur_filesys);
       return retval;
     }
 
@@ -181,7 +175,7 @@ do_tail(int argc, char *argv[])
   return(retval);
 }
 
-/* Name:	tail()
+/* Name:    tail()
  *
  * Description:
  *
@@ -195,19 +189,19 @@ do_tail(int argc, char *argv[])
  * Open the file for reading
  * Skip to the last block in the file
  * While we have not found the last num_lines of newline characters
- *	  Skip backwards in the file one block and read it
+ *    Skip backwards in the file one block and read it
  * Display the contents of the block from that point on.
  * Display the rest of the file if not contained in the block
  * Save the current location of the file.
  * If we are following the file as it grows
- *	  While forever
- *		  Sleep
- *		  Re-read the inode for the file
- *		  If the size has changed
- *			  Display the file from the saved point on
+ *    While forever
+ *        Sleep
+ *        Re-read the inode for the file
+ *        If the size has changed
+ *            Display the file from the saved point on
  *            Save the current location of the file.
- *	  
- *	  
+ *
+ *
  * Global Variables:
  *
  * None
@@ -234,7 +228,7 @@ do_tail(int argc, char *argv[])
  *
  * Modification History:
  *
- * MM/DD/YY		 Name				Description
+ * MM/DD/YY      Name               Description
  */
 static long
 tail(ext2_filsys *fs_ptr, ext2_ino_t root, char *input, int num_lines,
@@ -252,7 +246,7 @@ tail(ext2_filsys *fs_ptr, ext2_ino_t root, char *input, int num_lines,
   unsigned int bytes_read;
   char *ptr;
   struct ext2_inode inode;
-  ext2_file_t tail_fd;    
+  ext2_file_t tail_fd;
   ext2_off_t offset;
   ext2_off_t cur_pos;
 
@@ -260,7 +254,7 @@ tail(ext2_filsys *fs_ptr, ext2_ino_t root, char *input, int num_lines,
     {
       ext2fs_close(fs);
       return(-1);
-    }          
+    }
 
   /* get the inode number for the source file */
   if ((retval = ext2fs_namei(fs, cwd, cwd, tail_name, &tail_ino)))
@@ -307,7 +301,7 @@ tail(ext2_filsys *fs_ptr, ext2_ino_t root, char *input, int num_lines,
           fputs("error reading file\n", stderr);
           return(-1);
         }
-      
+
       ptr = buf + bytes_read - 1;
       while (bytes_to_read--)
         {
@@ -319,11 +313,11 @@ tail(ext2_filsys *fs_ptr, ext2_ino_t root, char *input, int num_lines,
               if (bytes_to_read != bytes_read - 1)
                 {
                   ptr++;
-		  if (0 > write(1, ptr, bytes_read - bytes_to_read - 1))
-		    {
-		      perror("writing bytes to stdout");
-		      return -1;
-		    }
+                  if (0 > write(1, ptr, bytes_read - bytes_to_read - 1))
+                    {
+                      perror("writing bytes to stdout");
+                      return -1;
+                    }
                 }
               offset = 0;       /* make sure we break out of the main loop */
               break;
@@ -339,15 +333,15 @@ tail(ext2_filsys *fs_ptr, ext2_ino_t root, char *input, int num_lines,
   /* if we are here and have any lines left, we hit the beginning, so
    * dump the rest of what's in memory out.
    */
-  
+
   if (num_lines > 0)
     {
       if (0 > write(1, buf, bytes_read)) {
-	perror("writing bytes to stdout");
-	return -1;
+        perror("writing bytes to stdout");
+        return -1;
       }
     }
-    
+
   /* retreive the current position in the file */
   if ((retval = ext2fs_file_lseek(tail_fd, 0, EXT2_SEEK_CUR, &cur_pos)))
     {
@@ -382,7 +376,6 @@ tail(ext2_filsys *fs_ptr, ext2_ino_t root, char *input, int num_lines,
           if ((retval = open_filesystem(cur_filesys, &fs, &root, 0)))
             {
               *fs_ptr = NULL;
-              fprintf(stderr, "%s: %s\n", error_message(retval), cur_filesys);
               return retval;
             }
           *fs_ptr = fs;
@@ -393,7 +386,7 @@ tail(ext2_filsys *fs_ptr, ext2_ino_t root, char *input, int num_lines,
           if (follow == FOLLOW_NAME)
             {
               cwd = root;
-              
+
               if (tail_dir != NULL && *tail_dir != '\0' &&
                   strcmp(tail_dir, ",") != 0 &&
                   (retval = change_cwd(fs, root, &cwd, tail_dir)))
@@ -415,14 +408,14 @@ tail(ext2_filsys *fs_ptr, ext2_ino_t root, char *input, int num_lines,
               /* if we are dealing with a new file, then start from the
                * beginning.
                */
-              
+
               if (t_tail_ino != tail_ino)
                 {
                   tail_ino = t_tail_ino;
                   cur_pos = 0;
                 }
             }
-          
+
           if ((retval = ext2fs_read_inode(fs, tail_ino, &inode)))
             {
               fputs(error_message(retval), stderr);
@@ -441,7 +434,7 @@ tail(ext2_filsys *fs_ptr, ext2_ino_t root, char *input, int num_lines,
             {
               /* the file was truncated, so bail */
               return(0);
-            }          
+            }
         }
     }
   return(0);

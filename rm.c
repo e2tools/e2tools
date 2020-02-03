@@ -32,6 +32,7 @@
 
 /*  Headers */
 #include "e2tools.h"
+#include "rm.h"
 #include <regex.h>
 
 static ext2_filsys gbl_fs = NULL;
@@ -39,7 +40,7 @@ static char *gbl_filesys = NULL;
 static char *gbl_path_end = NULL;
 static char gbl_dir_name[8192];
 
-struct regexp_args 
+struct regexp_args
 {
   int verbose;
   int recursive;
@@ -47,11 +48,9 @@ struct regexp_args
 };
 
 /* Local Prototypes */
-long
-e2rm(int argc, char *argv[]);
 static
-int rm_dir_proc(ext2_ino_t dir,int	entry, struct ext2_dir_entry *dirent,
-                int	offset, int	blocksize, char	*buf, void *verbose);
+int rm_dir_proc(ext2_ino_t dir, int entry, struct ext2_dir_entry *dirent,
+                int offset, int blocksize, char *buf, void *verbose);
 static int
 recursive_rm(ext2_ino_t dir, char *name, struct ext2_dir_entry *dirent,
              int verbose);
@@ -59,11 +58,11 @@ static int
 rm_regex_proc(ext2_ino_t dir, int entry, struct ext2_dir_entry *dirent,
               int offset, int blocksize, char *buf, void *private);
 
-/* Name:	e2rm()
+/* Name:    e2rm()
  *
  * Description:
  *
- * This function extracts the command line parameters and creates 
+ * This function extracts the command line parameters and creates
  * directories based on user input
  *
  * Algorithm:
@@ -117,9 +116,9 @@ e2rm(int argc, char *argv[])
   int num_files;
   char *ptr;
   struct regexp_args reg;
-  
+
 #ifdef HAVE_OPTRESET
-  optreset = 1;		/* Makes BSD getopt happy */
+  optreset = 1;     /* Makes BSD getopt happy */
 #endif
   while ((c = getopt(argc, argv, "vr")) != EOF)
     {
@@ -148,7 +147,7 @@ e2rm(int argc, char *argv[])
   cur_opt = argv + optind;
   if (num_files > 1 )
     qsort(cur_opt, num_files, sizeof(char *), my_strcmp);
-  
+
   for(c=0;c<num_files;c++)
     {
       filespec = *cur_opt++;
@@ -171,19 +170,16 @@ e2rm(int argc, char *argv[])
                   fprintf(stderr, "%s\n", error_message(retval));
                   return retval;
                 }
-              
+
               if ((retval = open_filesystem(cur_filesys, &fs, &root, 1)))
                 {
-                  fprintf(stderr, "%s\n", error_message(retval));
-                  fprintf(stderr, "Error opening fileystem %s\n",
-                          cur_filesys);
                   return retval;
                 }
               cwd = root;
               last_filesys = cur_filesys;
             } /* end of filesystem change? */
 
-          
+
           if (get_file_parts(fs, root, filespec, &cwd, &dir_name, &base_name))
             {
               ext2fs_close(fs);
@@ -202,20 +198,20 @@ e2rm(int argc, char *argv[])
 
                 gbl_fs = fs;
                 gbl_filesys = cur_filesys;
-                
+
                 reg.verbose = verbose;
                 reg.recursive = recursive;
 
                 strcpy(gbl_dir_name, dir_name);
                 gbl_path_end = gbl_dir_name + strlen(gbl_dir_name);
-                
+
                 retval = ext2fs_dir_iterate2(gbl_fs, cwd,
                                              DIRENT_FLAG_INCLUDE_EMPTY, 0,
                                              rm_regex_proc, (void *) &reg);
                 regfree(reg.reg);
                 continue;
               }
-          
+
           /* check to see if the file name exists in the current directory */
           else if ((retval = ext2fs_namei(fs, cwd, cwd, base_name, &curr_ino)))
             {
@@ -236,11 +232,11 @@ e2rm(int argc, char *argv[])
                   sprintf(gbl_dir_name, "%s/%s", (dir_name == NULL)?".":
                           dir_name, base_name);
                   gbl_path_end = gbl_dir_name + strlen(gbl_dir_name);
-                  
+
                   retval = ext2fs_dir_iterate2(gbl_fs, curr_ino,
                                                DIRENT_FLAG_INCLUDE_EMPTY, 0,
                                                rm_dir_proc,
-                                               (void *) 
+                                               (void *)
                                                ((verbose) ? &verbose : NULL));
                 }
               else
@@ -261,19 +257,19 @@ e2rm(int argc, char *argv[])
               fprintf(stderr, "%s\n",error_message(retval));
               return(retval);
             }
-              
+
           if (verbose)
             printf("Removed %s:%s/%s\n", cur_filesys,
                    (dir_name == NULL)?".":dir_name, base_name);
         }
-      
+
       else if (verbose)
         {
           printf("%s is not a valid e2fs filesystem specification. skipping\n",
                  filespec);
         }
     }
-  
+
   if (fs != NULL &&
       (retval = ext2fs_close(fs)))
     {
@@ -281,8 +277,8 @@ e2rm(int argc, char *argv[])
       return retval;
     }
   return(0);
-  
-} /* end of e2rm */ 
+
+} /* end of e2rm */
 
 static int rm_dir_proc(ext2_ino_t UNUSED_PARM(dir), int entry,
                        struct ext2_dir_entry *dirent, int UNUSED_PARM(offset),
@@ -290,14 +286,14 @@ static int rm_dir_proc(ext2_ino_t UNUSED_PARM(dir), int entry,
 {
   char name[EXT2_NAME_LEN];
   int thislen;
-	
+
   thislen = ((dirent->name_len & 0xFF) < EXT2_NAME_LEN) ?
     (dirent->name_len & 0xFF) : EXT2_NAME_LEN;
 
   if (dirent->name[0] == '.' &&
       (thislen == 1 || (thislen == 2 && dirent->name[1] == '.')))
     return 0;
-    
+
   strncpy(name, dirent->name, thislen);
   name[thislen] = '\0';
 
@@ -320,16 +316,16 @@ recursive_rm(ext2_ino_t dir, char *name, struct ext2_dir_entry *dirent,
       strncpy(gbl_path_end, dirent->name, dirent->name_len);
       gbl_path_end += dirent->name_len;
       *gbl_path_end = '\0';
-      
+
       retval = ext2fs_dir_iterate2(gbl_fs, dirent->inode,
                                    DIRENT_FLAG_INCLUDE_EMPTY, 0,
                                    rm_dir_proc, (verbose) ? &verbose : NULL);
-      
+
       while (gbl_path_end > gbl_dir_name  && *gbl_path_end != '/')
         gbl_path_end--;
       *gbl_path_end = '\0';
     }
-    
+
   if (retval !=0 && retval != EXT2_ET_NO_DIRECTORY)
     {
       fprintf(stderr, "%s\n",error_message(retval));
@@ -341,7 +337,7 @@ recursive_rm(ext2_ino_t dir, char *name, struct ext2_dir_entry *dirent,
       fprintf(stderr, "%s\n",error_message(retval));
       return(retval);
     }
-              
+
   if (verbose)
     printf("Removed %s:%s/%s\n", gbl_filesys, gbl_dir_name, name);
 
@@ -356,14 +352,14 @@ rm_regex_proc(ext2_ino_t dir, int entry, struct ext2_dir_entry *dirent,
   char name[EXT2_NAME_LEN];
   int thislen;
   struct regexp_args *reg = (struct regexp_args *) arg;
-  
+
   thislen = ((dirent->name_len & 0xFF) < EXT2_NAME_LEN) ?
     (dirent->name_len & 0xFF) : EXT2_NAME_LEN;
 
   if (dirent->name[0] == '.' &&
       (thislen == 1 || (thislen == 2 && dirent->name[1] == '.')))
     return 0;
-    
+
   strncpy(name, dirent->name, thislen);
   name[thislen] = '\0';
 
@@ -389,7 +385,7 @@ rm_regex_proc(ext2_ino_t dir, int entry, struct ext2_dir_entry *dirent,
                   fprintf(stderr, "%s\n",error_message(retval));
                   return(retval);
                 }
-              
+
               if (reg->verbose)
                 printf("Removed %s:%s/%s\n", gbl_filesys, gbl_dir_name, name);
             }
@@ -402,7 +398,7 @@ rm_regex_proc(ext2_ino_t dir, int entry, struct ext2_dir_entry *dirent,
     }
   return (0);
 }
- 
+
 
 
 

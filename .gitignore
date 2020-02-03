@@ -1,11 +1,31 @@
+# Ignore these in any subdirectory
 *~
+*.o
+Makefile
+Makefile.in
+.deps/
+
+# Ignore these relative to the top directory
 /aclocal.m4
 /autom4te.cache/
 /build-aux/compile
+/build-aux/config.guess
+/build-aux/config.sub
 /build-aux/depcomp
 /build-aux/install-sh
 /build-aux/missing
+/config.h
 /config.h.in
+/config.log
+/config.status
 /configure
+/e2tools
 /INSTALL
-Makefile.in
+/lib/Makefile.in
+/lib/arg-nonnull.h
+/lib/c++defs.h
+/lib/inttypes.h
+/lib/warn-on-use.h
+/lib/libgnu.a
+/lib/sys/
+/stamp-h1

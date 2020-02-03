@@ -50,7 +50,7 @@
 2002-06-30  Keith W. Sheffield  <sheff@pobox.com>
 
 	* ln.c (create_hard_link): Testing file type before linking to
-	directory. 
+	directory.
 
 2002-06-26  Keith W. Sheffield  <sheff@pobox.com>
 
@@ -59,13 +59,13 @@
 
 	* copy.c: Corrected copying from stdin and added a call to
 	initialize the file copy progress information.
-	
+
 
 2002-06-05  Keith W. Sheffield  <sheff@pobox.com>
 
 	* ls.c (long_disp): Increased file size field width.
 	(do_list_dir): Added -f and -D options.  Allow for multiple file
-	specifications. 
+	specifications.
 
 	* elist.c: Added a new function: elist_delete
 
@@ -139,7 +139,7 @@
 
 	* copy.c (copy): Copying hard links to ext2fs correctly, verbose
 	works
-	
+
 
 2002-03-06  Keith W. Sheffield  <sheff@pobox.com>
 
@@ -179,5 +179,5 @@
 	* e2tools.h: Added a section for external prototypes.
 
 	* copy.c (copy): removed unnecessary printf.
-	
+
 

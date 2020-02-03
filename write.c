@@ -40,23 +40,15 @@
 
 #include <errno.h>
 #include "e2tools.h"
-
-/* External Prototypes */
-
-extern void init_progress(char *file, struct stat *sbuf);
-extern void update_progress(unsigned long num_bytes);
-extern void finish_progress();
+#include "write.h"
+#include "progress.h"
 
 /* Local Prototypes */
 
-long
-put_file(ext2_filsys fs, ext2_ino_t cwd, char *infile, char *outfile,
-         ext2_ino_t *outfile_ino, int keep, struct stat *def_stat);
-
 static long
-store_data(ext2_filsys fs, int fd, ext2_ino_t newfile, off_t *file_size); 
+store_data(ext2_filsys fs, int fd, ext2_ino_t newfile, off_t *file_size);
 
-/* Name:	put_file()
+/* Name:    put_file()
  *
  * Description:
  *
@@ -117,7 +109,7 @@ put_file(ext2_filsys fs, ext2_ino_t cwd, char *infile, char *outfile,
          ext2_ino_t *outfile_ino, int keep, struct stat *def_stat)
 {
   int fd;
-  struct stat	statbuf;
+  struct stat statbuf;
   ext2_ino_t newfile;
   long  retval;
   struct ext2_inode inode;
@@ -170,7 +162,7 @@ put_file(ext2_filsys fs, ext2_ino_t cwd, char *infile, char *outfile,
           statbuf.st_gid = getgid();
         }
     }
-  
+
   if ((retval = ext2fs_namei(fs, cwd, cwd, outfile, &newfile)))
     {
       if (retval != EXT2_ET_FILE_NOT_FOUND)
@@ -206,7 +198,7 @@ put_file(ext2_filsys fs, ext2_ino_t cwd, char *infile, char *outfile,
       close(fd);
       return retval;
     }
-  
+
   if ((retval = ext2fs_link(fs, cwd, outfile, newfile, EXT2_FT_REG_FILE)))
     {
       /* check to see if we ran out of space in the directory */
@@ -234,7 +226,7 @@ put_file(ext2_filsys fs, ext2_ino_t cwd, char *infile, char *outfile,
   inode.i_size = statbuf.st_size;
   inode.i_uid = statbuf.st_uid;
   inode.i_gid = statbuf.st_gid;
-    
+
   if ((retval = write_inode(fs, newfile, &inode)))
     {
       close(fd);
@@ -247,7 +239,7 @@ put_file(ext2_filsys fs, ext2_ino_t cwd, char *infile, char *outfile,
       close(fd);
 #ifndef DEBUG
       rm_file(fs, cwd, outfile, newfile);
-      
+
 #endif
       return(retval);
     }
@@ -257,14 +249,14 @@ put_file(ext2_filsys fs, ext2_ino_t cwd, char *infile, char *outfile,
   /* if we were reading from standard input, figure out the size of
    * the file and save it.
    */
-    
+
   if (infile == NULL)
     {
       if ((retval = read_inode(fs, newfile, &inode)))
         return(retval);
 
       inode.i_size = statbuf.st_size;
-        
+
       if ((retval = write_inode(fs, newfile, &inode)))
         return(retval);
     }
@@ -272,23 +264,23 @@ put_file(ext2_filsys fs, ext2_ino_t cwd, char *infile, char *outfile,
   /* save the files inode number for later use */
   if (outfile_ino != NULL)
     *outfile_ino = newfile;
-  
-  return(ext2fs_flush(fs));
-    
-} /* end of put_file */ 
 
-/* Name:	store_data()
+  return(ext2fs_flush(fs));
+
+} /* end of put_file */
+
+/* Name:    store_data()
  *
  * Description:
  *
  * This function stores the contents of a file descriptor into the current ext2
- * file system 
+ * file system
  *
  * Algorithm:
  *
  * Open a new file in the ext2 file system
  * While data can be read from the input file descriptor
- *	   Write the data to the file on the ext2 filesystem
+ *     Write the data to the file on the ext2 filesystem
  * Close the file
  *
  * Global Variables:
@@ -297,10 +289,10 @@ put_file(ext2_filsys fs, ext2_ino_t cwd, char *infile, char *outfile,
  *
  * Arguments:
  *
- * ext2_filsys fs;			  The current file system
- * int fd;					  Input file descriptor
- * ext2_ino_t newfile;		  Inode number of the new file
- * off_t *file_size;		  The size of the file written
+ * ext2_filsys fs;            The current file system
+ * int fd;                    Input file descriptor
+ * ext2_ino_t newfile;        Inode number of the new file
+ * off_t *file_size;          The size of the file written
  *
  * Return Values:
  *
@@ -312,13 +304,13 @@ put_file(ext2_filsys fs, ext2_ino_t cwd, char *infile, char *outfile,
  *
  * Modification History:
  *
- * MM/DD/YY		 Name				Description
+ * MM/DD/YY      Name               Description
  * 06/26/02      K.Sheffield        Added a call to update_progress()
  */
 static long
 store_data(ext2_filsys fs, int fd, ext2_ino_t newfile, off_t *file_size)
 {
-  ext2_file_t	outfile;
+  ext2_file_t outfile;
   long retval;
   int bytes_read;
   unsigned int bytes_written;
@@ -361,12 +353,12 @@ store_data(ext2_filsys fs, int fd, ext2_ino_t newfile, off_t *file_size)
     }
   else
     retval = 0;
-    
+
   finish_progress();
-  
+
   ext2fs_file_close(outfile);
   *file_size = total;
   return retval;
 
-} /* end of store_data */ 
+} /* end of store_data */
 

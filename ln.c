@@ -7,10 +7,6 @@
  *
  */
 
-#ifndef LN_C
-#define LN_C
-#endif
-
 /* Description */
 /*
  * Module to create links
@@ -34,19 +30,12 @@
 /* Feature Test Switches */
 /*  Headers */
 #include "e2tools.h"
+#include "ln.h"
 
 /* Macros */
 #define USAGE "Usage: e2ln [-vfs] source destination\n"
 
-/* Local Prototypes */
-long
-do_ln(int argc, char *argv[]);
-
-long
-create_hard_link(ext2_filsys fs, ext2_ino_t cwd, ext2_ino_t new_file_ino,
-                 char *newfile, int ln_flags);
-
-/* Name:	do_ln()
+/* Name:    do_ln()
  *
  * Description:
  *
@@ -105,12 +94,12 @@ do_ln(int argc, char *argv[])
   char *src_dir;
   char *dest_dir;
   char *src_name;
-  char *dest_name;  
+  char *dest_name;
   long retval;
   int c;
-  
+
 #ifdef HAVE_OPTRESET
-  optreset = 1;		/* Makes BSD getopt happy */
+  optreset = 1;     /* Makes BSD getopt happy */
 #endif
   while ((c = getopt(argc, argv, "vfs")) != EOF)
     {
@@ -142,7 +131,7 @@ do_ln(int argc, char *argv[])
       fputs("Not implemented yet\n", stderr);
       return(1);
     }
-  
+
   cur_filesys = argv[optind++];
   if (NULL == (src_dir = strchr(cur_filesys, ':')))
     {
@@ -156,10 +145,9 @@ do_ln(int argc, char *argv[])
       fputs(USAGE, stderr);
       return(1);
     }
-      
+
   if ((retval = open_filesystem(cur_filesys, &fs, &root, 1)))
     {
-      fprintf(stderr, "%s: %s\n", error_message(retval), cur_filesys);
       return retval;
     }
 
@@ -170,7 +158,7 @@ do_ln(int argc, char *argv[])
       ext2fs_close(fs);
       return(-1);
     }
-  
+
   /* get the inode number for the source file */
   if ((retval = ext2fs_namei(fs, srcd, srcd, src_name, &source_file)))
     {
@@ -197,23 +185,23 @@ do_ln(int argc, char *argv[])
   if ((retval = create_hard_link(fs, destd, source_file, dest_name, force)))
     {
       fprintf(stderr, "Error linking %s/%s as %s/%s\n",
-              ((src_dir == NULL) ? "." : src_dir), src_name, 
+              ((src_dir == NULL) ? "." : src_dir), src_name,
               ((dest_dir == NULL) ? "." : dest_dir), dest_name);
       ext2fs_close(fs);
       return(1);
     }
-        
+
   if (verbose)
     fprintf(stderr, "linked %s/%s as %s/%s\n",
-            ((src_dir == NULL) ? "." : src_dir), src_name, 
+            ((src_dir == NULL) ? "." : src_dir), src_name,
             ((dest_dir == NULL) ? "." : dest_dir), dest_name);
-  
+
   ext2fs_close(fs);
   return(0);
-  
-} /* end of do_ln */ 
 
-/* Name:	create_hard_link()
+} /* end of do_ln */
+
+/* Name:    create_hard_link()
  *
  * Description:
  *
@@ -236,11 +224,11 @@ do_ln(int argc, char *argv[])
  *
  * Arguments:
  *
- * ext2_filsys fs;			  The current file system
- * ext2_ino_t cwd;			  The current working directory
- * ext2_ino_t new_file_ino;	  The inode number of the new file
- * char *newfile;			  The name of the new file
- * int ln_flags;			  Flags affecting hard_link action
+ * ext2_filsys fs;            The current file system
+ * ext2_ino_t cwd;            The current working directory
+ * ext2_ino_t new_file_ino;   The inode number of the new file
+ * char *newfile;             The name of the new file
+ * int ln_flags;              Flags affecting hard_link action
  *
  * Return Values:
  *
@@ -252,11 +240,11 @@ do_ln(int argc, char *argv[])
  *
  * Modification History:
  *
- * MM/DD/YY		 Name				Description
- * 06/30/02		 K.Sheffield		Directory link flag is now based on the
- *									type of file being linked.	This was
- *									causing problems if a directory was
- *									renamed.
+ * MM/DD/YY      Name               Description
+ * 06/30/02      K.Sheffield        Directory link flag is now based on the
+ *                                  type of file being linked.  This was
+ *                                  causing problems if a directory was
+ *                                  renamed.
  */
 long
 create_hard_link(ext2_filsys fs, ext2_ino_t cwd, ext2_ino_t new_file_ino,
@@ -266,7 +254,7 @@ create_hard_link(ext2_filsys fs, ext2_ino_t cwd, ext2_ino_t new_file_ino,
   struct ext2_inode inode;
   long retval;
   int dir_flag;
-  
+
   if (fs == NULL || newfile == NULL)
     {
       fputs("Invalid input parameter.  Exiting create_hard_link() with -1\n",
@@ -351,7 +339,7 @@ create_hard_link(ext2_filsys fs, ext2_ino_t cwd, ext2_ino_t new_file_ino,
       dir_flag = EXT2_FT_UNKNOWN;
       break;
     }
-  
+
 
   if ((retval = ext2fs_link(fs, cwd, newfile, new_file_ino, dir_flag)))
     {
@@ -380,7 +368,7 @@ create_hard_link(ext2_filsys fs, ext2_ino_t cwd, ext2_ino_t new_file_ino,
           return (retval);
         }
     }
-  
+
   return(0);
 
 } /* end of create_hard_link */

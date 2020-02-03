@@ -7,10 +7,6 @@
  *
  */
 
-#ifndef PROGRESS_C
-#define PROGRESS_C
-#endif
-
 /* Description */
 /*
  *
@@ -42,7 +38,7 @@ static struct stat *prog_sbuf = NULL;
 static long prog_start;
 static long prog_time;
 
-/* Name:	init_progress()
+/* Name:    init_progress()
  *
  * Description:
  *
@@ -89,7 +85,7 @@ void init_progress(char *file, struct stat *sbuf)
     {
       if (strcmp(file, "-") == 0)
         file = "<stdin>";
-      
+
       len = strlen(file);
       if (len > PROG_FILE_SIZE)
         {
@@ -109,10 +105,10 @@ void init_progress(char *file, struct stat *sbuf)
       prog_sbuf = NULL;
       prog_start = prog_time = 0;
     }
-  
-} /* end of init_progress */ 
 
-/* Name:	update_progress()
+} /* end of init_progress */
+
+/* Name:    update_progress()
  *
  * Description:
  *
@@ -159,9 +155,9 @@ void update_progress(unsigned long num_bytes)
               prog_sbuf->st_size);
       fflush(stderr);
     }
-} /* end of update_progress */ 
+} /* end of update_progress */
 
-/* Name:	finish_progress()
+/* Name:    finish_progress()
  *
  * Description:
  *
@@ -195,5 +191,5 @@ void finish_progress()
 {
   if (prog_start != prog_time)
     fputs(PROG_CLEAR, stderr);
-  
-} /* end of finish_progress */ 
+
+} /* end of finish_progress */

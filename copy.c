@@ -76,6 +76,7 @@
 
 #include "e2tools.h"
 #include "elist.h"
+#include "copy.h"
 
 /* Macros */
 #define USAGE "Usage: e2cp [-0apv][-P mode][-O uid][-G gid][-d dest_dir][-s src_dir][file1...N dest]\n"
@@ -85,12 +86,12 @@
 #define ISSPACE(c) isspace(c)
 #else
 #define ISSPACE(c) ((c) == ' ' || (c) == '\t' || (c) == '\n' || (c) == '\r' \
-		    || (c) == '\f' || (c) == '\v')
+            || (c) == '\f' || (c) == '\v')
 #endif
 
 /* Structures and Unions */
 typedef enum {NONE, HOST_FS, EXT2_FS} FS_CAT_T;
-typedef struct 
+typedef struct
 {
     dev_t dev_no;
     ino_t ino_no;
@@ -126,9 +127,6 @@ read_line(char *inbuf);
 int
 read_string(char *inbuf);
 
-int
-my_strcmp(const void *n1, const void *n2);
-
 INODE_XREF_T *
 find_link(struct stat *sbuf);
 long
@@ -138,7 +136,7 @@ cp_to_ext2fs(ext2_filsys fs, ext2_ino_t cwd, char *in_file, char *out_file,
              struct stat *statbuf, int keep, struct stat *def_stat);
 
 
-/* Name:	copy()
+/* Name:    copy()
  *
  * Description:
  *
@@ -146,11 +144,11 @@ cp_to_ext2fs(ext2_filsys fs, ext2_ino_t cwd, char *in_file, char *out_file,
  * ext2fs filesystem and vice versa.  The files to be copied are presented
  * as command line arguments or are read from standard input.  The files are
  * in the form:
- *	
- * host filesystem:	  /this/is/a/file
+ *
+ * host filesystem:   /this/is/a/file
  * ext2fs filesystem:  filesystem_path:/this/is/another/file
  *
- * The - character represents stdin/stdout.	 The meaning will vary depending if
+ * The - character represents stdin/stdout.  The meaning will vary depending if
  * it used as a source of destination.
  *
  * Where filesystem_path represents where the ext2fs is located in the
@@ -159,44 +157,44 @@ cp_to_ext2fs(ext2_filsys fs, ext2_ino_t cwd, char *in_file, char *out_file,
  *
  * The parameters are:
  *
- * -0		Input lines terminated by a null character
- * -a		Absolute directory names - create directories instead of just
- *			copying into the destination.  Only valid for copying into an
- *			ext2fs filesystem
- * -d		Destination of files to be copied.	May be in the ext2fs filesystem
- *			or the host filesystem
- * -p		Preserve host file attributes (permissions, times, etc.) when
- *			copying files.
- * -s		The source of the files to be copied.
- * -v		Be verbose.
+ * -0       Input lines terminated by a null character
+ * -a       Absolute directory names - create directories instead of just
+ *          copying into the destination.  Only valid for copying into an
+ *          ext2fs filesystem
+ * -d       Destination of files to be copied.  May be in the ext2fs filesystem
+ *          or the host filesystem
+ * -p       Preserve host file attributes (permissions, times, etc.) when
+ *          copying files.
+ * -s       The source of the files to be copied.
+ * -v       Be verbose.
  *
  *
  * Algorithm:
  *
  * Parse the command line for flags and special parameters
  * If there are any parameters left, they are the files to be copied
- *	   If no -s or -d parameters have been processed
- *		   Retrieve the last parameter which is the destination
- *		   If the destination is a ext2fs file specificiation
- *			   Open the filesystem with write capability
- *		   Test to make sure that is a directory and not a file
- *	   Sort the names of the files to be copied.
- *	   For each file
- *		   If it is an ext2fs file specification
- *			   Check to see if it is the same as the last ext2fs spec
- *			   If not, close the prior ext2fs and open the new one
- *		   If the source and destination files are of the same type
- *			   Print a warning message and continue
- *		   Copy the file
+ *     If no -s or -d parameters have been processed
+ *         Retrieve the last parameter which is the destination
+ *         If the destination is a ext2fs file specificiation
+ *             Open the filesystem with write capability
+ *         Test to make sure that is a directory and not a file
+ *     Sort the names of the files to be copied.
+ *     For each file
+ *         If it is an ext2fs file specification
+ *             Check to see if it is the same as the last ext2fs spec
+ *             If not, close the prior ext2fs and open the new one
+ *         If the source and destination files are of the same type
+ *             Print a warning message and continue
+ *         Copy the file
  * Otherwise, no parameters are left, file list is on stdin
- *	   For each line of input
- *		   If the -0 is not given, strip whitespace off the end
- *		   If the -a option is given
- *			   determine the dirname of the file
- *			   Compare the directory to the last directory processed
- *			   If different
- *				   Make a new directory
- *		   Copy the file
+ *     For each line of input
+ *         If the -0 is not given, strip whitespace off the end
+ *         If the -a option is given
+ *             determine the dirname of the file
+ *             Compare the directory to the last directory processed
+ *             If different
+ *                 Make a new directory
+ *         Copy the file
  * Close any open ext2fs filesystems
  *
  * Global Variables:
@@ -205,8 +203,8 @@ cp_to_ext2fs(ext2_filsys fs, ext2_ino_t cwd, char *in_file, char *out_file,
  *
  * Arguments:
  *
- * int argc;			 The number of arguments
- * char *argv[];		 The command line arguments
+ * int argc;             The number of arguments
+ * char *argv[];         The command line arguments
  *
  * Return Values:
  *
@@ -218,11 +216,11 @@ cp_to_ext2fs(ext2_filsys fs, ext2_ino_t cwd, char *in_file, char *out_file,
  *
  * Modification History:
  *
- * MM/DD/YY		 Name				Description
- * 02/27/02		 K. Sheffield		Added directory check for file names being
- *									read from stdin and copied to an ext2fs.
+ * MM/DD/YY      Name               Description
+ * 02/27/02      K. Sheffield       Added directory check for file names being
+ *                                  read from stdin and copied to an ext2fs.
  *
- * 03/06/02		 K. Sheffield		Copying hard links to ext2fs correctly
+ * 03/06/02      K. Sheffield       Copying hard links to ext2fs correctly
  */
 long
 copy(int argc, char *argv[])
@@ -246,7 +244,7 @@ copy(int argc, char *argv[])
   int verbose = 0;
   FS_CAT_T src_category = NONE;
   FS_CAT_T dst_category = NONE;
-  char **cur_file_name;    
+  char **cur_file_name;
   int (*read_input)(char *buf) = read_line;
   int errcnt = 0;
   int num_files;
@@ -256,14 +254,14 @@ copy(int argc, char *argv[])
   struct stat def_stat;
   INODE_XREF_T *xref;
   int tmp_val;
-  
+
   init_stat_buf(&def_stat);
-  
+
 #ifdef HAVE_OPTRESET
-  optreset = 1;		/* Makes BSD getopt happy */
+  optreset = 1;     /* Makes BSD getopt happy */
 #endif
   while ((c = getopt(argc, argv, "0ad:G:O:pP:s:v")) != EOF)
-    {      
+    {
       switch (c)
         {
         case '0':
@@ -321,12 +319,11 @@ copy(int argc, char *argv[])
           src_category = EXT2_FS;
           if ((retval = open_filesystem(cur_filesys, &fs, &root, 0)))
             {
-              fprintf(stderr, "%s\n", error_message(retval));
               return retval;
             }
           orig_cwd = root;
           cwd = root;
-          
+
           if ((*src_dir != '\0' &&
                strcmp(src_dir, ".") != 0 &&
                strcmp(src_dir, "/") != 0) &&
@@ -336,7 +333,7 @@ copy(int argc, char *argv[])
                       src_dir);
               return(-1);
             }
-          
+
           src_category = EXT2_FS;
         }
       else
@@ -354,7 +351,7 @@ copy(int argc, char *argv[])
       tmp_val = strlen(src_dir) - 1;
       if (src_dir[tmp_val] == '/')
         src_dir[tmp_val] = '\0';
-      
+
     }
 
   /* open the destination directory */
@@ -380,7 +377,7 @@ copy(int argc, char *argv[])
           max_out_len++;
           *out_file++ = '/';
         }
-      
+
       max_out_len = BUF_SIZE - max_out_len - 1;
     }
 
@@ -408,7 +405,7 @@ copy(int argc, char *argv[])
           if ((retval = open_destination(&dest_dir, &cur_filesys, &fs, &root,
                                          &cwd, outpath, &absolute,
                                          &dst_category, &non_directory,
-                                         &def_stat))) 
+                                         &def_stat)))
             {
               fprintf(stderr, "Error opening destination %s:%s\n", cur_filesys,
                       dest_dir);
@@ -416,7 +413,7 @@ copy(int argc, char *argv[])
                 ext2fs_close(fs);
               return(-1);
             }
-          
+
           orig_cwd = cwd;
           max_out_len = strlen(outpath);
           out_file = outpath + max_out_len;
@@ -430,7 +427,7 @@ copy(int argc, char *argv[])
 
       if (num_files > 1 && dest_dir != NULL)
         qsort(argv+optind, num_files, sizeof(char *), my_strcmp);
-      
+
       cur_file_name = argv + optind;
 
       if ((retval = copy_files(num_files, cur_file_name, dest_dir, cur_filesys,
@@ -450,7 +447,7 @@ copy(int argc, char *argv[])
     /******************************************************************/
     /*            read from standard input                            */
     /******************************************************************/
-                                                                             
+
       if (src_dir == NULL && dest_dir == NULL)
         {
           fputs("No input source or destination selected\n", stderr);
@@ -476,12 +473,12 @@ copy(int argc, char *argv[])
         {
           if (c < 1)
             continue;
-          
+
           in_file = tmpbuf;
 
           if (verbose)
               init_progress(in_file, &statbuf);
-          
+
           if (dst_category == EXT2_FS)
             {
               if (stat(in_file, &statbuf) != 0)
@@ -489,7 +486,7 @@ copy(int argc, char *argv[])
                   perror(in_file);
                   continue;
                 }
-              
+
               if (S_ISDIR(statbuf.st_mode))
                 {
                   if (absolute &&
@@ -511,11 +508,11 @@ copy(int argc, char *argv[])
               if (!S_ISREG(statbuf.st_mode))
                 continue;
 
-              
+
               if (NULL != (ptr = strrchr(in_file, '/')))
                 {
                   *ptr = '\0';
-                  
+
                   if (absolute &&
                       (retval = dir_changed(in_file, fs, root, orig_cwd,
                                             &cwd, &def_stat, dest_dir)))
@@ -526,7 +523,7 @@ copy(int argc, char *argv[])
                         ext2fs_close(fs);
                       return(-1);
                     }
-              
+
                   *ptr = '/';
                   out_file = ptr + 1;
                 } /* partial path included ? */
@@ -535,7 +532,7 @@ copy(int argc, char *argv[])
                   cwd = orig_cwd;
                   out_file = in_file;
                 }
-              
+
               if (statbuf.st_nlink > 1)
                 {
                   if (NULL != (xref = find_link(&statbuf)))
@@ -568,24 +565,24 @@ copy(int argc, char *argv[])
               if (verbose)
                 fprintf(stderr, "Copied %s to %s:%s\n", in_file, cur_filesys,
                         cur_out_dir);
-              
+
             }
           else
             { /* copy to the local file system */
-              
+
               /* get the basename of the file */
               if (NULL != (ptr = strrchr(in_file, '/')))
                 ++ptr;
               else
                 ptr = in_file;
-              
+
               if (dest_dir != NULL)
-                {    
+                {
                   /* create output file name */
                   strncpy(out_file, ptr, max_out_len);
                   outpath[BUF_SIZE-1] = '\0';
                 }
-              
+
               if ((retval = get_file(fs, root, cwd, in_file,
                                      (dest_dir == NULL) ? NULL:outpath, keep)))
                 {
@@ -595,21 +592,21 @@ copy(int argc, char *argv[])
                     ext2fs_close(fs);
                   return retval;
                 }
-              
+
               if (verbose)
                 fprintf(stderr, "Copied %s:%s/%s to %s\n", cur_filesys,
                         src_dir, in_file,
                         (dest_dir == NULL) ? outpath : dest_dir);
             }
-          
+
         }
     }
 
   if (fs)
     ext2fs_close(fs);
 
-  return(0);      
-} /* end of copy */ 
+  return(0);
+} /* end of copy */
 
 long
 open_destination(char **dest_dir, char **cur_filesys, ext2_filsys *fs,
@@ -618,22 +615,22 @@ open_destination(char **dest_dir, char **cur_filesys, ext2_filsys *fs,
                  struct stat *def_stat)
 {
   char *ptr;
-  struct stat	statbuf;
+  struct stat statbuf;
   char *dptr;
   int retval;
   ext2_ino_t inode;
   int new_dir = 1;
-  
+
   if (dest_dir == NULL || cur_filesys == NULL || fs == NULL || root == NULL ||
       cwd == NULL || outfile == NULL)
     {
       fputs("Invalid parameters\n", stderr);
       return(-1);
     }
-  
+
   dptr = *dest_dir;
   *outfile = '\0';
-  
+
   /* check to see if the destination directory is an ext2fs */
   if (NULL != (ptr = strchr(dptr, ':')))
     {
@@ -642,24 +639,23 @@ open_destination(char **dest_dir, char **cur_filesys, ext2_filsys *fs,
           fputs("An Ext2fs filesystem is already open!", stderr);
           return(-1);
         }
-      
+
       *ptr++ = '\0';
       *cur_filesys = dptr;
       dptr = ptr;
       *dst_cat = EXT2_FS;
       if ((retval = open_filesystem(*cur_filesys, fs, root, 1)))
         {
-          fprintf(stderr, "%s\n", error_message(retval));
           return retval;
         }
-      
+
       *cwd = *root;
-      
+
       if ((*dptr != '\0' &&
            strcmp(dptr, ".") != 0 &&
            strcmp(dptr, "/") != 0))
         {
-          
+
           if (*allow_non_dir == 1)
             {
               ptr = NULL;
@@ -674,7 +670,7 @@ open_destination(char **dest_dir, char **cur_filesys, ext2_filsys *fs,
                       fprintf(stderr, "%s\n", error_message(retval));
                       return(retval);
                     }
-                  
+
                   /* ok, so it doesn't exist or isn't a directory
                    *...let's see if it's parent does
                    */
@@ -684,7 +680,7 @@ open_destination(char **dest_dir, char **cur_filesys, ext2_filsys *fs,
                       if (ptr[1] == '\0')
                         *allow_non_dir = 0;
                       new_dir = 1;
-                      
+
                       if ((retval = ext2fs_namei(*fs, *root, *cwd, dptr,
                                                  &inode)))
                         {
@@ -748,7 +744,7 @@ open_destination(char **dest_dir, char **cur_filesys, ext2_filsys *fs,
         {
           strncpy(outfile, dptr, BUF_SIZE);
           outfile[BUF_SIZE-1] = '\0';
-          
+
           if (0 > stat(outfile, &statbuf) ||
               !S_ISDIR(statbuf.st_mode))
             {
@@ -761,7 +757,7 @@ open_destination(char **dest_dir, char **cur_filesys, ext2_filsys *fs,
           else
             *allow_non_dir = 0;
         }
-      
+
       *dst_cat = HOST_FS;
     }
   *dest_dir = dptr;
@@ -783,9 +779,9 @@ copy_files(int num_files, char **cur_file_names, char *dest_dir, char *dest_fs,
   ext2_ino_t cwd = orig_cwd;
   int retval;
   int i;
-  struct stat	statbuf;
+  struct stat statbuf;
   INODE_XREF_T *xref;
-  
+
   strncpy(cur_out_dir, (dest_dir) ? dest_dir : ".", BUF_SIZE);
   cur_out_dir[BUF_SIZE-1] = '\0';
 
@@ -808,12 +804,12 @@ copy_files(int num_files, char **cur_file_names, char *dest_dir, char *dest_fs,
               fputs("The source is already an ext2fs!\n", stderr);
               return(-1);
             }
-          
+
           /* separate the filesystem name from the file name */
           *ptr++ = '\0';
           cur_filesys = in_file;
           in_file = ptr;
-          
+
           if (dest_dir != NULL)
             {
               if (!file_to_file)
@@ -823,13 +819,13 @@ copy_files(int num_files, char **cur_file_names, char *dest_dir, char *dest_fs,
                     ++ptr;
                   else
                     ptr = in_file;
-                  
+
                   /* create output file name */
                   strncpy(out_file, ptr, max_file_len);
                   outpath[BUF_SIZE-1] = '\0';
                 }
             }
-          
+
           /* check to see if the filesystem has changed */
           if (last_filesys == NULL ||
               strcmp(last_filesys, cur_filesys) != 0)
@@ -840,18 +836,15 @@ copy_files(int num_files, char **cur_file_names, char *dest_dir, char *dest_fs,
                   fprintf(stderr, "%s\n", error_message(retval));
                   return retval;
                 }
-              
+
               if ((retval = open_filesystem(cur_filesys, fs, root, 0)))
-                  {
-                  fprintf(stderr, "%s\n", error_message(retval));
-                  fprintf(stderr, "Error opening fileystem %s\n",
-                          cur_filesys);
+                {
                   return retval;
                 }
               cwd = *root;
               last_filesys = cur_filesys;
             } /* end of filesystem change? */
-          
+
           if ((retval = get_file(*fs, *root, cwd, in_file,
                                  (dest_dir == NULL) ? NULL:outpath, keep)))
             {
@@ -861,7 +854,7 @@ copy_files(int num_files, char **cur_file_names, char *dest_dir, char *dest_fs,
             }
         } /* end of do we have a filesystem spec? */
       else
-        {      
+        {
           if (dst_category == HOST_FS)
             {
               fputs("Already copying to a native filesystem!\n",
@@ -869,14 +862,14 @@ copy_files(int num_files, char **cur_file_names, char *dest_dir, char *dest_fs,
               continue;
             }
 
-          
+
           memset(&statbuf, 0, sizeof(statbuf));
           if (strcmp(in_file, "-") == 0)
             {
               statbuf.st_mode = S_IFREG;
               in_file = NULL;
             }
-          
+
           if (in_file != NULL && stat(in_file, &statbuf) != 0)
             {
               perror(in_file);
@@ -891,11 +884,11 @@ copy_files(int num_files, char **cur_file_names, char *dest_dir, char *dest_fs,
             dst_file = outpath;
           else
             dst_file = in_file;
-          
+
           if (NULL != (ptr = strrchr(dst_file, '/')))
             {
               *ptr = '\0';
-                  
+
               if (absolute)
                 {
                   if ((retval = dir_changed(dst_file, *fs, *root, orig_cwd,
@@ -905,7 +898,7 @@ copy_files(int num_files, char **cur_file_names, char *dest_dir, char *dest_fs,
                               dst_file);
                       return(-1);
                     }
-                }                  
+                }
               *ptr = '/';
               out_file = ptr + 1;
             }
@@ -927,13 +920,13 @@ copy_files(int num_files, char **cur_file_names, char *dest_dir, char *dest_fs,
                       elist_free(link_list, free);
                       return(1);
                     }
-                  
+
                   if (verbose)
                     fprintf(stderr, "Copied %s to %s:%s\n", in_file,
                             cur_filesys, diag_output_name(cur_out_dir,
                                                           file_to_file,
                                                           outpath));
-                  
+
                   continue;
                 }
             }
@@ -948,11 +941,11 @@ copy_files(int num_files, char **cur_file_names, char *dest_dir, char *dest_fs,
             }
           if (verbose)
             fprintf(stderr, "Copied %s to %s:%s\n",
-                    (in_file) ? in_file : "<stdin>", cur_filesys, 
+                    (in_file) ? in_file : "<stdin>", cur_filesys,
                     diag_output_name(cur_out_dir, file_to_file, outpath));
         }
     }
-  
+
   return(0);
 }
 
@@ -978,12 +971,12 @@ dir_changed(char *newdir, ext2_filsys fs, ext2_ino_t root, ext2_ino_t cwd,
   static char last_cwd[BUF_SIZE];
   static int first = 1;
   long retval;
-  
-  
+
+
   if (first || strcmp(last_cwd, newdir))
     {
       first = 0;
-      
+
       *newcwd = cwd;
       if ((*newdir != '\0' &&
            strcmp(newdir, ".") != 0) &&
@@ -995,7 +988,7 @@ dir_changed(char *newdir, ext2_filsys fs, ext2_ino_t root, ext2_ino_t cwd,
         }
       strncpy(last_cwd, newdir, BUF_SIZE);
       last_cwd[BUF_SIZE-1] = '\0';
-      
+
       if (*newdir == '/' || dest_dir == NULL || *dest_dir == '\0')
           strncpy(cur_out_dir, newdir, BUF_SIZE);
       else
@@ -1014,7 +1007,7 @@ read_line(char *inbuf)
   char c;
 
   *inbuf = '\0';
-  
+
   if (NULL == fgets(inbuf, BUF_SIZE, stdin))
     {
       if (ferror(stdin))
@@ -1024,7 +1017,7 @@ read_line(char *inbuf)
 
   ptr = inbuf + strlen(inbuf);
   ptr--;
-  
+
   while (ptr >= inbuf)
     {
       c = *ptr;
@@ -1054,7 +1047,7 @@ read_string(char *inbuf)
       else
         break;
     }
-  
+
   if (c == EOF)
     {
       if (ferror(stdin))
@@ -1083,7 +1076,7 @@ find_link(struct stat *sbuf)
 {
   elist_t *n;
   INODE_XREF_T *xref;
-  
+
   n = link_list;
 
   while (n != NULL)
@@ -1105,14 +1098,14 @@ find_link(struct stat *sbuf)
 
   return(NULL);
 }
-  
+
 long
 add_link(struct stat *sbuf, ext2_ino_t newfile)
 {
   INODE_XREF_T *xref;
   INODE_XREF_T *x_node;
   elist_t *n;
-  
+
   if (NULL == (xref = malloc(sizeof(INODE_XREF_T))))
     {
       perror("malloc");
@@ -1122,7 +1115,7 @@ add_link(struct stat *sbuf, ext2_ino_t newfile)
   xref->dev_no = sbuf->st_dev;
   xref->ino_no = sbuf->st_ino;
   xref->new_ino = newfile;
-  
+
   if (link_list == NULL)
     {
       if (NULL == (link_list = elist_new()))
@@ -1169,7 +1162,7 @@ cp_to_ext2fs(ext2_filsys fs, ext2_ino_t cwd, char *in_file, char *out_file,
 {
   long retval;
   ext2_ino_t out_file_ino;
-  
+
   if ((retval = put_file(fs, cwd, in_file, out_file,
                          &out_file_ino, keep, def_stat)))
     {

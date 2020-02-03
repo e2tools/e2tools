@@ -32,27 +32,13 @@ static char __attribute__ ((used)) copyright[] = "Copyright 2002 Keith W Sheffie
 /* Feature Test Switches */
 /*  Headers */
 #include "e2tools.h"
+#include "read.h"
 
 /* Local Prototypes */
-
-long
-get_file(ext2_filsys fs, ext2_ino_t root, ext2_ino_t cwd,
-         char *infile, char *outfile, int keep);
-
-long
-retrieve_data(ext2_filsys fs, ext2_ino_t src, int dest_fd,
-              char *dest_name, int keep, ext2_off_t offset,
-              ext2_off_t *ret_pos);
-
-long
-read_to_eof(ext2_file_t infile, int dest_fd, ext2_off_t offset,
-            ext2_off_t *ret_pos);
-
-
 static void
 fix_perms(const struct ext2_inode *inode, int fd, const char *name);
 
-/* Name:	get_file()
+/* Name:    get_file()
  *
  * Description:
  *
@@ -104,7 +90,7 @@ get_file(ext2_filsys fs, ext2_ino_t root, ext2_ino_t cwd,
   ext2_ino_t src;
   int dest;
   int retval;
-  
+
   if (fs == NULL || infile == NULL)
     {
       fputs("Invalid input parameter.  Exiting get_file() with -1\n",
@@ -156,10 +142,10 @@ get_file(ext2_filsys fs, ext2_ino_t root, ext2_ino_t cwd,
     close(dest);
   return(0);
 
-} /* end of get_file */ 
+} /* end of get_file */
 
 
-/* Name:	retrieve_data()
+/* Name:    retrieve_data()
  *
  * Description:
  *
@@ -208,9 +194,9 @@ retrieve_data(ext2_filsys fs, ext2_ino_t src, int dest_fd,
               ext2_off_t *ret_pos)
 {
   struct ext2_inode inode;
-  ext2_file_t infile;    
+  ext2_file_t infile;
   int retval;
-    
+
   if (keep && (retval = ext2fs_read_inode(fs, src, &inode)))
     {
       fputs(error_message(retval), stderr);
@@ -229,21 +215,21 @@ retrieve_data(ext2_filsys fs, ext2_ino_t src, int dest_fd,
         fputs(error_message(retval), stderr);
       return(-1);
     }
-  
+
   if ((retval = ext2fs_file_close(infile)))
     {
       fputs(error_message(retval), stderr);
       return retval;
     }
-        
+
   if (keep)
     fix_perms(&inode, dest_fd, dest_name);
 
   return(0);
-    
-} /* end of retrieve_data */ 
 
-/* Name:	read_to_eof()
+} /* end of retrieve_data */
+
+/* Name:    read_to_eof()
  *
  * Description:
  *
@@ -292,7 +278,7 @@ read_to_eof(ext2_file_t infile, int UNUSED_PARM(dest_fd), ext2_off_t offset,
       fputs(error_message(retval), stderr);
       return retval;
     }
-  
+
   /* read all that we can and dump it to the output file descriptor */
   while (1)
     {
@@ -322,8 +308,8 @@ read_to_eof(ext2_file_t infile, int UNUSED_PARM(dest_fd), ext2_off_t offset,
     }
 
   return(0);
-  
-} /* end of read_to_eof */ 
+
+} /* end of read_to_eof */
 
 /* blatantly copied from code written by T Ts'o w/ minor changes */
 static void
@@ -357,7 +343,7 @@ fix_perms(const struct ext2_inode *inode, int fd, const char *name)
   ut.modtime = inode->i_mtime;
   if (utime(name, &ut) == -1)
     perror(name);
-    
+
 }
 
 

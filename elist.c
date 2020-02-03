@@ -7,10 +7,6 @@
  *
  */
 
-#ifndef ELIST_C
-#define ELIST_C
-#endif
-
 /* Description */
 /*
  *
@@ -52,7 +48,7 @@ elist_t *
 elist_new()
 {
   elist_t *list;
-  
+
   list = (elist_t *) calloc(sizeof(elist_t), 1);
   return list;
 }
@@ -99,7 +95,7 @@ elist_append(elist_t *l, void *data)
     return(NULL);
 
   n->data = data;
-  
+
   if (l)
     {
       t = l;
@@ -109,7 +105,7 @@ elist_append(elist_t *l, void *data)
     }
   else
     l = n;
-  
+
   return(l);
 }
 
@@ -141,7 +137,7 @@ void elist_sort(elist_t *l, int (*sort_func)(const void *, const void *), int re
   elist_t *tl;
   void **data;
   void **dptr;
-  
+
   if (l != NULL && sort_func != NULL)
     {
       /* count the number of nodes */
@@ -193,5 +189,5 @@ void elist_sort(elist_t *l, int (*sort_func)(const void *, const void *), int re
     }
 }
 
-          
+
 
