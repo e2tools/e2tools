@@ -263,6 +263,7 @@ Usage:
     -n  Like -l, but list numeric user and group IDs
     -r  Reverse the sort order
     -t  Sort by time
+    -Z  Show SELinux label
 
 Note: Files deleted via `e2rm` sometimes will show up even without the `-D`
 option.  It is being investigated.

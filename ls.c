@@ -62,6 +62,7 @@
 #define CREATE_OPT  0x0020
 #define INODE_OPT   0x0040
 #define NUMERIC_OPT 0x0080
+#define SELINUX_OPT 0x0100
 
 #define DIRECTORY_TYPE -1
 #define NORMAL_TYPE 0
@@ -348,7 +349,7 @@ do_list_dir(int argc, char *argv[])
 #ifdef HAVE_OPTRESET
   optreset = 1;     /* Makes BSD getopt happy */
 #endif
-  while ((c = getopt (argc, argv, "acDd:filnrt")) != EOF)
+  while ((c = getopt (argc, argv, "acDd:filnrtZ")) != EOF)
     {
       switch (c)
         {
@@ -391,12 +392,15 @@ do_list_dir(int argc, char *argv[])
           file_sort = inode_sort;
           ls.options |= INODE_OPT;
           break;
+        case 'Z':
+          ls.options |= SELINUX_OPT;
+          break;
         }
     }
 
   if (argc <= optind)
     {
-      fputs("Usage: e2ls [-acDfilnrt][-d dir] file\n", stderr);
+      fputs("Usage: e2ls [-acDfilnrtZ][-d dir] file\n", stderr);
       return(1);
     }
 
@@ -715,9 +719,37 @@ void long_disp(ls_file_t *info, int UNUSED_PARM(*col), int options)
     printf("%7d", info->inode.i_size);
   else
     printf("%7" PRIu64, (uint64_t)(info->inode.i_size |
-                  ((__u64)info->inode.i_size_high << 32)));
-  printf(" %s %s\n", datestr, info->name);
-
+                                   ((__u64)info->inode.i_size_high << 32)));
+  printf(" %s %s", datestr, info->name);
+  if (options & SELINUX_OPT)
+    {
+      struct ext2_xattr_handle *handle;
+      char *val;
+      size_t value_len = 0;
+      ext2fs_xattrs_open(fs, info->inode_num, &handle);
+      if (handle)
+        {
+           ext2fs_xattrs_read(handle);
+           ext2fs_xattr_get(handle, "security.selinux", (void**)&val, &value_len);
+           int i;
+           int l = 16 - strlen(info->name);
+           for (i = 0; i < l; i++)
+             {
+               printf(" ");
+             }
+           if (value_len)
+             {
+               printf(" %s ", val);
+               free(val);
+             }
+           else
+             printf(" - ");
+           ext2fs_xattrs_close(&handle);
+        }
+      else
+        printf(" - ");
+    }
+  printf("\n");
 } /* end of long_disp */
 
 
