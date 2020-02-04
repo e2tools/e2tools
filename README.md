@@ -1,6 +1,8 @@
 About e2tools
 =============
 
+[![master branch build status](https://api.travis-ci.org/e2tools/e2tools.svg?branch=master)](https://travis-ci.org/e2tools/e2tools)
+
 e2tools is a simple set of GPL'ed utilities to read, write, and
 manipulate files in an ext2/ext3 filesystem.  These utilities access a
 filesystem directly using the ext2fs library.  I wrote these tools in order
