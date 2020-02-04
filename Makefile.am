@@ -7,6 +7,8 @@ e2tools_CFLAGS =
 e2tools_CPPFLAGS =
 e2tools_LDADD =
 
+# e2tools_CFLAGS   += -save-temps=obj
+
 e2tools_CPPFLAGS += $(EXT2FS_CFLAGS)
 e2tools_LDADD    += $(EXT2FS_LIBS)
 
@@ -69,6 +71,9 @@ install-exec-hook:
 
 uninstall-hook:
 	-cd $(DESTDIR)$(bindir) && rm -f $(e2tools_symlinks)
+
+clean-local:
+	-rm -f *.i *.s
 
 test:
 	@echo "no tests yet"

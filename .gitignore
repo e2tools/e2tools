@@ -1,6 +1,8 @@
 # Ignore these in any subdirectory
 *~
+*.i
 *.o
+*.s
 Makefile
 Makefile.in
 .deps/
