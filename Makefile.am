@@ -33,26 +33,42 @@ EXTRA_DIST =
 EXTRA_DIST += README.md
 EXTRA_DIST += TODO
 
-dist_man_MANS = e2tools.7
-dist_man_MANS += e2cp.1 e2ln.1 e2ls.1 e2mkdir.1 e2mv.1 e2rm.1 e2tail.1
+e2tools_symlinks =
 
+dist_man_MANS = e2tools.7
+
+dist_man_MANS    += e2cp.1
+e2tools_symlinks += e2cp
+
+dist_man_MANS    += e2ln.1
+e2tools_symlinks += e2ln
+
+dist_man_MANS    += e2ls.1
+e2tools_symlinks += e2ls
+
+dist_man_MANS    += e2mkdir.1
+e2tools_symlinks += e2mkdir
+
+dist_man_MANS    += e2mv.1
+e2tools_symlinks += e2mv
+
+dist_man_MANS    += e2rm.1
+e2tools_symlinks += e2rm
+
+dist_man_MANS    += e2tail.1
+e2tools_symlinks += e2tail
+
+
+# This avoids relying on ln having a -f parameter.
 install-exec-hook:
-	$(LN_S) -f e2tools $(DESTDIR)$(bindir)/e2cp
-	$(LN_S) -f e2tools $(DESTDIR)$(bindir)/e2ln
-	$(LN_S) -f e2tools $(DESTDIR)$(bindir)/e2ls
-	$(LN_S) -f e2tools $(DESTDIR)$(bindir)/e2mkdir
-	$(LN_S) -f e2tools $(DESTDIR)$(bindir)/e2mv
-	$(LN_S) -f e2tools $(DESTDIR)$(bindir)/e2rm
-	$(LN_S) -f e2tools $(DESTDIR)$(bindir)/e2tail
+	cd $(DESTDIR)$(bindir) && \
+	for symlink in $(e2tools_symlinks); do \
+		rm -f "$${symlink}"; \
+		$(LN_S) e2tools "$${symlink}" || exit 1; \
+	done
 
 uninstall-hook:
-	$(RM) -f $(DESTDIR)$(bindir)/e2cp
-	$(RM) -f $(DESTDIR)$(bindir)/e2ln
-	$(RM) -f $(DESTDIR)$(bindir)/e2ls
-	$(RM) -f $(DESTDIR)$(bindir)/e2mkdir
-	$(RM) -f $(DESTDIR)$(bindir)/e2mv
-	$(RM) -f $(DESTDIR)$(bindir)/e2rm
-	$(RM) -f $(DESTDIR)$(bindir)/e2tail
+	-cd $(DESTDIR)$(bindir) && rm -f $(e2tools_symlinks)
 
 test:
 	@echo "no tests yet"
