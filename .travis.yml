@@ -13,7 +13,7 @@ before_script:
 script:
     - mkdir _b && cd _b
     - ../configure --prefix=$PWD/../_i
-    - : cat config.h
+    - true cat config.h
     - make all check install installcheck
     - ls -lR
     - cd ..
