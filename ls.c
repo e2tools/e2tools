@@ -349,7 +349,11 @@ do_list_dir(int argc, char *argv[])
 #ifdef HAVE_OPTRESET
   optreset = 1;     /* Makes BSD getopt happy */
 #endif
+#ifdef HAVE_EXT2FS_XATTRS
   while ((c = getopt (argc, argv, "acDd:filnrtZ")) != EOF)
+#else
+  while ((c = getopt (argc, argv, "acDd:filnrt")) != EOF)
+#endif
     {
       switch (c)
         {
@@ -392,15 +396,21 @@ do_list_dir(int argc, char *argv[])
           file_sort = inode_sort;
           ls.options |= INODE_OPT;
           break;
+#ifdef HAVE_EXT2FS_XATTRS
         case 'Z':
           ls.options |= SELINUX_OPT;
           break;
+#endif
         }
     }
 
   if (argc <= optind)
     {
+#ifdef HAVE_EXT2FS_XATTRS
       fputs("Usage: e2ls [-acDfilnrtZ][-d dir] file\n", stderr);
+#else
+      fputs("Usage: e2ls [-acDfilnrt][-d dir] file\n", stderr);
+#endif
       return(1);
     }
 
@@ -721,6 +731,7 @@ void long_disp(ls_file_t *info, int UNUSED_PARM(*col), int options)
     printf("%7" PRIu64, (uint64_t)(info->inode.i_size |
                                    ((__u64)info->inode.i_size_high << 32)));
   printf(" %s %s", datestr, info->name);
+#ifdef HAVE_EXT2FS_XATTRS
   if (options & SELINUX_OPT)
     {
       struct ext2_xattr_handle *handle;
@@ -749,6 +760,7 @@ void long_disp(ls_file_t *info, int UNUSED_PARM(*col), int options)
       else
         printf(" - ");
     }
+#endif
   printf("\n");
 } /* end of long_disp */
 

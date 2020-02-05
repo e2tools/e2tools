@@ -27,6 +27,7 @@ AC_PROG_CC
 gl_EARLY
 AC_PROG_INSTALL
 AC_PROG_LN_S
+AC_PROG_SED
 AC_PROG_MAKE_SET
 
 dnl Checks for libraries.
@@ -35,6 +36,25 @@ PKG_CHECK_MODULES([EXT2FS], [ext2fs >= 1.27], [], [
     AC_MSG_ERROR([Sorry, but we do require libext2fs (part of e2fsprogs).])])
 PKG_CHECK_MODULES([COM_ERR], [com_err], [], [
     AC_MSG_ERROR([Sorry, but we do require libcom_err (part of e2fsprogs).])])
+
+orig_CFLAGS="$CFLAGS"
+orig_LIBS="$LIBS"
+CFLAGS="$CFLAGS $EXT2FS_CFLAGS"
+LIBS="$LIBS $EXT2FS_LIBS"
+
+AC_CHECK_LIB([ext2fs], [ext2fs_xattrs_read], [dnl
+have_ext2fs_xattrs=yes
+], [dnl
+have_ext2fs_xattrs=no
+])
+
+CFLAGS="$orig_CFLAGS"
+LIBS="$orig_LIBS"
+
+AM_CONDITIONAL([HAVE_EXT2FS_XATTRS], [test "x$have_ext2fs_xattrs" = "xyes"])
+AM_COND_IF([HAVE_EXT2FS_XATTRS], [dnl
+AC_DEFINE([HAVE_EXT2FS_XATTRS], [1], [Defined if libext2fs implements ext2fs_xattrs_read])
+])
 
 dnl Checks for header files.
 AC_HEADER_STDC

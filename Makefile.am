@@ -1,6 +1,10 @@
 SUBDIRS = lib .
 ACLOCAL_AMFLAGS = -I m4
 
+CLEANFILES =
+EXTRA_DIST =
+SUFFIXES =
+
 bin_PROGRAMS = e2tools
 
 e2tools_CFLAGS =
@@ -31,13 +35,20 @@ e2tools_SOURCES = \
 	write.c write.h
 e2tools_SOURCES += compiler-definitions.h
 
-EXTRA_DIST =
 EXTRA_DIST += README.md
 EXTRA_DIST += TODO
 
 e2tools_symlinks =
+man_MANS =
 
 dist_man_MANS = e2tools.7
+
+if HAVE_EXT2FS_XATTRS
+# EXTRA_DIST       += e2chcon.1in
+# CLEANFILES       += e2chcon.1
+# man_MANS         += e2chcon.1
+# e2tools_symlinks += e2chcon
+endif
 
 dist_man_MANS    += e2cp.1
 e2tools_symlinks += e2cp
@@ -45,7 +56,9 @@ e2tools_symlinks += e2cp
 dist_man_MANS    += e2ln.1
 e2tools_symlinks += e2ln
 
-dist_man_MANS    += e2ls.1
+EXTRA_DIST       += e2ls.1in
+CLEANFILES       += e2ls.1
+man_MANS         += e2ls.1
 e2tools_symlinks += e2ls
 
 dist_man_MANS    += e2mkdir.1
@@ -60,6 +73,9 @@ e2tools_symlinks += e2rm
 dist_man_MANS    += e2tail.1
 e2tools_symlinks += e2tail
 
+SUFFIXES += .1in .1
+.1in.1:
+	$(SED) -e 's|[@]HAVE_EXT2FS_XATTRS_FALSE@|.\\" |g' < $< > $@
 
 # This avoids relying on ln having a -f parameter.
 install-exec-hook:

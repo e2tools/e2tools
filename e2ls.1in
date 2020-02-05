@@ -45,9 +45,9 @@ Reverse the sort order.
 .TP
 .B \-t
 Sort by time.
-.TP
-.B \-Z
-List SELinux label from extended attributes.
+@HAVE_EXT2FS_XATTRS_FALSE@.TP
+@HAVE_EXT2FS_XATTRS_FALSE@.B \-Z
+@HAVE_EXT2FS_XATTRS_FALSE@List SELinux label from extended attributes.
 .\"
 .SH SEE ALSO
 .BR e2tools (7),
