@@ -2,7 +2,7 @@
 #define E2TOOLS_COMPILER_DEFINITIONS_H
 
 
-#include "config.h"
+#include "e2tools-autoconfig.h"
 
 
 /** Size of struct member

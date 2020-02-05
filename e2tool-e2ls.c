@@ -47,7 +47,7 @@
 #include <pwd.h>
 #include <grp.h>
 
-#include "config.h"
+#include "e2tools-autoconfig.h"
 
 #include "e2tools.h"
 #include "elist.h"

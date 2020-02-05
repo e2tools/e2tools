@@ -19,6 +19,8 @@ Makefile.in
 /build-aux/test-driver
 /config.h
 /config.h.in
+/e2tools-autoconfig.h
+/e2tools-autoconfig.h.in
 /config.log
 /config.status
 /configure

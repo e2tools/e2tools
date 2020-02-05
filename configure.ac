@@ -6,7 +6,7 @@ AC_INIT([e2tools],
         [e2tools],
         [https://e2tools.github.io/])
 AC_CONFIG_AUX_DIR([build-aux])
-AC_CONFIG_HEADER([config.h])
+AC_CONFIG_HEADER([e2tools-autoconfig.h])
 AC_CONFIG_SRCDIR([e2tools.c])
 AC_CONFIG_MACRO_DIR([m4])
 AM_INIT_AUTOMAKE([
