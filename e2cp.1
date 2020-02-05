@@ -1,4 +1,4 @@
-.TH E2CP 1 "March 2, 2005"
+.TH E2CP 1 "2020\-02\-05" "Linux" "User commands"
 .\"
 .SH NAME
 e2cp \- copies files from/to an e2fs filesystem
@@ -19,7 +19,7 @@ input/output.
 Input lines terminated by a null character.
 .TP
 .B \-a
-Absolute directory names - create directories instead of just copying
+Absolute directory names \- create directories instead of just copying
 into the destination. Only valid for copying into an ext2fs filesystem.
 .TP
 .B \-d \fIdest_dir\fP
@@ -44,6 +44,46 @@ The source of the files to be copied.
 .TP
 .B \-v
 Be verbose.
+.\"
+.SH EXAMPLES
+.PP
+Copy a file and use the default permission and ownership of the current user:
+
+    e2cp README.txt /tmp/boot.img:/tmp
+.\"
+.PP
+Do the same thing, but keep permissions & ownership:
+
+    e2cp \-p README.txt /tmp/boot.img:/tmp
+.\"
+.PP
+Dump a file to standard out:
+
+    e2cp /tmp/boot.img:/tmp/README.txt \- | wc
+.\"
+.PP
+Get a file from standard input and put it on an unmounted partition:
+
+    tar cf \- /data/logs|gzip| e2cp \- /dev/hdb1:/backup/logs.tar.gz
+.\"
+.PP
+Copy the files from one directory and put them under another directory on
+an unmounted partition, keeping the original paths, permissions & ownership:
+
+    find /data \-type f |tee filelist | e2cp \-apv \-d /dev/hdb1:/mirror
+.\"
+.PP
+Copy files from a directory on an unmounted partition to a local directory
+(Note: this does not recreate the directories in the local filesystem,
+yet).  The list of files are read from standard input:
+
+    e2cp \-pv \-s /dev/hdb1:/mirror \-d /data2 < filelist
+.\"
+.PP
+Copy a file to a file system and make the group and ownership root
+
+    e2cp \-G 0 \-O 0 myfile /tmp/boot.img/boot/rootfile
+.\"
 .\"
 .SH SEE ALSO
 .BR e2tools (7),

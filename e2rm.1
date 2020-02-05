@@ -1,4 +1,4 @@
-.TH E2RM 1 "March 2, 2005"
+.TH E2RM 1 "2020\-02\-05" "Linux" "User commands"
 .\"
 .SH NAME
 e2rm \- removes files and directories on an ext2 filesystem
@@ -17,6 +17,19 @@ Recursively delete files if a directory name is given.
 .TP
 .B \-v
 Be verbose.
+.SS Note
+This program expects to have a full ext2 file specification for each
+argument.
+.\"
+.SH EXAMPLES
+.PP
+Remove a file
+
+    e2rm \-v boot.img:/boot/grub/grub.c1 /boot/grub/grub.c2
+.PP
+Remove a directory and all the files
+
+    e2rm \-r boot.img:/boot/grub
 .\"
 .SH SEE ALSO
 .BR e2tools (7),

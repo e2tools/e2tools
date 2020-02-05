@@ -1,4 +1,4 @@
-.TH E2MKDIR 1 "March 2, 2005"
+.TH E2MKDIR 1 "2020\-02\-05" "Linux" "User commands"
 .\"
 .SH NAME
 e2mkdir \- creates a directory on an ext2 filesystem
@@ -24,6 +24,20 @@ Set the file permissions (ie 755, 666).
 .TP
 .B \-v
 Be verbose.
+.SS Note
+This program expects to have a full ext2 file specification for each
+argument.
+.\"
+.SH EXAMPLES
+.PP
+This creates the directory `/boot/grub` with on `boot.img` with the current
+user and group ids:
+
+    e2mkdir boot.img:/boot/grub
+.PP
+To override the default ownership and permissions:
+
+    e2mkdir \-O 100 \-P 700 /dev/hdb1:/data/backup
 .\"
 .SH SEE ALSO
 .BR e2tools (7),

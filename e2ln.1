@@ -1,4 +1,4 @@
-.TH E2LN 1 "March 2, 2005"
+.TH E2LN 1 "2020\-02\-05" "Linux" "User commands"
 .\"
 .SH NAME
 e2ln \- create hard links on an ext2 filesystem
@@ -22,6 +22,14 @@ Create a symlink.
 Be verbose.
 .PP
 Note: creating symlinks is not operational at this time.
+.\"
+.SH EXAMPLES
+.PP
+This will remove `/data/process_status` if it exists and isn't already a hard
+link to `/data/info/status`.
+
+    e2ln \-vf /dev/hdb1:/data/info/status /data/process_status
+
 .\"
 .SH SEE ALSO
 .BR e2tools (7),

@@ -1,4 +1,4 @@
-.TH E2TAIL 1 "March 2, 2005"
+.TH E2TAIL 1 "2020\-02\-05" "Linux" "User commands"
 .\"
 .SH NAME
 e2tail \- a basic version of the tail command for an ext2 filesystem
@@ -8,7 +8,7 @@ e2tail \- a basic version of the tail command for an ext2 filesystem
 .RI [ options ] " file"
 .\"
 .SH DESCRIPTION
-The \fBe2tail\fP command implements a basic version of the tail command.
+The \fBe2tail(1)\fP command implements a basic version of the \fBtail(1)\fR command.
 .\"
 .SH OPTIONS
 .TP
@@ -29,6 +29,12 @@ for monitoring 'honeypot' type machines.
 .B \-s \fIsleep_interval\fP
 The number of seconds to sleep before checking if the file has grown while
 in 'follow' mode.  The default is 1.
+.\"
+.SH EXAMPLES
+.PP
+Check `/var/log/messages` on `/dev/sdc1` every 10 seconds
+
+    e2tail \-s 10 \-F /dev/sdc1:/var/log/messages
 .\"
 .SH SEE ALSO
 .BR e2tools (7),

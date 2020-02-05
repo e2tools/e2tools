@@ -1,4 +1,4 @@
-.TH E2MV 1 "March 2, 2005"
+.TH E2MV 1 "2020\-02\-05" "Linux" "User commands"
 .\"
 .SH NAME
 e2mv \- moves or renames files on an ext2fs filesystem
@@ -22,6 +22,33 @@ Swap names of the two files.
 .TP
 .B \-v
 Be verbose.
+.\"
+.SH EXAMPLES
+.PP
+Rename a file:
+
+    e2cp \-v /tmp/boot.img:/boot/grub/grub.conf /boot/grub/grub.conf.old
+.\"
+.PP
+If `/boot/grub/grub.conf.old` already exists and is not a directory, this
+will fail.  Use `\-f` to force removal.
+.PP
+Move a file to a different directory (`/data/processed`):
+
+    e2cp \-v /dev/hdb1:/data/input0.txt /data/processed
+.\"
+.PP
+To swap the names of two files:
+
+    e2cp \-vs /tmp/boot.img:/boot/grub/grub.conf /boot/grub/grub.conf.bk
+.\"
+.PP
+To swap two files and use a new name for the first one:
+
+    e2cp \-vs boot.img:/boot/grub/grub.conf /boot/grub/grub.c2 /boot/grub/grub.c1
+
+    `/boot/grub/grub.conf` is now `/boot/grub/grub.c1` and
+    `/boot/grub/grub.c2`   is now `/boot/grub/grub.conf`
 .\"
 .SH SEE ALSO
 .BR e2tools (7),
