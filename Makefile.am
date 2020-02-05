@@ -77,7 +77,12 @@ SUFFIXES += .1in .1
 .1in.1:
 	$(SED) -e 's|[@]HAVE_EXT2FS_XATTRS_FALSE@|.\\" |g' < $< > $@
 
-# This avoids relying on ln having a -f parameter.
+all-local: e2tools$(EXEEXT)
+	for symlink in $(e2tools_symlinks); do \
+		rm -f "$${symlink}"; \
+		$(LN_S) e2tools "$${symlink}" || exit 1; \
+	done
+
 install-exec-hook:
 	cd $(DESTDIR)$(bindir) && \
 	for symlink in $(e2tools_symlinks); do \
