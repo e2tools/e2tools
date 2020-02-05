@@ -35,6 +35,7 @@ e2tools_SOURCES = \
 	write.c write.h
 e2tools_SOURCES += compiler-definitions.h
 
+EXTRA_DIST += DEVELOPMENT.md
 EXTRA_DIST += README.md
 EXTRA_DIST += TODO
 
