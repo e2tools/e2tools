@@ -37,6 +37,7 @@
 /* Headers */
 
 #include "e2tools.h"
+#include "e2tools-toolmap.h"
 
 void
 usage()
@@ -44,12 +45,9 @@ usage()
     fprintf(stderr, "Usage: e2tools <command> [OPTION...]\n");
     fprintf(stderr, "\n");
     fprintf(stderr, " Commands:\n");
-    fprintf(stderr, "  e2cp\n");
-    fprintf(stderr, "  e2mkdir\n");
-    fprintf(stderr, "  e2ln\n");
-    fprintf(stderr, "  e2mv\n");
-    fprintf(stderr, "  e2rm\n");
-    fprintf(stderr, "  e2tail\n");
+    for (unsigned int i=0; toolmap[i].name; ++i) {
+        fprintf(stderr, "  %s\n", toolmap[i].name);
+    }
 }
 
 int
@@ -76,20 +74,13 @@ main(int argc, char *argv[])
 
   initialize_ext2_error_table();
 
-  if (strcmp(ptr, "e2ls") == 0)
-    return main_e2ls(argc, argv);
-  else if (strcmp(ptr, "e2cp") == 0)
-    return main_e2cp(argc, argv);
-  else if (strcmp(ptr, "e2mkdir") == 0)
-    return main_e2mkdir(argc, argv);
-  else if (strcmp(ptr, "e2ln") == 0)
-    return main_e2ln(argc, argv);
-  else if (strcmp(ptr, "e2mv") == 0)
-    return main_e2mv(argc, argv);
-  else if (strcmp(ptr, "e2rm") == 0)
-    return main_e2rm(argc, argv);
-  else if (strcmp(ptr, "e2tail") == 0)
-    return main_e2tail(argc, argv);
+  for (unsigned int i=0; toolmap[i].name; ++i)
+    {
+      if (strcmp(ptr, toolmap[i].name) == 0)
+	{
+          exit(toolmap[i].main_func(argc, argv));
+	}
+    }
 
   fprintf(stderr, "e2tools command not implemented\n");
   return 1;
