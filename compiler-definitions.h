@@ -1,6 +1,10 @@
 #ifndef E2TOOLS_COMPILER_DEFINITIONS_H
 #define E2TOOLS_COMPILER_DEFINITIONS_H
 
+
+#include "config.h"
+
+
 /** Size of struct member
  *
  * Cf. http://stackoverflow.com/a/2129531/182675
@@ -59,7 +63,7 @@
 #define BARE_COMPILE_TIME_ASSERT(CONDITION)               \
   static						  \
   void MAKE_BARE_COMPILE_TIME_ASSERT_NAME(void)		  \
-    __attribute__(( naked ))				  \
+    FUNCTION_ATTRIBUTE_NAKED_IF_POSSIBLE		  \
     __attribute__(( used ));				  \
   static						  \
   void MAKE_BARE_COMPILE_TIME_ASSERT_NAME(void)           \

@@ -37,24 +37,6 @@ PKG_CHECK_MODULES([EXT2FS], [ext2fs >= 1.27], [], [
 PKG_CHECK_MODULES([COM_ERR], [com_err], [], [
     AC_MSG_ERROR([Sorry, but we do require libcom_err (part of e2fsprogs).])])
 
-orig_CFLAGS="$CFLAGS"
-orig_LIBS="$LIBS"
-CFLAGS="$CFLAGS $EXT2FS_CFLAGS"
-LIBS="$LIBS $EXT2FS_LIBS"
-
-AC_CHECK_LIB([ext2fs], [ext2fs_xattrs_read], [dnl
-have_ext2fs_xattrs=yes
-], [dnl
-have_ext2fs_xattrs=no
-])
-
-CFLAGS="$orig_CFLAGS"
-LIBS="$orig_LIBS"
-
-AM_CONDITIONAL([HAVE_EXT2FS_XATTRS], [test "x$have_ext2fs_xattrs" = "xyes"])
-AM_COND_IF([HAVE_EXT2FS_XATTRS], [dnl
-AC_DEFINE([HAVE_EXT2FS_XATTRS], [1], [Defined if libext2fs implements ext2fs_xattrs_read])
-])
 
 dnl Checks for header files.
 AC_HEADER_STDC
@@ -79,6 +61,61 @@ dnl Checks for library functions.
 AC_FUNC_ALLOCA
 AC_FUNC_UTIME_NULL
 AC_CHECK_FUNCS(gettimeofday regcomp strdup strtol)
+
+
+dnl ====================================================================
+dnl Check whether libext2fs implements ext2fs_xattrs_read() function
+dnl ====================================================================
+orig_CFLAGS="$CFLAGS"
+orig_LIBS="$LIBS"
+CFLAGS="$CFLAGS $EXT2FS_CFLAGS"
+LIBS="$LIBS $EXT2FS_LIBS"
+
+AC_CHECK_LIB([ext2fs], [ext2fs_xattrs_read], [dnl
+have_ext2fs_xattrs=yes
+], [dnl
+have_ext2fs_xattrs=no
+])
+
+CFLAGS="$orig_CFLAGS"
+LIBS="$orig_LIBS"
+
+AM_CONDITIONAL([HAVE_EXT2FS_XATTRS], [test "x$have_ext2fs_xattrs" = "xyes"])
+AM_COND_IF([HAVE_EXT2FS_XATTRS], [dnl
+AC_DEFINE([HAVE_EXT2FS_XATTRS], [1], [Defined if libext2fs implements ext2fs_xattrs_read])
+])
+
+
+dnl ====================================================================
+dnl Check whether we can compile a function with __attribute__((naked))
+dnl ====================================================================
+
+AC_MSG_CHECKING([whether __attribute__((naked)) is available])
+AC_COMPILE_IFELSE([AC_LANG_SOURCE([[
+static void test_function(void)
+  __attribute__(( naked ))
+  __attribute__(( used ));
+static void test_function(void)
+{
+  switch (0) {
+  case 0:
+    break;
+  }
+}
+]])], [dnl
+AC_MSG_RESULT([yes])
+AC_DEFINE([FUNCTION_ATTRIBUTE_NAKED_IF_POSSIBLE], [__attribute__((naked))],
+          [defined properly when compiling with naked attribute works])
+], [dnl
+AC_MSG_RESULT([no])
+AC_DEFINE([FUNCTION_ATTRIBUTE_NAKED_IF_POSSIBLE], [],
+          [defined empty when compiling with naked attribute fails])
+])
+
+
+dnl ====================================================================
+dnl The end of configure.ac is approaching fast.
+dnl ====================================================================
 
 CFLAGS="$CFLAGS -Wall"
 
