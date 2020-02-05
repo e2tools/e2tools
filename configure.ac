@@ -13,7 +13,6 @@ AM_INIT_AUTOMAKE([
 -Wall
 -Werror
 1.9.6
-dist-bzip2
 foreign
 ])
 
