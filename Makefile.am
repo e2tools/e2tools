@@ -157,7 +157,3 @@ uninstall-hook:
 clean-local:
 	-rm -f *.i *.s
 	-rm -f $(e2tools_list)
-
-.PHONY: test
-test: check
-	@echo "Warning: Better use the 'check' target, not 'test'."
