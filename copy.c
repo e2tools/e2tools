@@ -137,7 +137,7 @@ cp_to_ext2fs(ext2_filsys fs, ext2_ino_t cwd, char *in_file, char *out_file,
              struct stat *statbuf, int keep, struct stat *def_stat);
 
 
-/* Name:    copy()
+/* Name:    main_e2cp()
  *
  * Description:
  *
@@ -223,8 +223,8 @@ cp_to_ext2fs(ext2_filsys fs, ext2_ino_t cwd, char *in_file, char *out_file,
  *
  * 03/06/02      K. Sheffield       Copying hard links to ext2fs correctly
  */
-long
-copy(int argc, char *argv[])
+int
+main_e2cp(int argc, char *argv[])
 {
   ext2_filsys fs = NULL;
   ext2_ino_t root;

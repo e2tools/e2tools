@@ -30,7 +30,7 @@
 static long
 do_swap(int force, int verbose, int curidx, int argc, char **argv);
 
-/* Name:    do_mv()
+/* Name:    main_e2mv()
  *
  * Description:
  *
@@ -73,8 +73,8 @@ do_swap(int force, int verbose, int curidx, int argc, char **argv);
  *
  * MM/DD/YY      Name               Description
  */
-long
-do_mv(int argc, char *argv[])
+int
+main_e2mv(int argc, char *argv[])
 {
   int verbose=0;
   int force=0;

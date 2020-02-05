@@ -72,7 +72,7 @@ tail(ext2_filsys *fs, ext2_ino_t root, char *input, int num_lines,
      int follow, int sleep_int, char *cur_filesys);
 
 
-/* Name:    do_tail()
+/* Name:    main_e2tail()
  *
  * Description:
  *
@@ -110,8 +110,8 @@ tail(ext2_filsys *fs, ext2_ino_t root, char *input, int num_lines,
  * MM/DD/YY      Name               Description
  * 07/12/03      K.Sheffield        fixed a bug when no arguments are given.
  */
-long
-do_tail(int argc, char *argv[])
+int
+main_e2tail(int argc, char *argv[])
 {
   /* UNUSED int verbose=0; */
   int follow=0;

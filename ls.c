@@ -320,8 +320,8 @@ void free_ls_file_t(void *f)
  *                                  out REGEX_OPT.
  */
 
-long
-do_list_dir(int argc, char *argv[])
+int
+main_e2ls(int argc, char *argv[])
 {
   ext2_ino_t root;
   ext2_ino_t cwd;

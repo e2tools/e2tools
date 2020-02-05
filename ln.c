@@ -35,7 +35,7 @@
 /* Macros */
 #define USAGE "Usage: e2ln [-vfs] source destination\n"
 
-/* Name:    do_ln()
+/* Name:    main_e2ln()
  *
  * Description:
  *
@@ -78,8 +78,8 @@
  * 03/06/02      K. Sheffield       Modified to perform file moves
  * 03/20/02      K. Sheffield       Moved the mv operation to a separate file
  */
-long
-do_ln(int argc, char *argv[])
+int
+main_e2ln(int argc, char *argv[])
 {
   int verbose=0;
   int force=0;

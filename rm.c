@@ -58,7 +58,7 @@ static int
 rm_regex_proc(ext2_ino_t dir, int entry, struct ext2_dir_entry *dirent,
               int offset, int blocksize, char *buf, void *private);
 
-/* Name:    e2rm()
+/* Name:    main_e2rm()
  *
  * Description:
  *
@@ -95,8 +95,8 @@ rm_regex_proc(ext2_ino_t dir, int entry, struct ext2_dir_entry *dirent,
  * MM/DD/YY      Name               Description
  * 04/06/04      K.Sheffield        Corrected getopt and usage strings.
  */
-long
-e2rm(int argc, char *argv[])
+int
+main_e2rm(int argc, char *argv[])
 {
   int verbose=0;
   int errcnt=0;

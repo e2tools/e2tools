@@ -77,24 +77,20 @@ main(int argc, char *argv[])
   initialize_ext2_error_table();
 
   if (strcmp(ptr, "e2ls") == 0)
-    exit(do_list_dir(argc, argv));
+    return main_e2ls(argc, argv);
   else if (strcmp(ptr, "e2cp") == 0)
-    exit(copy(argc, argv));
+    return main_e2cp(argc, argv);
   else if (strcmp(ptr, "e2mkdir") == 0)
-    exit(e2mkdir(argc, argv));
+    return main_e2mkdir(argc, argv);
   else if (strcmp(ptr, "e2ln") == 0)
-    exit(do_ln(argc, argv));
+    return main_e2ln(argc, argv);
   else if (strcmp(ptr, "e2mv") == 0)
-    exit(do_mv(argc, argv));
+    return main_e2mv(argc, argv);
   else if (strcmp(ptr, "e2rm") == 0)
-    exit(e2rm(argc, argv));
+    return main_e2rm(argc, argv);
   else if (strcmp(ptr, "e2tail") == 0)
-    exit(do_tail(argc, argv));
-  else
-    {
-      fprintf(stderr, "Not implemented\n");
-      exit(1);
-    }
-  return(0);
-}
+    return main_e2tail(argc, argv);
 
+  fprintf(stderr, "Not implemented\n");
+  return 1;
+}

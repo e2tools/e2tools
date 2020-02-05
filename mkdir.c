@@ -53,7 +53,9 @@
 long
 create_subdir(ext2_filsys fs, ext2_ino_t root, ext2_ino_t *cwd,
               char *dirname, struct stat *def_stat);
-/* Name:    e2mkdir()
+
+
+/* Name:    main_e2mkdir()
  *
  * Description:
  *
@@ -93,8 +95,8 @@ create_subdir(ext2_filsys fs, ext2_ino_t root, ext2_ino_t *cwd,
  * 04/06/04      K.Sheffield        Modified to apply the default user and
  *                                  group.
  */
-long
-e2mkdir(int argc, char *argv[])
+int
+main_e2mkdir(int argc, char *argv[])
 {
   int verbose=0;
   int num_files;
