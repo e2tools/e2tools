@@ -4,6 +4,7 @@ ACLOCAL_AMFLAGS = -I m4
 CLEANFILES =
 EXTRA_DIST =
 SUFFIXES =
+TESTS =
 
 bin_PROGRAMS = e2tools
 
@@ -80,9 +81,22 @@ SED_IN_COMMANDS += -e 's|[@]HAVE_EXT2FS_XATTRS_FALSE@||g'
 else
 SED_IN_COMMANDS += -e 's|[@]HAVE_EXT2FS_XATTRS_FALSE@|.\\" |g'
 endif
+SED_IN_COMMANDS += -e 's|[@]top_builddir@|$(top_builddir)|g'
+SED_IN_COMMANDS += -e 's|[@]top_srcdir@|$(top_srcdir)|g'
+SED_IN_COMMANDS += -e 's|[@]DD@|$(DD)|g'
+SED_IN_COMMANDS += -e 's|[@]MKE2FS@|$(MKE2FS)|g'
+
 SUFFIXES += .1in .1
 .1in.1:
 	$(SED) $(SED_IN_COMMANDS) < $< > $@
+
+SUFFIXES += .shin .sh
+.shin.sh:
+	$(MKDIR_P) $(@D)
+	$(SED) $(SED_IN_COMMANDS) < $< > $@
+	$(CHMOD) +x $@
+
+include tests/Makefile-files
 
 all-local: e2tools$(EXEEXT)
 	for symlink in $(e2tools_symlinks); do \

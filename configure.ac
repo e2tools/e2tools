@@ -30,6 +30,15 @@ AC_PROG_LN_S
 AC_PROG_SED
 AC_PROG_MAKE_SET
 
+AC_ARG_VAR([CHMOD], [chmod command])
+AC_PATH_PROG([CHMOD], [chmod])
+
+AC_ARG_VAR([DD], [dd command])
+AC_PATH_PROG([DD], [dd])
+
+AC_ARG_VAR([MKE2FS], [mkfs.ext2 command])
+AC_PATH_PROG([MKE2FS], [mkfs.ext2])
+
 dnl Checks for libraries.
 gl_INIT
 PKG_CHECK_MODULES([EXT2FS], [ext2fs >= 1.27], [], [

@@ -1,0 +1,5 @@
+# -*- Makefile -*-
+
+EXTRA_DIST += %reldir%/simple-test.shin
+CLEANFILES += %reldir%/simple-test.sh
+TESTS      += %reldir%/simple-test.sh

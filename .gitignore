@@ -16,6 +16,7 @@ Makefile.in
 /build-aux/depcomp
 /build-aux/install-sh
 /build-aux/missing
+/build-aux/test-driver
 /config.h
 /config.h.in
 /config.log
