@@ -18,6 +18,7 @@ script:
     - ls -lR
     - cd ..
     - ls -lR _i
+    - make distcheck
 matrix:
   include:
     - os: linux
