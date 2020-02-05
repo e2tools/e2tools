@@ -383,7 +383,7 @@ main_e2ls(int argc, char *argv[])
             *path++ = '\0';
           if ((retval = open_filesystem(fs_name, &fs, &root, 0)))
             {
-              return(1);
+              return EXIT_FAILURE;
             }
           last_fs_name = fs_name;
           break;
@@ -415,7 +415,7 @@ main_e2ls(int argc, char *argv[])
 #else
       fputs("Usage: e2ls [-acDfilnrt][-d dir] file\n", stderr);
 #endif
-      return(1);
+      return EXIT_FAILURE;
     }
 
   if (ls.options & CREATE_OPT &&
@@ -457,7 +457,7 @@ main_e2ls(int argc, char *argv[])
 
           if ((retval = open_filesystem(fs_name, &fs, &root, 0)))
             {
-              return(1);
+              return EXIT_FAILURE;
             }
           last_fs_name = fs_name;
         }
@@ -471,7 +471,7 @@ main_e2ls(int argc, char *argv[])
           if (get_file_parts(fs, root, path, &cwd, &dir_name, &base_name))
             {
               ext2fs_close(fs);
-              return(-1);
+              return EXIT_FAILURE;
             }
 
           if (is_file_regexp(base_name))
@@ -481,7 +481,7 @@ main_e2ls(int argc, char *argv[])
                   fprintf(stderr,
                           "Error creating regular expression for %s\n",
                           base_name);
-                  return(1);
+                  return EXIT_FAILURE;
                 }
               ls.options |= REGEX_OPT;
               inode = cwd;
@@ -493,7 +493,7 @@ main_e2ls(int argc, char *argv[])
             {
               fputs(error_message(retval), stderr);
               ext2fs_close(fs);
-              return(1);
+              return EXIT_FAILURE;
             }
         }
       else
@@ -515,14 +515,14 @@ main_e2ls(int argc, char *argv[])
             {
               fputs(error_message(retval), stderr);
               ext2fs_close(fs);
-              return(1);
+              return EXIT_FAILURE;
             }
 
         if(add_ls_file(dir_name, 0, cwd, 0, 0, DIRECTORY_TYPE, &ls))
           {
             fputs(error_message(retval), stderr);
             ext2fs_close(fs);
-            return(1);
+            return EXIT_FAILURE;
           }
 
         if(add_ls_file(base_name, strlen(base_name), cwd, inode, 0,
@@ -530,7 +530,7 @@ main_e2ls(int argc, char *argv[])
           {
             fputs(error_message(retval), stderr);
             ext2fs_close(fs);
-            return(1);
+            return EXIT_FAILURE;
           }
         }
       else
@@ -546,7 +546,7 @@ main_e2ls(int argc, char *argv[])
             {
               fputs(error_message(retval), stderr);
               ext2fs_close(fs);
-              return(1);
+              return EXIT_FAILURE;
             }
 
           retval = ext2fs_dir_iterate2(fs, inode, flags, 0, list_dir_proc,
@@ -555,7 +555,7 @@ main_e2ls(int argc, char *argv[])
             {
               fputs(error_message(retval), stderr);
               ext2fs_close(fs);
-              return(1);
+              return EXIT_FAILURE;
             }
         }
     }
