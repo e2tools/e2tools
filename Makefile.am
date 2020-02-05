@@ -83,12 +83,23 @@ e2tools_SOURCES  += e2tool-e2tail.h
 dist_man_MANS    += e2tail.1
 e2tools_list     += e2tail
 
+SED_IN_MAN_COMMANDS =
 SED_IN_COMMANDS =
+
+HASHMARK = \#
+
 if HAVE_EXT2FS_XATTRS
-SED_IN_COMMANDS += -e 's|[@]HAVE_EXT2FS_XATTRS_FALSE@||g'
+SED_IN_MAN_COMMANDS += -e 's|[@]HAVE_EXT2FS_XATTRS_FALSE@||g'
+SED_IN_COMMANDS     += -e 's|[@]HAVE_EXT2FS_XATTRS_FALSE@||g'
+SED_IN_MAN_COMMANDS += -e 's|[@]HAVE_EXT2FS_XATTRS_TRUE@|.\\" |g'
+SED_IN_COMMANDS     += -e 's|[@]HAVE_EXT2FS_XATTRS_TRUE@|$(HASHMARK) |g'
 else
-SED_IN_COMMANDS += -e 's|[@]HAVE_EXT2FS_XATTRS_FALSE@|.\\" |g'
+SED_IN_MAN_COMMANDS += -e 's|[@]HAVE_EXT2FS_XATTRS_FALSE@|.\\" |g'
+SED_IN_COMMANDS     += -e 's|[@]HAVE_EXT2FS_XATTRS_FALSE@|$(HASHMARK) |g'
+SED_IN_MAN_COMMANDS += -e 's|[@]HAVE_EXT2FS_XATTRS_TRUE@||g'
+SED_IN_COMMANDS     += -e 's|[@]HAVE_EXT2FS_XATTRS_TRUE@||g'
 endif
+
 SED_IN_COMMANDS += -e 's|[@]top_builddir@|$(top_builddir)|g'
 SED_IN_COMMANDS += -e 's|[@]top_srcdir@|$(top_srcdir)|g'
 SED_IN_COMMANDS += -e 's|[@]DD@|$(DD)|g'
@@ -96,7 +107,7 @@ SED_IN_COMMANDS += -e 's|[@]MKE2FS@|$(MKE2FS)|g'
 
 SUFFIXES += .1in .1
 .1in.1:
-	$(SED) $(SED_IN_COMMANDS) < $< > $@
+	$(SED) $(SED_IN_MAN_COMMANDS) $(SED_IN_COMMANDS) < $< > $@
 
 SUFFIXES += .shin .sh
 .shin.sh:

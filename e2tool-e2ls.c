@@ -47,6 +47,8 @@
 #include <pwd.h>
 #include <grp.h>
 
+#include "config.h"
+
 #include "e2tools.h"
 #include "elist.h"
 

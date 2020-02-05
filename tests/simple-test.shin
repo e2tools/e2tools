@@ -39,7 +39,10 @@ for imgsize in 1M; do
     for srcfile in @top_srcdir@/README.md @top_srcdir@/configure; do
 
 	@top_builddir@/e2cp "${srcfile}" "${testimg}:/foo"
-	@top_builddir@/e2ls -l "${testimg}:/foo"
+	@top_builddir@/e2ls -l  "${testimg}:/foo"
+	@top_builddir@/e2ls -ln "${testimg}:/foo"
+	@HAVE_EXT2FS_XATTRS_FALSE@@top_builddir@/e2ls -lnZ "${testimg}:/foo"
+	@HAVE_EXT2FS_XATTRS_FALSE@@top_builddir@/e2ls -lZ  "${testimg}:/foo"
 
 	filebase="$(basename "$srcfile")"
 	trap "rm -f ${filebase}.test-c" EXIT
