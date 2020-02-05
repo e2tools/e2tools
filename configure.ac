@@ -91,6 +91,8 @@ dnl Check whether we can compile a function with __attribute__((naked))
 dnl ====================================================================
 
 AC_MSG_CHECKING([whether __attribute__((naked)) is available])
+orig_CFLAGS="$CFLAGS"
+CFLAGS="$CFLAGS -Wall -Wextra -pedantic -Werror"
 AC_COMPILE_IFELSE([AC_LANG_SOURCE([[
 static void test_function(void)
   __attribute__(( naked ))
@@ -111,6 +113,7 @@ AC_MSG_RESULT([no])
 AC_DEFINE([FUNCTION_ATTRIBUTE_NAKED_IF_POSSIBLE], [],
           [defined empty when compiling with naked attribute fails])
 ])
+CFLAGS="$orig_CFLAGS"
 
 
 dnl ====================================================================
