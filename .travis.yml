@@ -1,6 +1,26 @@
 language: c
+compiler:
+    - clang
+    - gcc
+arch:
+    - amd64
+    - arm64
 before_install:
     - sudo apt-get update -qq
     - sudo apt-get install -y e2fslibs-dev uuid-dev ss-dev
 before_script:
     - autoreconf -is
+script:
+    - mkdir _b && cd _b && ../configure --prefix=$PWD/_i && make -j2 all check install installcheck
+    - ls -l
+    - ls -lR _i
+matrix:
+  include:
+    - os: linux
+      dist: bionic
+    - os: linux
+      dist: xenial
+    - os: linux
+      dist: trusty
+    - os: linux
+      dist: precise
