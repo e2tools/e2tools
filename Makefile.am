@@ -95,6 +95,7 @@ uninstall-hook:
 
 clean-local:
 	-rm -f *.i *.s
+	-rm -f $(e2tools_symlinks)
 
 test:
 	@echo "no tests yet"
