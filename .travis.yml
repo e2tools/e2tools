@@ -14,7 +14,7 @@ script:
     - mkdir _b && cd _b
     - ../configure --prefix=$PWD/../_i
     - cat config.h
-    - make -j2 all check install installcheck
+    - make all check install installcheck
     - ls -lR
     - cd ..
     - ls -lR _i
