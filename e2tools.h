@@ -84,4 +84,4 @@ extern int optreset;        /* defined by BSD, but not others */
 # define UNUSED_PARM(foo) foo ## __UNUSED
 #endif
 
-#endif
+#endif /* !defined(E2TOOLS_H) */

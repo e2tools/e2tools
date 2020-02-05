@@ -10,4 +10,4 @@ void update_progress(unsigned long num_bytes);
 extern
 void finish_progress();
 
-#endif /* !E2TOOLS_PROGRESS_H */
+#endif /* !defined(E2TOOLS_PROGRESS_H) */

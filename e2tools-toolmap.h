@@ -8,4 +8,4 @@ struct toolmap_element {
 
 extern struct toolmap_element toolmap[];
 
-#endif /* !defined(E2TOOLS_TOOMAP_H) */
+#endif /* !defined(E2TOOLS_TOOLMAP_H) */

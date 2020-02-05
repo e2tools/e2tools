@@ -44,4 +44,4 @@ elist_t *elist_insert(elist_t *l, void *data);
 extern
 void elist_sort(elist_t *l, int (sort_func)(const void *, const void *), int reverse);
 
-#endif
+#endif /* !defined(ELIST_H) */

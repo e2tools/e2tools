@@ -35,4 +35,4 @@ int  is_file_regexp(char *ptr);
 extern
 regex_t *make_regexp(char *shell);
 
-#endif /* !E2TOOLS_UTIL_H */
+#endif /* !defined(E2TOOLS_UTIL_H) */

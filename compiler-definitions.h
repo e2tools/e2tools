@@ -72,4 +72,4 @@
   }
 
 
-#endif /* E2TOOLS_COMPILER_DEFINITIONS_H */
+#endif /* !defined(E2TOOLS_COMPILER_DEFINITIONS_H) */

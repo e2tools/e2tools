@@ -14,4 +14,4 @@ extern
 long read_to_eof(ext2_file_t infile, int dest_fd, ext2_off_t offset,
                  ext2_off_t *ret_pos);
 
-#endif /* !E2TOOLS_READ_H */
+#endif /* !defined(E2TOOLS_READ_H) */
