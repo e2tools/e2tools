@@ -11,11 +11,12 @@ before_install:
 before_script:
     - autoreconf -is
 script:
-    - mkdir _b
-    - cd _b && ../configure --prefix=$PWD/_i
-    - cd _b && cat config.h
-    - cd _b make -j2 all check install installcheck
-    - cd _b && ls -l
+    - mkdir _b && cd _b
+    - ../configure --prefix=$PWD/../_i
+    - cat config.h
+    - make -j2 all check install installcheck
+    - ls -lR
+    - cd ..
     - ls -lR _i
 matrix:
   include:
