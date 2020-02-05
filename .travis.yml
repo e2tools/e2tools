@@ -13,12 +13,12 @@ before_script:
 script:
     - mkdir _b && cd _b
     - ../configure --prefix=$PWD/../_i
-    - cat config.h
+    - : cat config.h
     - make all check install installcheck
     - ls -lR
     - cd ..
     - ls -lR _i
-    - make distcheck
+    - (cd _b && make distcheck)
 matrix:
   include:
     - os: linux
