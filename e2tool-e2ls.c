@@ -294,6 +294,17 @@ void free_ls_file_t(void *f)
     }
 } /* end of free_ls_file_t */
 
+
+static
+void print_usage(FILE *out)
+{
+#ifdef HAVE_EXT2FS_XATTRS
+  fputs("Usage: e2ls [-acDfilnrtZ][-d dir] file\n", out);
+#else
+  fputs("Usage: e2ls [-acDfilnrt][-d dir] file\n", out);
+#endif
+}
+
 /* Name:    do_list_dir()
  *
  * Description:
@@ -405,16 +416,16 @@ main_e2ls(int argc, char *argv[])
           ls.options |= SELINUX_OPT;
           break;
 #endif
+        default:
+          fprintf(stderr, "%s: invalid option: %c\n", "e2ls", c);
+          print_usage(stderr);
+          return EXIT_FAILURE;
         }
     }
 
   if (argc <= optind)
     {
-#ifdef HAVE_EXT2FS_XATTRS
-      fputs("Usage: e2ls [-acDfilnrtZ][-d dir] file\n", stderr);
-#else
-      fputs("Usage: e2ls [-acDfilnrt][-d dir] file\n", stderr);
-#endif
+      print_usage(stderr);
       return EXIT_FAILURE;
     }
 
