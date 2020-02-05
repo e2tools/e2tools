@@ -31,9 +31,11 @@
 
 
 /*  Headers */
-#include "e2tools.h"
-#include "rm.h"
 #include <regex.h>
+
+#include "e2tools.h"
+
+#include "e2tool-e2rm.h"
 
 static ext2_filsys gbl_fs = NULL;
 static char *gbl_filesys = NULL;

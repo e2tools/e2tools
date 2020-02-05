@@ -91,6 +91,6 @@ main(int argc, char *argv[])
   else if (strcmp(ptr, "e2tail") == 0)
     return main_e2tail(argc, argv);
 
-  fprintf(stderr, "Not implemented\n");
+  fprintf(stderr, "e2tools command not implemented\n");
   return 1;
 }

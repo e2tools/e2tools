@@ -47,7 +47,8 @@
 
 /*  Headers */
 #include "e2tools.h"
-#include "mkdir.h"
+
+#include "e2tool-e2mkdir.h"
 
 /* Local Prototypes */
 long

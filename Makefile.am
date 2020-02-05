@@ -20,21 +20,14 @@ e2tools_LDADD    += $(EXT2FS_LIBS)
 e2tools_CPPFLAGS += $(COM_ERR_CFLAGS)
 e2tools_LDADD    += $(COM_ERR_LIBS)
 
-e2tools_SOURCES = \
-	copy.c copy.h \
-	e2tools.c e2tools.h \
-	elist.c elist.h \
-	ln.c ln.h \
-	ls.c ls.h \
-	mkdir.c mkdir.h \
-	mv.c mv.h \
-	progress.c progress.h \
-	read.c read.h \
-	rm.c rm.h \
-	tail.c tail.h \
-	util.c util.h \
-	write.c write.h
+e2tools_SOURCES =
 e2tools_SOURCES += compiler-definitions.h
+e2tools_SOURCES += e2tools.c e2tools.h
+e2tools_SOURCES += elist.c elist.h
+e2tools_SOURCES += progress.c progress.h
+e2tools_SOURCES += read.c read.h
+e2tools_SOURCES += util.c util.h
+e2tools_SOURCES += write.c write.h
 
 EXTRA_DIST += DEVELOPMENT.md
 EXTRA_DIST += README.md
@@ -52,26 +45,40 @@ if HAVE_EXT2FS_XATTRS
 # e2tools_symlinks += e2chcon
 endif
 
+e2tools_SOURCES  += e2tool-e2cp.c
+e2tools_SOURCES  += e2tool-e2cp.h
 dist_man_MANS    += e2cp.1
 e2tools_symlinks += e2cp
 
+e2tools_SOURCES  += e2tool-e2ln.c
+e2tools_SOURCES  += e2tool-e2ln.h
 dist_man_MANS    += e2ln.1
 e2tools_symlinks += e2ln
 
+e2tools_SOURCES  += e2tool-e2ls.c
+e2tools_SOURCES  += e2tool-e2ls.h
 EXTRA_DIST       += e2ls.1in
 CLEANFILES       += e2ls.1
 man_MANS         += e2ls.1
 e2tools_symlinks += e2ls
 
+e2tools_SOURCES  += e2tool-e2mkdir.c
+e2tools_SOURCES  += e2tool-e2mkdir.h
 dist_man_MANS    += e2mkdir.1
 e2tools_symlinks += e2mkdir
 
+e2tools_SOURCES  += e2tool-e2mv.c
+e2tools_SOURCES  += e2tool-e2mv.h
 dist_man_MANS    += e2mv.1
 e2tools_symlinks += e2mv
 
+e2tools_SOURCES  += e2tool-e2rm.c
+e2tools_SOURCES  += e2tool-e2rm.h
 dist_man_MANS    += e2rm.1
 e2tools_symlinks += e2rm
 
+e2tools_SOURCES  += e2tool-e2tail.c
+e2tools_SOURCES  += e2tool-e2tail.h
 dist_man_MANS    += e2tail.1
 e2tools_symlinks += e2tail
 

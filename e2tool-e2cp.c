@@ -76,7 +76,8 @@
 
 #include "e2tools.h"
 #include "elist.h"
-#include "copy.h"
+
+#include "e2tool-e2cp.h"
 
 /* Macros */
 #define USAGE "Usage: e2cp [-0apv][-P mode][-O uid][-G gid][-d dest_dir][-s src_dir][file1...N dest]\n"

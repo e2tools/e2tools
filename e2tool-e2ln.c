@@ -30,7 +30,8 @@
 /* Feature Test Switches */
 /*  Headers */
 #include "e2tools.h"
-#include "ln.h"
+
+#include "e2tool-e2ln.h"
 
 /* Macros */
 #define USAGE "Usage: e2ln [-vfs] source destination\n"

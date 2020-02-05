@@ -41,7 +41,8 @@
 
 #include "compiler-definitions.h"
 #include "e2tools.h"
-#include "tail.h"
+
+#include "e2tool-e2tail.h"
 
 /* Macros */
 #define USAGE "Usage: e2tail [-n num_lines][-fF][-s sleep_interval] file\n"

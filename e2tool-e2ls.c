@@ -41,14 +41,16 @@
  */
 
 
-#include "e2tools.h"
-#include "elist.h"
-#include "ls.h"
 #include <regex.h>
 #include <stdint.h>
 #include <inttypes.h>
 #include <pwd.h>
 #include <grp.h>
+
+#include "e2tools.h"
+#include "elist.h"
+
+#include "e2tool-e2ls.h"
 
 /*
  * list directory

@@ -65,17 +65,18 @@ extern int optreset;        /* defined by BSD, but not others */
 #define E2T_FORCE 1
 #define E2T_DO_MV 2
 
-#include "copy.h"
 #include "util.h"
 #include "write.h"
-#include "mkdir.h"
 #include "progress.h"
 #include "read.h"
-#include "ln.h"
-#include "mv.h"
-#include "rm.h"
-#include "tail.h"
-#include "ls.h"
+
+#include "e2tool-e2cp.h"
+#include "e2tool-e2ln.h"
+#include "e2tool-e2ls.h"
+#include "e2tool-e2mkdir.h"
+#include "e2tool-e2mv.h"
+#include "e2tool-e2rm.h"
+#include "e2tool-e2tail.h"
 
 #if __GNUC__ >= 4
 # define UNUSED_PARM(foo) foo __attribute__((unused))
