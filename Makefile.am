@@ -74,9 +74,15 @@ e2tools_symlinks += e2rm
 dist_man_MANS    += e2tail.1
 e2tools_symlinks += e2tail
 
+SED_IN_COMMANDS =
+if HAVE_EXT2FS_XATTRS
+SED_IN_COMMANDS += -e 's|[@]HAVE_EXT2FS_XATTRS_FALSE@||g'
+else
+SED_IN_COMMANDS += -e 's|[@]HAVE_EXT2FS_XATTRS_FALSE@|.\\" |g'
+endif
 SUFFIXES += .1in .1
 .1in.1:
-	$(SED) -e 's|[@]HAVE_EXT2FS_XATTRS_FALSE@|.\\" |g' < $< > $@
+	$(SED) $(SED_IN_COMMANDS) < $< > $@
 
 all-local: e2tools$(EXEEXT)
 	for symlink in $(e2tools_symlinks); do \
