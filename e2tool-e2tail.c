@@ -432,11 +432,11 @@ tail(ext2_filsys *fs_ptr, ext2_ino_t root, char *input, int num_lines,
               return retval;
             }
           if (inode.i_size <= INT_MAX)
-	    {
-	      /* the file has grown too large */
-	      fputs("inode.i_size above INT_MAX", stderr);
-	      return 0;
-	    }
+            {
+              /* the file has grown too large */
+              fputs("inode.i_size above INT_MAX", stderr);
+              return 0;
+            }
           else if (((int)inode.i_size) > cur_pos)
             {
               if ((retval = retrieve_data(fs, tail_ino, 1, NULL, 0, cur_pos,

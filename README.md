@@ -60,21 +60,21 @@ A few quick ideas:
     # create 16MB image file
     dd if=/dev/null of=test.img bs=1 count=1 seek=16M
 
-	# create filesystem inside image file
-	mkfs.ext2 -F test.img
+    # create filesystem inside image file
+    mkfs.ext2 -F test.img
 
     # create directory foo in root directory of filesystem image
     e2mkdir test.img:/foo
 
-	# look into root directory of filesystem image
-	e2ls -l test.img:
+    # look into root directory of filesystem image
+    e2ls -l test.img:
 
     # copy README.md into foo dir
     e2cp README.md test.img:/foo
 
-	# look what is inside the foo dir
-	e2ls -l test.img:/foo
+    # look what is inside the foo dir
+    e2ls -l test.img:/foo
 
-	# remove file again
-	e2rm test.img:/foo/README.md
+    # remove file again
+    e2rm test.img:/foo/README.md
 

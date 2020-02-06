@@ -582,11 +582,11 @@ main_e2cp(int argc, char *argv[])
                 {
                   /* create output file name */
                   strncpy(out_file, ptr, max_out_len);
-		  /* Even though the out_file aka outpath buffer has
-		   * size OUTBUF_SIZE which is larger than BUF_SIZE,
-		   * we still limit the string length to BUF_SIZE as
-		   * some other parts of the code might expect that.
-		   */
+                  /* Even though the out_file aka outpath buffer has
+                   * size OUTBUF_SIZE which is larger than BUF_SIZE,
+                   * we still limit the string length to BUF_SIZE as
+                   * some other parts of the code might expect that.
+                   */
                   outpath[BUF_SIZE-1] = '\0';
                 }
 

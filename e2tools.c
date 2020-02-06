@@ -77,9 +77,9 @@ main(int argc, char *argv[])
   for (unsigned int i=0; toolmap[i].name; ++i)
     {
       if (strcmp(ptr, toolmap[i].name) == 0)
-	{
+        {
           exit(toolmap[i].main_func(argc, argv));
-	}
+        }
     }
 
   fprintf(stderr, "e2tools command not implemented\n");

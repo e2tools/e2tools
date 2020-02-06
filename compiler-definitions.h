@@ -61,11 +61,11 @@
  * entry in the symbol table which is acceptable.
  */
 #define BARE_COMPILE_TIME_ASSERT(CONDITION)               \
-  static						  \
-  void MAKE_BARE_COMPILE_TIME_ASSERT_NAME(void)		  \
-    FUNCTION_ATTRIBUTE_NAKED_IF_POSSIBLE		  \
-    __attribute__(( used ));				  \
-  static						  \
+  static                                                  \
+  void MAKE_BARE_COMPILE_TIME_ASSERT_NAME(void)           \
+    FUNCTION_ATTRIBUTE_NAKED_IF_POSSIBLE                  \
+    __attribute__(( used ));                              \
+  static                                                  \
   void MAKE_BARE_COMPILE_TIME_ASSERT_NAME(void)           \
   {                                                       \
     COMPILE_TIME_ASSERT(CONDITION);                       \
