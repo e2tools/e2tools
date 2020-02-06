@@ -59,6 +59,15 @@ extern int optreset;        /* defined by BSD, but not others */
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <regex.h>
+
+/* Apparently (and weirdly), ext2fs.h wants some macros like
+ * HAVE_SYS_TYPES_H defined before it is included, so we include
+ * "e2tools-autoconfig.h" before <ext2fs.h>.
+ *
+ * See https://github.com/e2tools/e2tools/issues/1#issuecomment-582913807
+ */
+#include "e2tools-autoconfig.h"
+
 #include "ext2fs/ext2_fs.h"
 #include "ext2fs/ext2fs.h"
 
