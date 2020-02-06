@@ -31,6 +31,7 @@ e2tools_SOURCES += util.c util.h
 e2tools_SOURCES += write.c write.h
 
 EXTRA_DIST += DEVELOPMENT.md
+EXTRA_DIST += NEWS.md
 EXTRA_DIST += README.md
 EXTRA_DIST += TODO
 
