@@ -1,5 +1,5 @@
-e2tools-0.0.17.x (early 2020, to become e2tools-0.1.0)
-======================================================
+e2tools-0.1.0 (2020-02-07)
+==========================
 
   * With Keith Sheffield's e2tools home page having disappeared,
     Christoph Gysin has invited Hans Ulrich Niedermann to join the

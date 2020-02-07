@@ -1,7 +1,7 @@
 dnl Process this file with autoconf to produce a configure script.
 AC_PREREQ(2.59)
 AC_INIT([e2tools],
-        [0.0.17],
+        [0.1.0],
         [https://github.com/e2tools/e2tools/issues],
         [e2tools],
         [https://e2tools.github.io/])
