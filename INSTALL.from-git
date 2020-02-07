@@ -1,6 +1,6 @@
 To compile from e2tools' git repository, you need to run these steps:
 
-  $ git clone to-be-announced e2tools
+  $ git clone https://github.com/e2tools/e2tools.git
   $ cd e2tools
   $ autoreconf -vis .
 
