@@ -140,7 +140,7 @@ e2tools-toolmap.c: Makefile
 	mv -f e2tools-toolmap.c.tmp e2tools-toolmap.c
 
 all-local: e2tools$(EXEEXT)
-	for symlink in $(e2tools_list); do \
+	@for symlink in $(e2tools_list); do \
 		rm -f "$${symlink}"; \
 		$(LN_S) e2tools "$${symlink}" || exit 1; \
 	done
