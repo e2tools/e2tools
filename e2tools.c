@@ -45,9 +45,10 @@ usage()
     fprintf(stderr, "Usage: e2tools <command> [OPTION...]\n");
     fprintf(stderr, "\n");
     fprintf(stderr, " Commands:\n");
-    for (unsigned int i=0; toolmap[i].name; ++i) {
+    for (unsigned int i=0; toolmap[i].name; ++i)
+      {
         fprintf(stderr, "  %s\n", toolmap[i].name);
-    }
+      }
 }
 
 int
