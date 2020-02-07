@@ -221,6 +221,21 @@ SUFFIXES += .sh.in .sh
 
 
 ########################################################################
+# doxygen generated documentation
+########################################################################
+
+EXTRA_DIST += Doxyfile.in
+
+if HAVE_DOXYGEN_COMMAND
+
+CLEANFILES += Doxyfile
+Doxyfile: Doxyfile.in Makefile
+	$(SED) $(sed_in_commands) < $(srcdir)/Doxyfile.in > Doxyfile
+
+endif
+
+
+########################################################################
 # local hooks we have collected targets in variables for
 ########################################################################
 

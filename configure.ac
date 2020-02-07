@@ -54,6 +54,16 @@ AC_PATH_PROG([MKE2FS], [busybox mkfs.ext2])
 AM_CONDITIONAL([HAVE_MKE2FS_COMMAND],
                [test "x$MKE2FS" != "x" && test "x$MKE2FS" != "xno"])
 
+AC_ARG_VAR([DOT], [graphviz dot command])
+AC_PATH_PROG([DOT], [dot])
+AM_CONDITIONAL([HAVE_DOT_COMMAND],
+               [test "x$DOT" != "x" && test "x$DOT" != "xno"])
+
+AC_ARG_VAR([DOXYGEN], [doxygen command])
+AC_PATH_PROG([DOXYGEN], [doxygen])
+AM_CONDITIONAL([HAVE_DOXYGEN_COMMAND],
+               [test "x$DOXYGEN" != "x" && test "x$DOXYGEN" != "xno"])
+
 
 dnl ====================================================================
 dnl Checks for compiler flags
