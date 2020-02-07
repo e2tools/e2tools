@@ -18,12 +18,10 @@ foreign
 
 dnl Ensure that these Macros are actually available at the time of
 dnl running autoreconf
-m4_pattern_forbid([gl_EARLY])dnl
 m4_pattern_forbid([PKG_CHECK_MODULES])dnl
 
 dnl Checks for programs.
-AC_PROG_CC
-gl_EARLY
+AC_PROG_CC_C99
 AC_PROG_INSTALL
 AC_PROG_LN_S
 AC_PROG_SED
@@ -38,8 +36,31 @@ AC_PATH_PROG([DD], [dd])
 AC_ARG_VAR([MKE2FS], [mkfs.ext2 command])
 AC_PATH_PROG([MKE2FS], [mkfs.ext2])
 
+dnl Checks for compiler flags
+m4_pattern_forbid([E2T_])dnl
+m4_pattern_forbid([E2T_CONDITIONAL_CFLAGS])dnl
+AC_DEFUN([E2T_CONDITIONAL_CFLAGS], [dnl
+orig_CFLAGS="$CFLAGS"
+CFLAGS="$CFLAGS $1"
+AC_MSG_CHECKING([whether to add $1 to CFLAGS])
+AC_COMPILE_IFELSE([AC_LANG_SOURCE([[char x[16];]])], [dnl
+AC_MSG_RESULT([yes])
+], [dnl
+AC_MSG_RESULT([no])
+CFLAGS="$orig_CFLAGS"
+])dnl
+])dnl
+
+dnl Add compiler flags to CFLAGS, but only if they are actually
+dnl supported by the GCC compatible compiler (probably gcc or clang).
+dnl If the user does not want these flags to be used, they can run
+dnl make with a CFLAGS= parameter.
+AS_VAR_IF([GCC], [yes], [dnl
+  E2T_CONDITIONAL_CFLAGS([--std=gnu99])
+  E2T_CONDITIONAL_CFLAGS([-Wall])
+])
+
 dnl Checks for libraries.
-gl_INIT
 PKG_CHECK_MODULES([EXT2FS], [ext2fs >= 1.27], [], [
     AC_MSG_ERROR([Sorry, but we do require libext2fs (part of e2fsprogs).])])
 PKG_CHECK_MODULES([COM_ERR], [com_err], [], [
@@ -54,14 +75,6 @@ dnl Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
 AC_TYPE_MODE_T
 AC_TYPE_OFF_T
-AC_TYPE_UINT8_T
-AC_TYPE_UINT16_T
-AC_TYPE_UINT32_T
-AC_TYPE_UINT64_T
-AC_TYPE_INT8_T
-AC_TYPE_INT16_T
-AC_TYPE_INT32_T
-AC_TYPE_INT64_T
 AC_HEADER_TIME
 AC_STRUCT_TM
 
@@ -128,10 +141,5 @@ dnl ====================================================================
 dnl The end of configure.ac is approaching fast.
 dnl ====================================================================
 
-CFLAGS="$CFLAGS -Wall"
-
-AC_CONFIG_FILES([
-    Makefile
-    lib/Makefile
-])
+AC_CONFIG_FILES([Makefile])
 AC_OUTPUT
