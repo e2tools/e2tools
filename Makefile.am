@@ -59,10 +59,11 @@ e2tools_list     += e2ln
 
 e2tools_SOURCES  += e2tool-e2ls.c
 e2tools_SOURCES  += e2tool-e2ls.h
-EXTRA_DIST       += e2ls.1in
+EXTRA_DIST       += e2ls.1.in
 CLEANFILES       += e2ls.1
 man_MANS         += e2ls.1
 e2tools_list     += e2ls
+e2ls.1 : e2ls.1.in Makefile
 
 e2tools_SOURCES  += e2tool-e2mkdir.c
 e2tools_SOURCES  += e2tool-e2mkdir.h
@@ -84,21 +85,20 @@ e2tools_SOURCES  += e2tool-e2tail.h
 dist_man_MANS    += e2tail.1
 e2tools_list     += e2tail
 
-SED_IN_MAN_COMMANDS =
 SED_IN_COMMANDS =
 
 HASHMARK = \#
 
 if HAVE_EXT2FS_XATTRS
-SED_IN_MAN_COMMANDS += -e 's|[@]HAVE_EXT2FS_XATTRS_FALSE@||g'
-SED_IN_COMMANDS     += -e 's|[@]HAVE_EXT2FS_XATTRS_FALSE@||g'
-SED_IN_MAN_COMMANDS += -e 's|[@]HAVE_EXT2FS_XATTRS_TRUE@|.\\" |g'
-SED_IN_COMMANDS     += -e 's|[@]HAVE_EXT2FS_XATTRS_TRUE@|$(HASHMARK) |g'
+SED_IN_COMMANDS += -e 's|[@]HAVE_EXT2FS_XATTRS_MAN_FALSE@||g'
+SED_IN_COMMANDS += -e 's|[@]HAVE_EXT2FS_XATTRS_MAN_TRUE@|.\\" |g'
+SED_IN_COMMANDS += -e 's|[@]HAVE_EXT2FS_XATTRS_FALSE@||g'
+SED_IN_COMMANDS += -e 's|[@]HAVE_EXT2FS_XATTRS_TRUE@|$(HASHMARK) |g'
 else
-SED_IN_MAN_COMMANDS += -e 's|[@]HAVE_EXT2FS_XATTRS_FALSE@|.\\" |g'
-SED_IN_COMMANDS     += -e 's|[@]HAVE_EXT2FS_XATTRS_FALSE@|$(HASHMARK) |g'
-SED_IN_MAN_COMMANDS += -e 's|[@]HAVE_EXT2FS_XATTRS_TRUE@||g'
-SED_IN_COMMANDS     += -e 's|[@]HAVE_EXT2FS_XATTRS_TRUE@||g'
+SED_IN_COMMANDS += -e 's|[@]HAVE_EXT2FS_XATTRS_MAN_FALSE@|.\\" |g'
+SED_IN_COMMANDS += -e 's|[@]HAVE_EXT2FS_XATTRS_MAN_TRUE@||g'
+SED_IN_COMMANDS += -e 's|[@]HAVE_EXT2FS_XATTRS_FALSE@|$(HASHMARK) |g'
+SED_IN_COMMANDS += -e 's|[@]HAVE_EXT2FS_XATTRS_TRUE@||g'
 endif
 
 SED_IN_COMMANDS += -e 's|[@]top_builddir@|$(top_builddir)|g'
@@ -106,12 +106,13 @@ SED_IN_COMMANDS += -e 's|[@]top_srcdir@|$(top_srcdir)|g'
 SED_IN_COMMANDS += -e 's|[@]DD@|$(DD)|g'
 SED_IN_COMMANDS += -e 's|[@]MKE2FS@|$(MKE2FS)|g'
 
-SUFFIXES += .1in .1
-.1in.1:
-	$(SED) $(SED_IN_MAN_COMMANDS) $(SED_IN_COMMANDS) < $< > $@
+SUFFIXES += .1.in .1
+.1.in.1:
+	$(MKDIR_P) $(@D)
+	$(SED) $(SED_IN_COMMANDS) < $< > $@
 
-SUFFIXES += .shin .sh
-.shin.sh:
+SUFFIXES += .sh.in .sh
+.sh.in.sh:
 	$(MKDIR_P) $(@D)
 	$(SED) $(SED_IN_COMMANDS) < $< > $@
 	$(CHMOD) +x $@

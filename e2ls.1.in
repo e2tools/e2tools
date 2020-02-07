@@ -46,9 +46,9 @@ Reverse the sort order.
 .TP
 .B \-t
 Sort by time.
-@HAVE_EXT2FS_XATTRS_FALSE@.TP
-@HAVE_EXT2FS_XATTRS_FALSE@.B \-Z
-@HAVE_EXT2FS_XATTRS_FALSE@List SELinux label from extended attributes.
+@HAVE_EXT2FS_XATTRS_MAN_FALSE@.TP
+@HAVE_EXT2FS_XATTRS_MAN_FALSE@.B \-Z
+@HAVE_EXT2FS_XATTRS_MAN_FALSE@List SELinux label from extended attributes.
 .\"
 .SH EXAMPLES
     e2ls \-a boot.img:.
