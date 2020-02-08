@@ -57,7 +57,13 @@ dnl If the user does not want these flags to be used, they can run
 dnl make with a CFLAGS= parameter.
 AS_VAR_IF([GCC], [yes], [dnl
   E2T_CONDITIONAL_CFLAGS([--std=gnu99])
+  E2T_CONDITIONAL_CFLAGS([-pedantic])
   E2T_CONDITIONAL_CFLAGS([-Wall])
+  E2T_CONDITIONAL_CFLAGS([-Wextra])
+  E2T_CONDITIONAL_CFLAGS([-Werror])
+  E2T_CONDITIONAL_CFLAGS([-Wp,-D_FORTIFY_SOURCE=2])
+  E2T_CONDITIONAL_CFLAGS([-fstack-clash-protection])
+  E2T_CONDITIONAL_CFLAGS([-fcf-protection])
 ])
 
 dnl Checks for libraries.
