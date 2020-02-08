@@ -32,9 +32,11 @@ AC_PATH_PROG([CHMOD], [chmod])
 
 AC_ARG_VAR([DD], [dd command])
 AC_PATH_PROG([DD], [dd])
+AM_CONDITIONAL([HAVE_DD_COMMAND], [test "x$DD" != "xno"])
 
 AC_ARG_VAR([MKE2FS], [mkfs.ext2 command])
 AC_PATH_PROG([MKE2FS], [mkfs.ext2])
+AM_CONDITIONAL([HAVE_MKE2FS_COMMAND], [test "x$MKE2FS" != "xno"])
 
 dnl Checks for compiler flags
 m4_pattern_forbid([E2T_])dnl
