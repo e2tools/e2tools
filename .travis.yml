@@ -15,7 +15,7 @@ before_install:
 before_script:
     - autoreconf -vis
 script:
-    - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then export PKG_CONFIG_PATH="/usr/local/opt/e2fsprogs/lib/pkgconfig"; fi
+    - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then export PKG_CONFIG_PATH="/usr/local/opt/e2fsprogs/lib/pkgconfig"; export PATH="/usr/local/opt/e2fsprogs/bin:$PATH"; fi
     - mkdir _b && cd _b
     - ../configure --prefix=$PWD/../_i
     - true cat config.h
