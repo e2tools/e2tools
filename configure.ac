@@ -69,9 +69,17 @@ AS_VAR_IF([GCC], [yes], [dnl
 ])
 
 dnl Checks for libraries.
-PKG_CHECK_MODULES([EXT2FS], [ext2fs >= 1.27], [], [
+AC_DEFUN([E2T_PKG_CHECK_MODULES], [dnl
+PKG_CHECK_MODULES([$1], [$2], [$3], [$4])
+$1_MODVERSION=`${PKG_CONFIG} --modversion "$2" 2>/dev/null`
+AC_SUBST([$1_MODVERSION])
+AC_MSG_CHECKING([modversion of $2])
+AC_MSG_RESULT([[$]$1_MODVERSION])
+])dnl
+
+E2T_PKG_CHECK_MODULES([EXT2FS], [ext2fs >= 1.27], [], [
     AC_MSG_ERROR([Sorry, but we do require libext2fs (part of e2fsprogs).])])
-PKG_CHECK_MODULES([COM_ERR], [com_err], [], [
+E2T_PKG_CHECK_MODULES([COM_ERR], [com_err], [], [
     AC_MSG_ERROR([Sorry, but we do require libcom_err (part of e2fsprogs).])])
 
 
