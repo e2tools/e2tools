@@ -1,3 +1,7 @@
+/** \file progress.c
+ * \brief Progress display implementation.
+ */
+
 /* $Header: /home/ksheff/src/e2tools/RCS/progress.c,v 0.1 2002/06/26 11:17:28 ksheff Exp $ */
 /*
  * progress.c

@@ -1,3 +1,7 @@
+/** \file elist.c
+ * \brief e2tools double linked list implementation.
+ */
+
 /* $Header: /home/ksheff/src/e2tools/RCS/elist.c,v 0.6 2004/04/06 19:34:44 ksheff Exp $ */
 /*
  * elist.c

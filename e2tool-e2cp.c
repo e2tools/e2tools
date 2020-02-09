@@ -1,3 +1,9 @@
+/** \file e2tool-e2cp.c
+ * \brief File copy tool.
+ * \author Copyright 2002,2004 Keith W Sheffield
+ *
+ */
+
 /* $Header: /home/ksheff/src/e2tools/RCS/copy.c,v 0.16 2004/04/07 01:15:20 ksheff Exp $ */
 /*
  * copy.c

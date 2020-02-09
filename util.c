@@ -1,3 +1,7 @@
+/** \file util.c
+ * \brief Utility functions implementation.
+ */
+
 /* $Header: /home/ksheff/src/e2tools/RCS/util.c,v 0.4 2002/06/05 20:38:16 ksheff Exp $ */
 /*
  * util.c

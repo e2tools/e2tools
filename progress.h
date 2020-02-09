@@ -1,3 +1,7 @@
+/** \file progress.h
+ * \brief Progress display interface.
+ */
+
 #ifndef E2TOOLS_PROGRESS_H
 #define E2TOOLS_PROGRESS_H
 

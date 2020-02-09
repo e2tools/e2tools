@@ -1,3 +1,7 @@
+/** \file write.c
+ * \brief Write file to filesystem.
+ */
+
 /* $Header: /home/ksheff/src/e2tools/RCS/write.c,v 0.5 2004/04/07 01:12:30 ksheff Exp $ */
 /*
  * write.c

@@ -1,3 +1,7 @@
+/** \file e2tool-e2mkdir.c
+ * \brief Directory creation tool.
+ */
+
 /* $Header: /home/ksheff/src/e2tools/RCS/mkdir.c,v 0.8 2004/04/07 03:19:32 ksheff Exp $ */
 /*
  * mkdir.c

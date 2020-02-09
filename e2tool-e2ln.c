@@ -1,3 +1,7 @@
+/** \file e2tool-e2ln.c
+ * \brief File link tool.
+ */
+
 /* $Header: /home/ksheff/src/e2tools/RCS/ln.c,v 0.3 2002/06/30 05:54:02 ksheff Exp $ */
 /*
  * ln.c

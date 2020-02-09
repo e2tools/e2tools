@@ -1,3 +1,7 @@
+/** \file e2tool-e2mv.c
+ * \brief File moving and renaming tool.
+ */
+
 /* $Header: /home/ksheff/src/e2tools/RCS/mv.c,v 0.1 2002/03/21 09:03:25 ksheff Exp $ */
 /*
  * mv.c

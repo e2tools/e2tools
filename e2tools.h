@@ -1,3 +1,8 @@
+/** \file e2tools.h
+ * \brief The e2tools main() interface.
+ *
+ */
+
 #ifndef E2TOOLS_H
 #define E2TOOLS_H
 

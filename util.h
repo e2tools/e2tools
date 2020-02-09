@@ -1,3 +1,7 @@
+/** \file util.h
+ * \brief Utility functions interface.
+ */
+
 #ifndef E2TOOLS_UTIL_H
 #define E2TOOLS_UTIL_H
 

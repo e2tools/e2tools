@@ -1,3 +1,7 @@
+/** \file e2tool-e2tail.c
+ * \brief File tail tool.
+ */
+
 /* $Header: /home/ksheff/src/e2tools/RCS/tail.c,v 0.2 2003/07/12 16:33:11 ksheff Exp $ */
 /*
  * tail.c

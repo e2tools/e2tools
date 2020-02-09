@@ -1,3 +1,7 @@
+/** \file e2tool-e2rm.c
+ * \brief File removal tool.
+ */
+
 /* $Header: /home/ksheff/src/e2tools/RCS/rm.c,v 0.3 2004/04/06 23:39:28 ksheff Exp $ */
 /*
  * rm.c
