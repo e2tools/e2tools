@@ -14,6 +14,22 @@ To be determined for e2tools:
    * C sourcecode formatting rules
 
 
+Developer goodies
+=================
+
+doxygen generated internal code documentation
+---------------------------------------------
+
+If you want to see doxygen generated internal code documentation on
+the e2tools source code, you can install doxygen (and probably
+Graphviz as well) and run
+
+    make dox
+
+to find the internal code documentation in HTML format at the `html/`
+subdirectory.
+
+
 Release checklist
 =================
 
