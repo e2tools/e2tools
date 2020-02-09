@@ -1,4 +1,6 @@
+dnl ====================================================================
 dnl Process this file with autoconf to produce a configure script.
+dnl ====================================================================
 AC_PREREQ(2.59)
 AC_INIT([e2tools],
         [0.1.0],
@@ -16,11 +18,17 @@ AM_INIT_AUTOMAKE([
 foreign
 ])
 
+
+dnl ====================================================================
 dnl Ensure that these Macros are actually available at the time of
 dnl running autoreconf
+dnl ====================================================================
 m4_pattern_forbid([PKG_CHECK_MODULES])dnl
 
+
+dnl ====================================================================
 dnl Checks for programs.
+dnl ====================================================================
 AC_PROG_CC_C99
 AC_PROG_INSTALL
 AC_PROG_LN_S
@@ -38,7 +46,10 @@ AC_ARG_VAR([MKE2FS], [mkfs.ext2 command])
 AC_PATH_PROG([MKE2FS], [mkfs.ext2])
 AM_CONDITIONAL([HAVE_MKE2FS_COMMAND], [test "x$MKE2FS" != "xno"])
 
+
+dnl ====================================================================
 dnl Checks for compiler flags
+dnl ====================================================================
 m4_pattern_forbid([E2T_])dnl
 m4_pattern_forbid([E2T_CONDITIONAL_CFLAGS])dnl
 AC_DEFUN([E2T_CONDITIONAL_CFLAGS], [dnl
@@ -68,7 +79,10 @@ AS_VAR_IF([GCC], [yes], [dnl
   E2T_CONDITIONAL_CFLAGS([-fcf-protection])
 ])
 
+
+dnl ====================================================================
 dnl Checks for libraries.
+dnl ====================================================================
 AC_DEFUN([E2T_PKG_CHECK_MODULES], [dnl
 PKG_CHECK_MODULES([$1], [$2], [$3], [$4])
 $1_MODVERSION=`${PKG_CONFIG} --modversion "$2" 2>/dev/null`
@@ -83,18 +97,26 @@ E2T_PKG_CHECK_MODULES([COM_ERR], [com_err], [], [
     AC_MSG_ERROR([Sorry, but we do require libcom_err (part of e2fsprogs).])])
 
 
+dnl ====================================================================
 dnl Checks for header files.
+dnl ====================================================================
 AC_HEADER_STDC
 AC_CHECK_HEADERS(errno.h fcntl.h sys/time.h unistd.h)
 
+
+dnl ====================================================================
 dnl Checks for typedefs, structures, and compiler characteristics.
+dnl ====================================================================
 AC_C_CONST
 AC_TYPE_MODE_T
 AC_TYPE_OFF_T
 AC_HEADER_TIME
 AC_STRUCT_TM
 
+
+dnl ====================================================================
 dnl Checks for library functions.
+dnl ====================================================================
 AC_FUNC_ALLOCA
 AC_FUNC_UTIME_NULL
 AC_CHECK_FUNCS(gettimeofday regcomp strdup strtol)
@@ -126,7 +148,6 @@ AC_DEFINE([HAVE_EXT2FS_XATTRS], [1], [Defined if libext2fs implements ext2fs_xat
 dnl ====================================================================
 dnl Check whether we can compile a function with __attribute__((naked))
 dnl ====================================================================
-
 AC_MSG_CHECKING([whether __attribute__((naked)) is available])
 orig_CFLAGS="$CFLAGS"
 CFLAGS="$CFLAGS -Wall -Wextra -pedantic -Werror"
@@ -156,6 +177,5 @@ CFLAGS="$orig_CFLAGS"
 dnl ====================================================================
 dnl The end of configure.ac is approaching fast.
 dnl ====================================================================
-
 AC_CONFIG_FILES([Makefile])
 AC_OUTPUT
