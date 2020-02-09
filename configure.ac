@@ -24,6 +24,7 @@ dnl Ensure that these Macros are actually available at the time of
 dnl running autoreconf
 dnl ====================================================================
 m4_pattern_forbid([PKG_CHECK_MODULES])dnl
+m4_pattern_forbid([E2T_])dnl
 
 
 dnl ====================================================================
@@ -50,19 +51,6 @@ AM_CONDITIONAL([HAVE_MKE2FS_COMMAND], [test "x$MKE2FS" != "xno"])
 dnl ====================================================================
 dnl Checks for compiler flags
 dnl ====================================================================
-m4_pattern_forbid([E2T_])dnl
-m4_pattern_forbid([E2T_CONDITIONAL_CFLAGS])dnl
-AC_DEFUN([E2T_CONDITIONAL_CFLAGS], [dnl
-orig_CFLAGS="$CFLAGS"
-CFLAGS="$CFLAGS $1"
-AC_MSG_CHECKING([whether to add $1 to CFLAGS])
-AC_COMPILE_IFELSE([AC_LANG_SOURCE([[char x[16];]])], [dnl
-AC_MSG_RESULT([yes])
-], [dnl
-AC_MSG_RESULT([no])
-CFLAGS="$orig_CFLAGS"
-])dnl
-])dnl
 
 dnl Add compiler flags to CFLAGS, but only if they are actually
 dnl supported by the GCC compatible compiler (probably gcc or clang).
@@ -83,14 +71,6 @@ AS_VAR_IF([GCC], [yes], [dnl
 dnl ====================================================================
 dnl Checks for libraries.
 dnl ====================================================================
-AC_DEFUN([E2T_PKG_CHECK_MODULES], [dnl
-PKG_CHECK_MODULES([$1], [$2], [$3], [$4])
-$1_MODVERSION=`${PKG_CONFIG} --modversion "$2" 2>/dev/null`
-AC_SUBST([$1_MODVERSION])
-AC_MSG_CHECKING([for $1 modversion])
-AC_MSG_RESULT([[$]$1_MODVERSION])
-])dnl
-
 E2T_PKG_CHECK_MODULES([EXT2FS], [ext2fs >= 1.27], [], [
     AC_MSG_ERROR([Sorry, but we do require libext2fs (part of e2fsprogs).])])
 E2T_PKG_CHECK_MODULES([COM_ERR], [com_err], [], [
