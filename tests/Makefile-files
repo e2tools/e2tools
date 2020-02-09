@@ -5,5 +5,6 @@ CLEANFILES += %reldir%/simple-test.sh
 if HAVE_DD_COMMAND
 if HAVE_MKE2FS_COMMAND
 TESTS      += %reldir%/simple-test.sh
+%reldir%/simple-test.sh : %reldir%/simple-test.sh.in Makefile
 endif
 endif
