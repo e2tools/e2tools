@@ -19,8 +19,14 @@
 
 set -ex
 
-# Caution: An image of 100G size needs 1.6GB on disk just to be formatted!
-for imgsize in 1M; do
+# Note on compatibility: Both GNU coreutils dd and busybox dd accept
+# sizes like 16M or 1G, but other dd implementations like OSX dd do
+# not. So instead of requiring GNU coreutils or busybox, we try to be
+# cross-platform compatible and use numbers only.
+
+# Caution: Even with a sparse image file, an filesystem image of 100G
+# size needs 1.6GB on disk just to be formatted!
+for imgsize in 16777216; do
     testimg="test-${imgsize}.img"
     trap "" EXIT
     # create sparse image file full of zeros
