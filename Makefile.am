@@ -14,6 +14,7 @@ all_targets =
 clean_targets =
 install_targets =
 uninstall_targets =
+phony_targets =
 
 # list of e2tools like e2ls and e2cp etc
 e2tools_list =
@@ -149,8 +150,8 @@ e2tools-toolmap.c: Makefile
 		mv -f e2tools-toolmap.c.tmp e2tools-toolmap.c; \
 	fi
 
-all_targets += e2tools-symlinks
-.PHONY: e2tools-symlinks
+all_targets   += e2tools-symlinks
+phony_targets += e2tools-symlinks
 e2tools-symlinks: e2tools$(EXEEXT)
 	@for symlink in $(e2tools_list); do \
 		rm -f "$${symlink}"; \
@@ -158,12 +159,12 @@ e2tools-symlinks: e2tools$(EXEEXT)
 	done
 
 clean_targets += e2tools-clean
-.PHONY: e2tools-clean
+phony_targets += e2tools-clean
 e2tools-clean:
 	-rm -f $(e2tools_list)
 
 install_targets += e2tools-install
-.PHONY: e2tools-install
+phony_targets   += e2tools-install
 e2tools-install:
 	cd $(DESTDIR)$(bindir) && \
 	for symlink in $(e2tools_list); do \
@@ -172,7 +173,7 @@ e2tools-install:
 	done
 
 uninstall_targets += e2tools-uninstall
-.PHONY: e2tools-uninstall
+phony_targets     += e2tools-uninstall
 e2tools-uninstall:
 	-cd $(DESTDIR)$(bindir) && rm -f $(e2tools_list)
 
@@ -222,6 +223,8 @@ SUFFIXES += .sh.in .sh
 ########################################################################
 # local hooks we have collected targets in variables for
 ########################################################################
+
+.PHONY: $(phony_targets)
 
 all-local: $(all_targets)
 
