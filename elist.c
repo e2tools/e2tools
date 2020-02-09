@@ -45,7 +45,7 @@
 #endif
 
 elist_t *
-elist_new()
+elist_new(void)
 {
   elist_t *list;
 

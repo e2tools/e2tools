@@ -40,7 +40,7 @@
 #include "e2tools-toolmap.h"
 
 void
-usage()
+usage(void)
 {
     fprintf(stderr, "Usage: e2tools <command> [OPTION...]\n");
     fprintf(stderr, "\n");

@@ -27,7 +27,7 @@ typedef struct _elist_t
 } elist_t;
 
 extern
-elist_t * elist_new();
+elist_t *elist_new(void);
 
 extern
 elist_t *elist_delete(elist_t *l, void (*data_free)(void *));

@@ -187,7 +187,7 @@ void update_progress(unsigned long num_bytes)
  * MM/DD/YY      Name               Description
  *
  */
-void finish_progress()
+void finish_progress(void)
 {
   if (prog_start != prog_time)
     fputs(PROG_CLEAR, stderr);
