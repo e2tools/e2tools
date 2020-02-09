@@ -1,6 +1,7 @@
 language: c
 os:
     - linux
+    - osx
 compiler:
     - clang
     - gcc
@@ -8,7 +9,7 @@ arch:
     - amd64
     - arm64
 before_install:
-    - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install e2fsprogs; fi
+    - if [[ "$TRAVIS_OS_NAME" == "osx"   ]]; then brew install e2fsprogs; fi
     - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get update -qq; fi
     - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install -y e2fslibs-dev uuid-dev ss-dev; fi
 before_script:
