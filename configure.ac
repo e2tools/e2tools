@@ -38,14 +38,21 @@ AC_PROG_MAKE_SET
 
 AC_ARG_VAR([CHMOD], [chmod command])
 AC_PATH_PROG([CHMOD], [chmod])
+AC_PATH_PROG([CHMOD], [busybox chmod])
 
 AC_ARG_VAR([DD], [dd command])
 AC_PATH_PROG([DD], [dd])
-AM_CONDITIONAL([HAVE_DD_COMMAND], [test "x$DD" != "xno"])
+AC_PATH_PROG([DD], [busybox dd])
+AM_CONDITIONAL([HAVE_DD_COMMAND],
+               [test "x$DD" != "x" && test "x$DD" != "xno"])
 
-AC_ARG_VAR([MKE2FS], [mkfs.ext2 command])
+AC_ARG_VAR([MKE2FS], [mke2fs or mkfs.ext2 command])
+AC_PATH_PROG([MKE2FS], [mke2fs])
 AC_PATH_PROG([MKE2FS], [mkfs.ext2])
-AM_CONDITIONAL([HAVE_MKE2FS_COMMAND], [test "x$MKE2FS" != "xno"])
+AC_PATH_PROG([MKE2FS], [busybox mke2fs])
+AC_PATH_PROG([MKE2FS], [busybox mkfs.ext2])
+AM_CONDITIONAL([HAVE_MKE2FS_COMMAND],
+               [test "x$MKE2FS" != "x" && test "x$MKE2FS" != "xno"])
 
 
 dnl ====================================================================
