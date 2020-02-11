@@ -738,7 +738,7 @@ void long_disp(ls_file_t *info, int UNUSED_PARM(*col), int options)
     }
 
 
-  printf("%c%6u%c %10s %s %s  ", lbr, info->inode_num, rbr,
+  printf("%c%10u%c %10s %s %s  ", lbr, info->inode_num, rbr,
          modestr, userstr, groupstr);
   if (LINUX_S_ISDIR(info->inode.i_mode))
     printf("%7d", info->inode.i_size);
