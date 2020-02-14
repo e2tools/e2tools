@@ -1,3 +1,8 @@
+/** \file e2tools.c
+ * \brief The e2tools main().
+ *
+ */
+
 /* $Header: /home/ksheff/src/e2tools/RCS/e2tools.c,v 0.7 2002/08/08 07:55:03 ksheff Exp $ */
 /*
  * e2tools.c
@@ -39,6 +44,8 @@
 #include "e2tools.h"
 #include "e2tools-toolmap.h"
 
+/** Print e2tools usage message.
+ */
 void
 usage(void)
 {
@@ -51,6 +58,9 @@ usage(void)
       }
 }
 
+
+/** Determine which tool's main_*() to call and call that.
+ */
 int
 main(int argc, char *argv[])
 {

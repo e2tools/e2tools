@@ -1,3 +1,10 @@
+/** \file e2tool-e2ls.c
+ * \brief Directory listing tool.
+ * \author Copyright (C) 1997 Theodore Ts'o
+ * \author Copyright (C) 2002,2004 Keith W. Sheffield <shefff@pobox.com>
+ *
+ */
+
 /* $Header: /home/ksheff/src/e2tools/RCS/ls.c,v 0.8 2004/04/07 03:30:49 ksheff Exp $ */
 /*
  * ls.c --- list directories

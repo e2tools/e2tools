@@ -33,6 +33,8 @@ EXTRA_DIST =
 SUFFIXES =
 TESTS =
 
+EXTRA_DATA =
+noinst_DATA =
 bin_PROGRAMS =
 dist_man_MANS =
 man_MANS =
@@ -208,6 +210,19 @@ sed_in_commands += -e 's|[@]top_srcdir@|$(top_srcdir)|g'
 sed_in_commands += -e 's|[@]DD@|$(DD)|g'
 sed_in_commands += -e 's|[@]MKE2FS@|$(MKE2FS)|g'
 
+if HAVE_DOT_COMMAND
+sed_in_commands += -e 's|[@]HAVE_DOT_COMMAND_FALSE@|$(HASHMARK)|g'
+sed_in_commands += -e 's|[@]HAVE_DOT_COMMAND_TRUE@||g'
+else
+sed_in_commands += -e 's|[@]HAVE_DOT_COMMAND_FALSE@||g'
+sed_in_commands += -e 's|[@]HAVE_DOT_COMMAND_TRUE@|$(HASHMARK)|g'
+endif
+
+sed_in_commands += -e 's|[@]DOT@|$(DOT)|g'
+sed_in_commands += -e 's|[@]PACKAGE_NAME@|$(PACKAGE_NAME)|g'
+sed_in_commands += -e 's|[@]PACKAGE_TARNAME@|$(PACKAGE_TARNAME)|g'
+sed_in_commands += -e 's|[@]PACKAGE_VERSION@|$(PACKAGE_VERSION)|g'
+
 SUFFIXES += .1.in .1
 .1.in.1:
 	$(MKDIR_P) $(@D)
@@ -218,6 +233,32 @@ SUFFIXES += .sh.in .sh
 	$(MKDIR_P) $(@D)
 	$(SED) $(sed_in_commands) < $< > $@
 	$(CHMOD) +x $@
+
+
+########################################################################
+# doxygen generated documentation
+########################################################################
+
+EXTRA_DIST += doxygen-index.md
+EXTRA_DIST += Doxyfile.in
+
+if HAVE_DOXYGEN_COMMAND
+
+CLEANFILES += Doxyfile
+Doxyfile: Doxyfile.in Makefile
+	$(SED) $(sed_in_commands) < $(srcdir)/Doxyfile.in > Doxyfile
+
+all_targets   += dox
+phony_targets += dox
+dox: Doxyfile $(e2tools_SOURCES)
+	$(DOXYGEN) Doxyfile
+
+clean_targets += clean-doxygen
+phony_targets += clean-doxygen
+clean-doxygen:
+	-rm -rf html
+
+endif
 
 
 ########################################################################

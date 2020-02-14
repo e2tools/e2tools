@@ -1,3 +1,7 @@
+/** \file read.h
+ * \brief Read files from filesystem interface.
+ */
+
 #ifndef E2TOOLS_READ_H
 #define E2TOOLS_READ_H
 

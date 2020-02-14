@@ -1,3 +1,7 @@
+/** \file write.h
+ * \brief Write file to filesystem interface.
+ */
+
 #ifndef E2TOOLS_WRITE_H
 #define E2TOOLS_WRITE_H
 

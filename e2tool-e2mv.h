@@ -1,3 +1,7 @@
+/** \file e2tool-e2mv.h
+ * \brief File moving and renaming tool interface.
+ */
+
 #ifndef E2TOOL_E2MV_H
 #define E2TOOL_E2MV_H
 

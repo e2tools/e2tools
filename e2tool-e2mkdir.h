@@ -1,3 +1,7 @@
+/** \file e2tool-e2mkdir.h
+ * \brief Directory creation tool interface.
+ */
+
 #ifndef E2TOOL_E2MKDIR_H
 #define E2TOOL_E2MKDIR_H
 

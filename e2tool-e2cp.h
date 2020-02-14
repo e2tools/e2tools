@@ -1,3 +1,7 @@
+/** \file e2tool-e2cp.h
+ * \brief File copy tool interface.
+ */
+
 #ifndef E2TOOL_E2CP_H
 #define E2TOOL_E2CP_H
 

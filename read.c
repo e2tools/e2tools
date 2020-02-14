@@ -1,3 +1,7 @@
+/** \file read.c
+ * \brief Read files from filesystem implementation.
+ */
+
 /* $Header: /home/ksheff/src/e2tools/RCS/read.c,v 0.2 2002/08/08 07:58:35 ksheff Exp $ */
 /*
  * read.c

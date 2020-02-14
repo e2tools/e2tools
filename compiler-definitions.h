@@ -1,3 +1,7 @@
+/** \file compiler-definitions.h
+ * \brief Compiler specific definitions.
+ */
+
 #ifndef E2TOOLS_COMPILER_DEFINITIONS_H
 #define E2TOOLS_COMPILER_DEFINITIONS_H
 

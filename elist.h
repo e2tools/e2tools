@@ -1,5 +1,9 @@
-#ifndef ELIST_H
-#define ELIST_H
+/** \file elist.h
+ * \brief e2tools double linked list interface.
+ */
+
+#ifndef E2TOOLS_ELIST_H
+#define E2TOOLS_ELIST_H
 
 /* $Header: /home/ksheff/src/e2tools/RCS/elist.h,v 0.3 2002/06/05 22:04:13 ksheff Exp $ */
 
@@ -44,4 +48,4 @@ elist_t *elist_insert(elist_t *l, void *data);
 extern
 void elist_sort(elist_t *l, int (sort_func)(const void *, const void *), int reverse);
 
-#endif /* !defined(ELIST_H) */
+#endif /* !defined(E2TOOLS_ELIST_H) */
