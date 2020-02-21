@@ -117,18 +117,16 @@ orig_LIBS="$LIBS"
 CFLAGS="$CFLAGS $EXT2FS_CFLAGS"
 LIBS="$LIBS $EXT2FS_LIBS"
 
-AC_CHECK_LIB([ext2fs], [ext2fs_xattrs_read], [dnl
-have_ext2fs_xattrs=yes
-], [dnl
-have_ext2fs_xattrs=no
-])
+AC_CHECK_LIB([ext2fs], [ext2fs_xattrs_read],
+             [have_ext2fs_xattrs=yes], [have_ext2fs_xattrs=no])
 
 CFLAGS="$orig_CFLAGS"
 LIBS="$orig_LIBS"
 
 AM_CONDITIONAL([HAVE_EXT2FS_XATTRS], [test "x$have_ext2fs_xattrs" = "xyes"])
 AM_COND_IF([HAVE_EXT2FS_XATTRS], [dnl
-AC_DEFINE([HAVE_EXT2FS_XATTRS], [1], [Defined if libext2fs implements ext2fs_xattrs_read])
+  AC_DEFINE([HAVE_EXT2FS_XATTRS], [1],
+            [Defined if libext2fs implements ext2fs_xattrs_read])
 ])
 
 
@@ -150,13 +148,13 @@ static void test_function(void)
   }
 }
 ]])], [dnl
-AC_MSG_RESULT([yes])
-AC_DEFINE([FUNCTION_ATTRIBUTE_NAKED_IF_POSSIBLE], [__attribute__((naked))],
-          [defined properly when compiling with naked attribute works])
+  AC_MSG_RESULT([yes])
+  AC_DEFINE([FUNCTION_ATTRIBUTE_NAKED_IF_POSSIBLE], [__attribute__((naked))],
+            [defined properly when compiling with naked attribute works])
 ], [dnl
-AC_MSG_RESULT([no])
-AC_DEFINE([FUNCTION_ATTRIBUTE_NAKED_IF_POSSIBLE], [],
-          [defined empty when compiling with naked attribute fails])
+  AC_MSG_RESULT([no])
+  AC_DEFINE([FUNCTION_ATTRIBUTE_NAKED_IF_POSSIBLE], [],
+            [defined empty when compiling with naked attribute fails])
 ])
 CFLAGS="$orig_CFLAGS"
 
