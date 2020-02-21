@@ -88,7 +88,7 @@ dnl ====================================================================
 dnl Checks for header files.
 dnl ====================================================================
 AC_HEADER_STDC
-AC_CHECK_HEADERS(errno.h fcntl.h sys/time.h unistd.h)
+AC_CHECK_HEADERS([errno.h fcntl.h sys/time.h unistd.h])
 
 
 dnl ====================================================================
@@ -106,7 +106,7 @@ dnl Checks for library functions.
 dnl ====================================================================
 AC_FUNC_ALLOCA
 AC_FUNC_UTIME_NULL
-AC_CHECK_FUNCS(gettimeofday regcomp strdup strtol)
+AC_CHECK_FUNCS([gettimeofday regcomp strdup strtol])
 
 
 dnl ====================================================================
