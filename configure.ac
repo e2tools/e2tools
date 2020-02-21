@@ -77,6 +77,9 @@ AS_VAR_IF([GCC], [yes], [dnl
 
 dnl ====================================================================
 dnl Checks for libraries.
+dnl   E2T_PKG_CHECK_MODULES has the advantage over PKG_CHECK_MODULES
+dnl   that it also thecks the modversion and AC_MSG_RESULTs it for
+dnl   help with debugging issues with different library versions.
 dnl ====================================================================
 E2T_PKG_CHECK_MODULES([EXT2FS], [ext2fs >= 1.27], [], [dnl
     AC_MSG_ERROR([AC_PACKAGE_NAME requires libext2fs (part of e2fsprogs).])])
