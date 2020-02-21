@@ -78,10 +78,10 @@ AS_VAR_IF([GCC], [yes], [dnl
 dnl ====================================================================
 dnl Checks for libraries.
 dnl ====================================================================
-E2T_PKG_CHECK_MODULES([EXT2FS], [ext2fs >= 1.27], [], [
-    AC_MSG_ERROR([Sorry, but we do require libext2fs (part of e2fsprogs).])])
-E2T_PKG_CHECK_MODULES([COM_ERR], [com_err], [], [
-    AC_MSG_ERROR([Sorry, but we do require libcom_err (part of e2fsprogs).])])
+E2T_PKG_CHECK_MODULES([EXT2FS], [ext2fs >= 1.27], [], [dnl
+    AC_MSG_ERROR([AC_PACKAGE_NAME requires libext2fs (part of e2fsprogs).])])
+E2T_PKG_CHECK_MODULES([COM_ERR], [com_err], [], [dnl
+    AC_MSG_ERROR([AC_PACKAGE_NAME requires libcom_err (part of e2fsprogs).])])
 
 
 dnl ====================================================================
