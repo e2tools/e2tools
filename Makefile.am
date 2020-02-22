@@ -78,7 +78,7 @@ e2tools_SOURCES += write.c write.h
 dist_man_MANS += e2tools.7
 
 if HAVE_EXT2FS_XATTRS
-# EXTRA_DIST       += e2chcon.1in
+# EXTRA_DIST       += e2chcon.1.in
 # CLEANFILES       += e2chcon.1
 # man_MANS         += e2chcon.1
 # e2tools_list     += e2chcon
