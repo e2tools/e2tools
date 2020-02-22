@@ -52,7 +52,7 @@ EXTRA_DIST += TODO
 # include files
 ########################################################################
 
-include Makefile-files
+include src/Makefile-files
 include tests/Makefile-files
 
 
