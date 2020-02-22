@@ -21,8 +21,8 @@ arch:
 # OSX, we only do the 'clang' builds.
 jobs:
   exclude:
-    - os: osx
-      compiler: gcc
+  - os: osx
+    compiler: gcc
 
 matrix:
   include:
