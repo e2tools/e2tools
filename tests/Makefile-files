@@ -1,4 +1,7 @@
-# -*- Makefile -*-
+# -*- makefile-automake -*- -*- makefile -*-
+########################################################################
+# Test suite
+########################################################################
 
 EXTRA_DIST += %reldir%/simple-test.sh.in
 CLEANFILES += %reldir%/simple-test.sh
@@ -8,3 +11,8 @@ TESTS      += %reldir%/simple-test.sh
 %reldir%/simple-test.sh : %reldir%/simple-test.sh.in Makefile
 endif
 endif
+
+
+########################################################################
+# End of tests/Makefile-files
+########################################################################
