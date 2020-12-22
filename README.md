@@ -101,7 +101,10 @@ here with a few remarks on each:
 Distribution packages
 =====================
 
+<a href="https://repology.org/project/e2tools/versions"><img src="https://repology.org/badge/vertical-allrepos/e2tools.svg" alt="Packaging status" align="right">
+</a>
+
 The [repology.org e2tools
 page](https://repology.org/project/e2tools/packages) contains
 information on many distributions' `e2tools` packages including the
-release numbers they are using.
+releases they are packaging.
