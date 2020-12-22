@@ -96,3 +96,12 @@ here with a few remarks on each:
   * e2tools. Uses the same codebase from e2fsprogs, and thus handles
     any filesystem block size independent of the kernel
     PAGE_SIZE. Does not require mounting priviledges.
+
+
+Distribution packages
+=====================
+
+The [repology.org e2tools
+page](https://repology.org/project/e2tools/packages) contains
+information on many distributions' `e2tools` packages including the
+release numbers they are using.
