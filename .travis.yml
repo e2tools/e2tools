@@ -6,7 +6,6 @@ language: c
 
 os:
     - linux
-    - osx
 
 compiler:
     - clang
@@ -16,13 +15,7 @@ arch:
     - amd64
     - arm64
 
-# On OSX, 'gcc' is an alias for 'clang' anyway, and finding/installing
-# a gcc would be a bit of extra work with uncertain benefits. So on
-# OSX, we only do the 'clang' builds.
 matrix:
-  exclude:
-    - os: osx
-      compiler: gcc
   include:
     - os: linux
       dist: bionic
@@ -36,7 +29,6 @@ matrix:
 #######################################################################
 
 before_install:
-    - if [[ "$TRAVIS_OS_NAME" == "osx"   ]]; then brew install e2fsprogs; fi
     - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get update -qq; fi
     - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install -y e2fslibs-dev uuid-dev ss-dev; fi
 
