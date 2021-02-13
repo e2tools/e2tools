@@ -315,8 +315,9 @@ tail(ext2_filsys *fs_ptr, ext2_ino_t root, char *input, int num_lines,
       ptr = buf + bytes_read - 1;
       while (bytes_to_read--)
         {
-          if (*ptr == '\n' && num_lines-- == 0)
+          if (*ptr == '\n' && num_lines == 0)
             {
+              num_lines--;
               /* if the newline wasn't the last character in the buffer, then
                * print what's remaining.
                */
@@ -335,10 +336,14 @@ tail(ext2_filsys *fs_ptr, ext2_ino_t root, char *input, int num_lines,
           ptr--;
         }
 
+      /* if we have read from the top of the file, break out of this loop */
+      if (offset == 0)
+        break;
+
       offset -= (offset < BLK_SIZE) ? offset : BLK_SIZE;
       bytes_to_read = BLK_SIZE;
     }
-  while (offset > 0);
+  while (1);
 
   /* if we are here and have any lines left, we hit the beginning, so
    * dump the rest of what's in memory out.
