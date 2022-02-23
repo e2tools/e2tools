@@ -29,6 +29,9 @@ the host filesystem.
 .B \-G \fIgid\fP
 Set the default group to gid.
 .TP
+.B \-l
+Copy symbolic links without following.
+.TP
 .B \-O \fIuid\fP
 Set the default file owner to uid.
 .TP
@@ -55,6 +58,12 @@ Copy a file and use the default permission and ownership of the current user:
 Do the same thing, but keep permissions & ownership:
 
     e2cp \-p README.txt /tmp/boot.img:/tmp
+.\"
+.PP
+Copy a symbolic link without following:
+
+    ln -s README.md README.md.link
+    e2cp \-l README.md.link /tmp/boot.img:/tmp
 .\"
 .PP
 Dump a file to standard out:
