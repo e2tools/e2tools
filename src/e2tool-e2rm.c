@@ -86,7 +86,7 @@ rm_regex_proc(ext2_ino_t dir, int entry, struct ext2_dir_entry *dirent,
  *
  * Return Values:
  *
- * 0 - the filess were created successfully
+ * 0 - the files were created successfully
  * otherwise, an error code is returned
  *
  * Author: Keith W. Sheffield

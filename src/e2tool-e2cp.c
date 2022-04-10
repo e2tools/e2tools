@@ -177,7 +177,7 @@ cp_to_ext2fs(ext2_filsys fs, ext2_ino_t cwd, char *in_file, char *out_file,
  * If there are any parameters left, they are the files to be copied
  *     If no -s or -d parameters have been processed
  *         Retrieve the last parameter which is the destination
- *         If the destination is a ext2fs file specificiation
+ *         If the destination is a ext2fs file specification
  *             Open the filesystem with write capability
  *         Test to make sure that is a directory and not a file
  *     Sort the names of the files to be copied.
