@@ -93,6 +93,6 @@ e2tools-0.0.16 and earlier (the Keith Sheffield era)
     Sheffield's e2tools
     page](http://home.earthlink.net/~k_sheff/sw/e2tools/) using the
     [wayback machine](https://web.archive.org/) capture from
-    2003-02-13.  The "Last modified" suggestes that it has been
+    2003-02-13.  The "Last modified" suggests that it has been
     released at 2002-08-08 or earlier, but the 2003-02-13 capture date
     at the very latest.

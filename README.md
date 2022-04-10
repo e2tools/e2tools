@@ -86,16 +86,16 @@ There is more than one way to access an ext2 filesystem. We list a few
 here with a few remarks on each:
 
   * Linux kernel ext2 driver. Requires loopback (for image files) and
-    mounting priviledges. Also requires the filesystem block size to
+    mounting privileges. Also requires the filesystem block size to
     not be larger than the kernel PAGE_SIZE.
 
   * fuse2fs FUSE userspace ext2 driver from e2fsprogs. Requires
-    mounting priviledges. e2fsprogs handles any filesystem block size
+    mounting privileges. e2fsprogs handles any filesystem block size
     independent of the kernel PAGE_SIZE.
 
   * e2tools. Uses the same codebase from e2fsprogs, and thus handles
     any filesystem block size independent of the kernel
-    PAGE_SIZE. Does not require mounting priviledges.
+    PAGE_SIZE. Does not require mounting privileges.
 
 
 Distribution packages

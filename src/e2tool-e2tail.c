@@ -352,7 +352,7 @@ tail(ext2_filsys *fs_ptr, ext2_ino_t root, char *input, int num_lines,
       }
     }
 
-  /* retreive the current position in the file */
+  /* retrieve the current position in the file */
   if ((retval = ext2fs_file_lseek(tail_fd, 0, EXT2_SEEK_CUR, &cur_pos)))
     {
       fputs(error_message(retval), stderr);
