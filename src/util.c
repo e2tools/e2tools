@@ -79,7 +79,7 @@ static int
 release_blocks_proc(ext2_filsys fs, blk_t *blocknr,
                     int blockcnt, void *private);
 
-/* translate a ext2 mode to the host OS representation */
+/* translate an ext2 mode to the host OS representation */
 mode_t ext2_mode_xlate(__u16 lmode)
 {
   mode_t mode = 0;
