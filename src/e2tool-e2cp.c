@@ -80,7 +80,7 @@
 #include "e2tool-e2cp.h"
 
 /* Macros */
-#define USAGE "Usage: e2cp [-0apv][-P mode][-O uid][-G gid][-d dest_dir][-s src_dir][file1...N dest]\n"
+#define USAGE "Usage: e2cp [-0alpv][-P mode][-O uid][-G gid][-d dest_dir][-s src_dir][file1...N dest]\n"
 #define BUF_SIZE 8192
 #define OUTBUF_SIZE ((BUF_SIZE)+1)
 
@@ -117,7 +117,7 @@ copy_files(int num_files, char **cur_file_names, char *dest_dir, char *dest_fs,
            ext2_filsys *fs, ext2_ino_t *root, ext2_ino_t orig_cwd,
            char *outpath, char *out_file, int max_file_len,
            FS_CAT_T src_category, FS_CAT_T dst_category, int absolute,
-           int keep, int file_to_file, int verbose, struct stat *def_stat);
+           int keep, int keep_link, int file_to_file, int verbose, struct stat *def_stat);
 static char *
 diag_output_name(char *odir, int file_to_file, char *ofile);
 
@@ -135,7 +135,7 @@ long
 add_link(struct stat *sbuf, ext2_ino_t newfile);
 static long
 cp_to_ext2fs(ext2_filsys fs, ext2_ino_t cwd, char *in_file, char *out_file,
-             struct stat *statbuf, int keep, struct stat *def_stat);
+             struct stat *statbuf, int keep, int keep_link, struct stat *def_stat);
 
 
 /* Name:    main_e2cp()
@@ -165,6 +165,7 @@ cp_to_ext2fs(ext2_filsys fs, ext2_ino_t cwd, char *in_file, char *out_file,
  *          ext2fs filesystem
  * -d       Destination of files to be copied.  May be in the ext2fs filesystem
  *          or the host filesystem
+ * -l       Copy symbolic links without following.
  * -p       Preserve host file attributes (permissions, times, etc.) when
  *          copying files.
  * -s       The source of the files to be copied.
@@ -242,6 +243,7 @@ main_e2cp(int argc, char *argv[])
   char *out_file = NULL;
   int max_out_len = -1;
   int keep = 0;
+  int keep_link = 0;
   int absolute = 0;
   int verbose = 0;
   FS_CAT_T src_category = NONE;
@@ -262,7 +264,7 @@ main_e2cp(int argc, char *argv[])
 #ifdef HAVE_OPTRESET
   optreset = 1;     /* Makes BSD getopt happy */
 #endif
-  while ((c = getopt(argc, argv, "0ad:G:O:pP:s:v")) != EOF)
+  while ((c = getopt(argc, argv, "0ald:G:O:pP:s:v")) != EOF)
     {
       switch (c)
         {
@@ -271,6 +273,9 @@ main_e2cp(int argc, char *argv[])
           break;
         case 'a':
           absolute = 1;
+          break;
+        case 'l':
+          keep_link = 1;
           break;
         case 'd':
           dest_dir = optarg;
@@ -435,7 +440,7 @@ main_e2cp(int argc, char *argv[])
       if ((retval = copy_files(num_files, cur_file_name, dest_dir, cur_filesys,
                                &fs, &root, orig_cwd, outpath, out_file,
                                max_out_len, src_category, dst_category,
-                               absolute, keep, non_directory, verbose,
+                               absolute, keep, keep_link, non_directory, verbose,
                                &def_stat)))
         {
           fputs("Error encountered copying files\n", stderr);
@@ -483,10 +488,21 @@ main_e2cp(int argc, char *argv[])
 
           if (dst_category == EXT2_FS)
             {
-              if (stat(in_file, &statbuf) != 0)
+              if (keep_link == 0)
                 {
-                  perror(in_file);
-                  continue;
+                  if (stat(in_file, &statbuf) != 0)
+                    {
+                      perror(in_file);
+                      continue;
+                    }
+                }
+              else
+                {
+                  if (lstat(in_file, &statbuf) != 0)
+                    {
+                      perror(in_file);
+                      continue;
+                    }
                 }
 
               if (S_ISDIR(statbuf.st_mode))
@@ -506,8 +522,8 @@ main_e2cp(int argc, char *argv[])
                   continue;
                 }
 
-              /* can't handle anything other than regular files right now */
-              if (!S_ISREG(statbuf.st_mode))
+              /* can't handle anything other than regular files or symbolic links right now */
+              if (!S_ISREG(statbuf.st_mode) && (keep_link == 1 && !S_ISLNK(statbuf.st_mode)))
                 continue;
 
 
@@ -556,7 +572,7 @@ main_e2cp(int argc, char *argv[])
                     }
                 }
               if ((retval = cp_to_ext2fs(fs, cwd, in_file, out_file,
-                                         &statbuf, keep, &def_stat)))
+                                         &statbuf, keep, keep_link, &def_stat)))
                 {
                   fprintf(stderr, "Error copying file %s to %s:%s\n",
                           in_file, cur_filesys, dest_dir);
@@ -776,7 +792,7 @@ copy_files(int num_files, char **cur_file_names, char *dest_dir, char *dest_fs,
            ext2_filsys *fs, ext2_ino_t *root, ext2_ino_t orig_cwd,
            char *outpath, char *out_file, int max_file_len,
            FS_CAT_T src_category, FS_CAT_T dst_category, int absolute,
-           int keep, int file_to_file, int verbose, struct stat *def_stat)
+           int keep, int keep_link, int file_to_file, int verbose, struct stat *def_stat)
 {
   char *in_file;
   char *dst_file;
@@ -877,14 +893,28 @@ copy_files(int num_files, char **cur_file_names, char *dest_dir, char *dest_fs,
               in_file = NULL;
             }
 
-          if (in_file != NULL && stat(in_file, &statbuf) != 0)
+          if (in_file != NULL)
             {
-              perror(in_file);
-              continue;
+              if (keep_link == 0)
+                {
+                  if (stat(in_file, &statbuf) != 0)
+                    {
+                      perror(in_file);
+                      continue;
+                    }
+                }
+              else
+                {
+                  if (lstat(in_file, &statbuf) != 0)
+                    {
+                      perror(in_file);
+                      continue;
+                    }
+                }
             }
 
-          /* can't handle anything other than regular files right now */
-          if (!S_ISREG(statbuf.st_mode))
+          /* can't handle anything other than regular files or symbolic links right now */
+          if (!S_ISREG(statbuf.st_mode) && (keep_link == 1 && !S_ISLNK(statbuf.st_mode)))
             continue;
 
           if (file_to_file)
@@ -939,7 +969,7 @@ copy_files(int num_files, char **cur_file_names, char *dest_dir, char *dest_fs,
             }
 
           if ((retval = cp_to_ext2fs(*fs, cwd, in_file, out_file, &statbuf,
-                                     keep, def_stat)))
+                                     keep, keep_link, def_stat)))
             {
               fprintf(stderr, "Error copying file %s to %s:%s\n",
                       (in_file) ? in_file : "<stdin>" , cur_filesys,
@@ -1165,13 +1195,17 @@ add_link(struct stat *sbuf, ext2_ino_t newfile)
 
 static long
 cp_to_ext2fs(ext2_filsys fs, ext2_ino_t cwd, char *in_file, char *out_file,
-             struct stat *statbuf, int keep, struct stat *def_stat)
+             struct stat *statbuf, int keep, int keep_link, struct stat *def_stat)
 {
   long retval;
   ext2_ino_t out_file_ino;
+  int is_link = 0;
+
+  if (keep_link == 1 && S_ISLNK(statbuf->st_mode))
+    is_link = 1;
 
   if ((retval = put_file(fs, cwd, in_file, out_file,
-                         &out_file_ino, keep, def_stat)))
+                         &out_file_ino, keep, is_link, def_stat)))
     {
       elist_free(link_list, free);
       return retval;
