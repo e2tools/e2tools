@@ -14,6 +14,7 @@ AC_CONFIG_MACRO_DIR([m4])
 AM_INIT_AUTOMAKE([
 -Wall
 -Werror
+-Wno-portability
 1.9.6
 foreign
 subdir-objects
