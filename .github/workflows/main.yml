@@ -1,0 +1,92 @@
+name: 'CI build'
+
+# Exclude some non-existing example branch
+on:
+  push:
+    branches-ignore:
+      - html-docs
+  pull_request:
+    branches-ignore:
+      - html-docs
+
+env:
+  LC_ALL: C
+  COMMON_CONFIGURE_FLAGS: >-
+    --disable-silent-rules
+
+jobs:
+  amb:
+
+    runs-on: ${{ matrix.os }}
+
+    name: 'amb ${{ matrix.os }}'
+
+    strategy:
+      fail-fast: true
+      matrix:
+        os:
+          - ubuntu-latest
+          - macos-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 'Determine number of cores to build on (Linux)'
+        if: runner.os == 'Linux'
+        run: echo NPROC=$(nproc) >> $GITHUB_ENV
+
+      - name: 'Determine number of cores to build on (macOS)'
+        if: runner.os == 'macOS'
+        run: echo NPROC=$(sysctl -n hw.logicalcpu) >> $GITHUB_ENV
+
+      # Setting MAKE interferes with Makefile{,.in,.am} using $(MAKE) internally
+      - name: 'Prepare concurrent make'
+        run: if test "x$NPROC" = x; then echo ci_MAKE="make" >> $GITHUB_ENV; echo "NPROC must be set"; exit 1; else echo ci_MAKE="make -j${NPROC} -l${NPROC}" >> $GITHUB_ENV; fi
+
+      - name: 'Update software database (Linux)'
+        if: runner.os == 'Linux'
+        run: sudo apt-get update
+
+      - name: 'Update software database (macOS)'
+        if: runner.os == 'macOS'
+        run: brew update
+
+      - name: 'Install build requirements (Linux)'
+        if: runner.os == 'Linux'
+        run: sudo apt-get install -y libext2fs-dev pkgconf
+
+      - name: 'Install build requirements (macOS)'
+        if: runner.os == 'macOS'
+        run: |
+          brew install autoconf automake pkg-config e2fsprogs
+          echo PKG_CONFIG_PATH="/opt/homebrew/opt/e2fsprogs/lib/pkgconfig" >> $GITHUB_ENV
+
+      # - name: 'OS specific build flags (Linux)'
+      #   if: runner.os == 'Linux'
+      #   run: echo OS_SPECIFIC_CPPFLAGS="" >> $GITHUB_ENV
+
+      # # FIXME: Fix source to build without the -D_DARWIN_C_SOURCE here
+      # - name: 'OS specific build flags (macOS)'
+      #   if: runner.os == 'macOS'
+      #   run: echo OS_SPECIFIC_CPPFLAGS="-D_DARWIN_C_SOURCE -I$(brew --prefix)/include" >> $GITHUB_ENV
+
+      - name: 'autoreconf'
+        run: autoreconf -v -i -f
+
+      - name: 'configure'
+        run: ./configure ${COMMON_CONFIGURE_FLAGS} --prefix=$PWD/__prefix
+
+      - name: 'make'
+        run: set -x; ${ci_MAKE} CPPFLAGS="${OS_SPECIFIC_CPPFLAGS}"
+
+      - name: 'make check'
+        run: set -x; ${ci_MAKE} CPPFLAGS="${OS_SPECIFIC_CPPFLAGS}" check
+
+      - name: 'make distcheck'
+        run: set -x; ${ci_MAKE} CPPFLAGS="${OS_SPECIFIC_CPPFLAGS}" DISTCHECK_CONFIGURE_FLAGS="${COMMON_CONFIGURE_FLAGS}" distcheck
+
+      - name: 'make install'
+        run: set -x; ${ci_MAKE} CPPFLAGS="${OS_SPECIFIC_CPPFLAGS}" install
+
+      - name: 'make installcheck'
+        run: set -x; ${ci_MAKE} CPPFLAGS="${OS_SPECIFIC_CPPFLAGS}" installcheck
