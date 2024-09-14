@@ -101,7 +101,7 @@ here with a few remarks on each:
 Distribution packages
 =====================
 
-<a href="https://repology.org/project/e2tools/versions"><img src="https://repology.org/badge/vertical-allrepos/e2tools.svg" alt="Packaging status" align="right">
+<a href="https://repology.org/project/e2tools/versions"><img src="https://repology.org/badge/vertical-allrepos/e2tools.svg?columns=4" alt="Packaging status" align="right">
 </a>
 
 The [repology.org e2tools
