@@ -208,7 +208,7 @@ add_ls_file(char *name, int namelen, ext2_ino_t dir, ext2_ino_t ino,
   ls_file_t *file_info;
   elist_t *flist;
 
-  if (NULL == (file_info = calloc(sizeof(ls_file_t),1)))
+  if (NULL == (file_info = calloc(1, sizeof(ls_file_t))))
     {
       perror("list_dir");
       return(0);

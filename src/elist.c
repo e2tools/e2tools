@@ -49,7 +49,7 @@ elist_new(void)
 {
   elist_t *list;
 
-  list = (elist_t *) calloc(sizeof(elist_t), 1);
+  list = (elist_t *) calloc(1, sizeof(elist_t));
   return list;
 }
 
