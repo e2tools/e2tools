@@ -1,6 +1,18 @@
 dnl ====================================================================
 dnl Process this file with autoconf to produce a configure script.
 dnl ====================================================================
+dnl
+dnl Relevant build tool versions:
+dnl
+dnl   2003-11-06  autoconf 2.59    Original e2tools requirement
+dnl   2009-07-26  autoconf 2.64    About the time of automake 1.11
+dnl   2012-04-24  autoconf 2.69    Latest release for a loooong time
+dnl
+dnl   2005-07-10  automake 1.9.6   Original e2tools requirement
+dnl   2009-05-17  automake 1.11    Adds AM_SILENT_RULES and silent-rules
+dnl   2024-07-11  automake 1.17    Requires -Wno-portability for # in make vars
+dnl
+dnl ====================================================================
 AC_PREREQ(2.59)
 AC_INIT([e2tools],
         [0.1.1],
