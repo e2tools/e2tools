@@ -52,8 +52,8 @@ EXTRA_DIST += TODO
 # include files
 ########################################################################
 
-include src/Makefile-files
-include tests/Makefile-files
+include src/include.am
+include tests/include.am
 
 
 ########################################################################
