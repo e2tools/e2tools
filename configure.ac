@@ -22,14 +22,6 @@ subdir-objects
 
 
 dnl ====================================================================
-dnl Ensure that these Macros are actually available at the time of
-dnl running autoreconf
-dnl ====================================================================
-m4_pattern_forbid([PKG_CHECK_MODULES])dnl
-m4_pattern_forbid([E2T_])dnl
-
-
-dnl ====================================================================
 dnl Checks for programs.
 dnl ====================================================================
 AC_PROG_CC_C99
@@ -72,6 +64,8 @@ dnl Add compiler flags to CFLAGS, but only if they are actually
 dnl supported by the GCC compatible compiler (probably gcc or clang).
 dnl If the user does not want these flags to be used, they can run
 dnl make with a CFLAGS= parameter.
+m4_pattern_forbid([E2T_CONDITIONAL_CFLAGS])dnl
+dnl
 AS_VAR_IF([GCC], [yes], [dnl
   E2T_CONDITIONAL_CFLAGS([--std=gnu99])
   E2T_CONDITIONAL_CFLAGS([-pedantic])
@@ -90,6 +84,8 @@ dnl   E2T_PKG_CHECK_MODULES has the advantage over PKG_CHECK_MODULES
 dnl   that it also thecks the modversion and AC_MSG_RESULTs it for
 dnl   help with debugging issues with different library versions.
 dnl ====================================================================
+m4_pattern_forbid([E2T_PKG_CHECK_MODULES])dnl
+dnl
 E2T_PKG_CHECK_MODULES([EXT2FS], [ext2fs >= 1.27], [], [dnl
     AC_MSG_ERROR([AC_PACKAGE_NAME requires libext2fs (part of e2fsprogs).])])
 E2T_PKG_CHECK_MODULES([COM_ERR], [com_err], [], [dnl

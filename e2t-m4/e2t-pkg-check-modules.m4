@@ -5,6 +5,8 @@ dnl   E2T_PKG_CHECK_MODULES([EXT2FS], [ext2fs >= 1.27], [], [dnl
 dnl     AC_MSG_ERROR([Sorry, but libext2fs (part of e2fsprogs) is required.])
 dnl   ])
 dnl
+m4_pattern_forbid([PKG_CHECK_MODULES])dnl
+dnl
 AC_DEFUN([E2T_PKG_CHECK_MODULES], [dnl
 PKG_CHECK_MODULES([$1], [$2], [$3], [$4])
 $1_MODVERSION=`${PKG_CONFIG} --modversion "$2" 2>/dev/null`
