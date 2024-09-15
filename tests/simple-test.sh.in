@@ -24,7 +24,7 @@ set -ex
 # not. So instead of requiring GNU coreutils or busybox, we try to be
 # cross-platform compatible and use numbers only.
 
-# Caution: Even with a sparse image file, an filesystem image of 100G
+# Caution: Even with a sparse image file, a filesystem image of 100G
 # size needs 1.6GB on disk just to be formatted!
 for imgsize in 16777216; do
     testimg="test-${imgsize}.img"
