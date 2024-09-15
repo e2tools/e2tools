@@ -10,10 +10,11 @@ dnl   E2T_CONDITIONAL_CFLAGS([-fno-common])
 dnl
 AC_DEFUN([E2T_CONDITIONAL_CFLAGS], [dnl
 orig_CFLAGS="$CFLAGS"
-CFLAGS="$CFLAGS $1"
+CFLAGS="$orig_CFLAGS -Werror $1"
 AC_MSG_CHECKING([whether to add $1 to CFLAGS])
 AC_COMPILE_IFELSE([AC_LANG_SOURCE([[char x[16];]])], [dnl
 AC_MSG_RESULT([yes])
+CFLAGS="$orig_CFLAGS $1"
 ], [dnl
 AC_MSG_RESULT([no])
 CFLAGS="$orig_CFLAGS"
