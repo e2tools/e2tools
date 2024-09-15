@@ -39,20 +39,27 @@ AC_PROG_SED
 AC_PROG_MAKE_SET
 
 AC_ARG_VAR([CHMOD], [chmod command])
-AC_PATH_PROG([CHMOD], [chmod])
-AC_PATH_PROG([CHMOD], [busybox chmod])
+AS_VAR_IF([CHMOD], [], [dnl
+  AC_PATH_PROG([CHMOD], [chmod])
+])
+AC_MSG_CHECKING([CHMOD value to be used])
+AC_MSG_RESULT([$CHMOD])
 
 AC_ARG_VAR([DD], [dd command])
-AC_PATH_PROG([DD], [dd])
-AC_PATH_PROG([DD], [busybox dd])
+AS_VAR_IF([DD], [], [dnl
+  AC_PATH_PROG([DD], [dd])
+])
+AC_MSG_CHECKING([DD value to be used])
+AC_MSG_RESULT([$DD])
 AM_CONDITIONAL([HAVE_DD_COMMAND],
                [test "x$DD" != "x" && test "x$DD" != "xno"])
 
 AC_ARG_VAR([MKE2FS], [mke2fs or mkfs.ext2 command])
-AC_PATH_PROG([MKE2FS], [mke2fs])
-AC_PATH_PROG([MKE2FS], [mkfs.ext2])
-AC_PATH_PROG([MKE2FS], [busybox mke2fs])
-AC_PATH_PROG([MKE2FS], [busybox mkfs.ext2])
+AS_VAR_IF([MKE2FS], [], [dnl
+  AC_PATH_PROG([MKE2FS], [mke2fs mkfs.ext2])
+])
+AC_MSG_CHECKING([MKE2FS value to be used])
+AC_MSG_RESULT([$MKE2FS])
 AM_CONDITIONAL([HAVE_MKE2FS_COMMAND],
                [test "x$MKE2FS" != "x" && test "x$MKE2FS" != "xno"])
 
