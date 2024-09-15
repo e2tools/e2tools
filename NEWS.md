@@ -1,5 +1,13 @@
-e2tools-0.1.x
-=============
+e2tools-0.1.2 (2024-09-16)
+==========================
+
+  * Make the build compatible with Automake 1.17's warning about hash
+    characters in Makefile.am files.
+
+  * Require at least C99 with stdint.h etc.
+
+  * Documentation updates.
+
 
 e2tools-0.1.0 (2020-02-07)
 ==========================

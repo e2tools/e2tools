@@ -15,7 +15,7 @@ dnl
 dnl ====================================================================
 AC_PREREQ(2.59)
 AC_INIT([e2tools],
-        [0.1.1],
+        [0.1.2],
         [https://github.com/e2tools/e2tools/issues],
         [e2tools],
         [https://e2tools.github.io/])
