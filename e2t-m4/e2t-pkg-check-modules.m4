@@ -9,7 +9,7 @@ AC_DEFUN([E2T_PKG_CHECK_MODULES], [dnl
 PKG_CHECK_MODULES([$1], [$2], [$3], [$4])
 $1_MODVERSION=`${PKG_CONFIG} --modversion "$2" 2>/dev/null`
 AC_SUBST([$1_MODVERSION])
-AC_MSG_CHECKING([for $1 modversion])
+AC_MSG_CHECKING([the $1 modversion])
 AC_MSG_RESULT([[$]$1_MODVERSION])
 ])dnl
 dnl
