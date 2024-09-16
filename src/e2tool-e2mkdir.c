@@ -494,8 +494,18 @@ long create_subdir(ext2_filsys fs, ext2_ino_t root, ext2_ino_t *cwd,
   /* now create the directory */
   if ((retval = ext2fs_mkdir(fs, parent, child, dirname)))
     {
-      fprintf(stderr, "%s\n", error_message(retval));
-      return retval;
+      /* check to see if we ran out of space in the directory */
+      if (retval == EXT2_ET_DIR_NO_SPACE)
+        {
+          /* try resizing the directory and try again */
+          if (0 == (retval = ext2fs_expand_dir(fs, parent)))
+            retval = ext2fs_mkdir(fs, parent, child, dirname);
+        }
+        if (retval)
+          {
+            fprintf(stderr, "%s", error_message(retval));
+            return retval;
+          }
     }
 
   *cwd = child;
