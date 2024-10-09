@@ -120,7 +120,7 @@ get_file(ext2_filsys fs, ext2_ino_t root, ext2_ino_t cwd,
               unlink(outfile);
 #endif
             }
-          return(0);
+          return(-1);
         }
       fputs(error_message(retval), stderr);
       return retval;
