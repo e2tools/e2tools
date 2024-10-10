@@ -39,14 +39,23 @@
 /* Headers */
 
 #include <errno.h>
+#include <limits.h>
 #include "e2tools.h"
 #include "write.h"
 #include "progress.h"
+
+#include <fcntl.h>
+#ifndef O_PATH
+# define O_PATH 010000000
+#endif
 
 /* Local Prototypes */
 
 static long
 store_data(ext2_filsys fs, int fd, ext2_ino_t newfile, off_t *file_size);
+
+static long
+store_link_data(ext2_filsys fs, char *linkfile, ext2_ino_t newfile, off_t *file_size);
 
 /* Name:    put_file()
  *
@@ -83,6 +92,7 @@ store_data(ext2_filsys fs, int fd, ext2_ino_t newfile, off_t *file_size);
  * char *infile;              The name of the input file
  * char *outfile;             The name of the output file
  * int keep;                  Flag indicating to use the input file's stat info
+ * int is_link;               Flag indicating to use the symbolic link
  * struct stat *def_stat;     The default file stat information
  *
  * Return Values:
@@ -103,10 +113,11 @@ store_data(ext2_filsys fs, int fd, ext2_ino_t newfile, off_t *file_size);
  * 06/26/02      K.Sheffield        Flush file system added at the end
  * 07/08/02      K.Sheffield        Additional error messages after perror()
  * 04/06/04      K.Sheffield        Added a default file stat parameter
+ * 02/23/22      P.Martinez         Added a flag for handling symbolic links
  */
 long
 put_file(ext2_filsys fs, ext2_ino_t cwd, char *infile, char *outfile,
-         ext2_ino_t *outfile_ino, int keep, struct stat *def_stat)
+         ext2_ino_t *outfile_ino, int keep, int is_link, struct stat *def_stat)
 {
   int fd;
   struct stat statbuf;
@@ -129,18 +140,36 @@ put_file(ext2_filsys fs, ext2_ino_t cwd, char *infile, char *outfile,
     }
   else
     {
-      if (0 > (fd = open(infile, O_RDONLY)))
+      if (is_link == 0)
         {
-          perror(infile);
-          fprintf(stderr, "Error opening input file: %s\n", infile);
-          return(-1);
+          if (0 > (fd = open(infile, O_RDONLY)))
+            {
+              perror(infile);
+              fprintf(stderr, "Error opening input file: %s\n", infile);
+              return(-1);
+            }
+          if (0 > fstat(fd, &statbuf))
+            {
+              perror(infile);
+              fprintf(stderr, "Error stat()'ing input file: %s\n", infile);
+              close(fd);
+              return(-1);
+            }
         }
-      if (0 > fstat(fd, &statbuf))
+      else
         {
-          perror(infile);
-          fprintf(stderr, "Error stat()'ing input file: %s\n", infile);
-          close(fd);
-          return(-1);
+          if (0 > (fd = open(infile, O_PATH | O_NOFOLLOW)))
+            {
+              perror(infile);
+              fprintf(stderr, "Error opening input link file: %s\n", infile);
+              return(-1);
+            }
+          if (0 > lstat(infile, &statbuf))
+            {
+              perror(infile);
+              fprintf(stderr, "Error stat()'ing input link file: %s\n", infile);
+              return(-1);
+            }
         }
     }
 
@@ -150,14 +179,15 @@ put_file(ext2_filsys fs, ext2_ino_t cwd, char *infile, char *outfile,
       umask(cur_umask = umask(0)); /* get the current umask */
       if (def_stat != NULL)
         {
-          statbuf.st_mode = S_IFREG |
-            ((def_stat->st_mode == 0) ? (0666 & ~cur_umask):def_stat->st_mode);
+          statbuf.st_mode = (is_link ? S_IFLNK : S_IFREG);
+          statbuf.st_mode |= ((def_stat->st_mode == 0) ? (0666 & ~cur_umask):def_stat->st_mode);
           statbuf.st_uid = def_stat->st_uid;
           statbuf.st_gid = def_stat->st_gid;
         }
       else
         {
-          statbuf.st_mode = S_IFREG | (0666 & ~cur_umask);
+          statbuf.st_mode = (is_link ? S_IFLNK : S_IFREG);
+          statbuf.st_mode |= (0666 & ~cur_umask);
           statbuf.st_uid = getuid();
           statbuf.st_gid = getgid();
         }
@@ -235,6 +265,17 @@ put_file(ext2_filsys fs, ext2_ino_t cwd, char *infile, char *outfile,
 
   if (LINUX_S_ISREG(inode.i_mode) &&
       (retval = store_data(fs, fd, newfile, &statbuf.st_size)))
+    {
+      close(fd);
+#ifndef DEBUG
+      rm_file(fs, cwd, outfile, newfile);
+
+#endif
+      return(retval);
+    }
+
+  if (is_link == 1 && LINUX_S_ISLNK(inode.i_mode) &&
+      (retval = store_link_data(fs, infile, newfile, &statbuf.st_size)))
     {
       close(fd);
 #ifndef DEBUG
@@ -362,3 +403,89 @@ store_data(ext2_filsys fs, int fd, ext2_ino_t newfile, off_t *file_size)
 
 } /* end of store_data */
 
+/* Name:    store_link_data()
+ *
+ * Description:
+ *
+ * This function stores the contents of a symbolic link into the current ext2
+ * file system
+ *
+ * Algorithm:
+ *
+ * Open a new file in the ext2 file system
+ * Read data from symbolic link
+ * Write the data to the file on the ext2 filesystem
+ * Close the file
+ *
+ * Global Variables:
+ *
+ * None
+ *
+ * Arguments:
+ *
+ * ext2_filsys fs;            The current file system
+ * char *linkfile;            Path to symbolic link
+ * ext2_ino_t newfile;        Inode number of the new file
+ * off_t *file_size;          The size of the file written
+ *
+ * Return Values:
+ *
+ * 0 - file copied successfully
+ * otherwise the error code of what went wrong
+ *
+ * Author: P.Martinez
+ * Date:   02/23/2022
+ */
+static long
+store_link_data(ext2_filsys fs, char *linkfile, ext2_ino_t newfile, off_t *file_size)
+{
+  ext2_file_t outfile;
+  long retval;
+  int bytes_read;
+  unsigned int bytes_written;
+  char buf[8192];
+  char *ptr;
+  off_t total = 0;
+
+  if ((retval = ext2fs_file_open(fs, newfile, EXT2_FILE_WRITE, &outfile)))
+    {
+      fprintf(stderr, "%s\n", error_message(retval));
+      ext2fs_file_close(outfile);
+      *file_size = 0;
+      return retval;
+    }
+
+  bytes_read = readlink(linkfile, buf, sizeof(buf));
+
+  ptr = buf;
+  while (bytes_read > 0)
+    {
+      if ((retval = ext2fs_file_write(outfile, ptr, bytes_read,
+                                      &bytes_written)))
+        {
+          fprintf(stderr, "%s\n", error_message(retval));
+          ext2fs_file_close(outfile);
+          *file_size = total;
+          return retval;
+        }
+      bytes_read -= bytes_written;
+      total += bytes_written;
+      ptr += bytes_written;
+    }
+  update_progress((unsigned long) total);
+
+  if (bytes_read < 0)
+    {
+      perror("store_link_data");
+      retval = errno;
+    }
+  else
+    retval = 0;
+
+  finish_progress();
+
+  ext2fs_file_close(outfile);
+  *file_size = total;
+  return retval;
+
+} /* end of store_link_data */
