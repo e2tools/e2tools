@@ -127,12 +127,6 @@ main_e2ln(int argc, char *argv[])
       return(1);
     }
 
-  if (symlink)
-    {
-      fputs("Not implemented yet\n", stderr);
-      return(1);
-    }
-
   cur_filesys = argv[optind++];
   if (NULL == (src_dir = strchr(cur_filesys, ':')))
     {
@@ -152,20 +146,26 @@ main_e2ln(int argc, char *argv[])
       return retval;
     }
 
-  /* move to the source directory */
-
-  if (get_file_parts(fs, root, src_dir, &srcd, &src_dir, &src_name))
+  /* for hardlinks, move to the source directory and get the inode*/
+  if (!symlink)
     {
-      ext2fs_close(fs);
-      return(-1);
+    if (get_file_parts(fs, root, src_dir, &srcd, &src_dir, &src_name))
+      {
+        ext2fs_close(fs);
+        return(-1);
+      }
+
+    /* get the inode number for the source file */
+    if ((retval = ext2fs_namei(fs, srcd, srcd, src_name, &source_file)))
+      {
+        fprintf(stderr, "%s: source file %s\n",error_message(retval), src_name);
+        ext2fs_close(fs);
+        return(retval);
+      }
     }
-
-  /* get the inode number for the source file */
-  if ((retval = ext2fs_namei(fs, srcd, srcd, src_name, &source_file)))
+  else
     {
-      fprintf(stderr, "%s: source file %s\n",error_message(retval), src_name);
-      ext2fs_close(fs);
-      return(retval);
+      src_name = src_dir;
     }
 
   /* get the destination directory */
@@ -183,19 +183,45 @@ main_e2ln(int argc, char *argv[])
     }
 
   /* now create the link */
-  if ((retval = create_hard_link(fs, destd, source_file, dest_name, force)))
+  if (symlink)
     {
-      fprintf(stderr, "Error linking %s/%s as %s/%s\n",
-              ((src_dir == NULL) ? "." : src_dir), src_name,
-              ((dest_dir == NULL) ? "." : dest_dir), dest_name);
-      ext2fs_close(fs);
-      return(1);
+      printf("create symlink from %s to %s\n", src_dir, dest_name);
+      if ((retval = ext2fs_symlink(fs, destd, 0, dest_name, src_dir)))
+      {
+        /* check to see if we ran out of space in the directory */
+        if (retval == EXT2_ET_DIR_NO_SPACE)
+          {
+            /* try resizing the directory and try again */
+            if (0 == (retval = ext2fs_expand_dir(fs, destd)))
+              retval =  ext2fs_symlink(fs, destd, 0, dest_name, src_dir);
+          }
+        if (retval)
+          {
+            fprintf(stderr, "%s\n", error_message(retval));
+            return retval;
+          }
+      }
+      if (verbose)
+        fprintf(stderr, "linked %s as %s/%s\n",
+                src_name,
+                ((dest_dir == NULL) ? "." : dest_dir), dest_name);
+    }
+  else
+    {
+      if ((retval = create_hard_link(fs, destd, source_file, dest_name, force)))
+        {
+          fprintf(stderr, "Error linking %s/%s as %s/%s\n",
+                  ((src_dir == NULL) ? "." : src_dir), src_name,
+                  ((dest_dir == NULL) ? "." : dest_dir), dest_name);
+          ext2fs_close(fs);
+          return(1);
+      }
+      if (verbose)
+        fprintf(stderr, "linked %s/%s as %s/%s\n",
+                ((src_dir == NULL) ? "." : src_dir), src_name,
+                ((dest_dir == NULL) ? "." : dest_dir), dest_name);
     }
 
-  if (verbose)
-    fprintf(stderr, "linked %s/%s as %s/%s\n",
-            ((src_dir == NULL) ? "." : src_dir), src_name,
-            ((dest_dir == NULL) ? "." : dest_dir), dest_name);
 
   ext2fs_close(fs);
   return(0);
