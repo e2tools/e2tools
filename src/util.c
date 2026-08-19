@@ -174,7 +174,27 @@ rm_file(ext2_filsys fs, ext2_ino_t cwd, char *outfile, ext2_ino_t delfile)
   if ((retval = read_inode(fs, delfile, &inode)))
     return(retval);
 
-  --inode.i_links_count;
+  if (LINUX_S_ISDIR(inode.i_mode))
+    {
+      /* a directory holds a link to itself through ".", and its parent holds
+         one more for the child's ".."; neither survives the removal */
+      struct ext2_inode parent;
+
+      inode.i_links_count = 0;
+
+      if ((retval = read_inode(fs, cwd, &parent)))
+        return(retval);
+
+      if (parent.i_links_count > 1)
+        {
+          --parent.i_links_count;
+          if ((retval = write_inode(fs, cwd, &parent)))
+            return(retval);
+        }
+    }
+  else
+    --inode.i_links_count;
+
   if ((retval = write_inode(fs, delfile, &inode)))
     return(retval);
 
@@ -216,7 +236,8 @@ delete_file(ext2_filsys fs, ext2_ino_t inode)
       return(retval);
     }
 
-  ext2fs_inode_alloc_stats(fs, inode, -1);
+  ext2fs_inode_alloc_stats2(fs, inode, -1,
+                            LINUX_S_ISDIR(inode_buf.i_mode) ? 1 : 0);
 
   return(0);
 }
