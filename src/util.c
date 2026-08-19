@@ -206,7 +206,10 @@ delete_file(ext2_filsys fs, ext2_ino_t inode)
       return(retval);
     }
 
-  if ((retval = ext2fs_block_iterate(fs, inode, 0, NULL,
+  /* i_block[] holds the target path, not block pointers, for a fast symlink;
+     the same is true of device nodes, FIFOs, sockets and inline data. */
+  if (ext2fs_inode_has_valid_blocks2(fs, &inode_buf) &&
+      (retval = ext2fs_block_iterate(fs, inode, 0, NULL,
                                      release_blocks_proc, NULL)))
     {
       fprintf(stderr, "%s\n", error_message(retval));
