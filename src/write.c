@@ -114,6 +114,7 @@ put_file(ext2_filsys fs, ext2_ino_t cwd, char *infile, char *outfile,
   long  retval;
   struct ext2_inode inode;
   mode_t cur_umask;
+  off_t file_size;
 
   if (fs == NULL || outfile == NULL)
     {
@@ -233,15 +234,19 @@ put_file(ext2_filsys fs, ext2_ino_t cwd, char *infile, char *outfile,
       return (retval);
     }
 
-  if (LINUX_S_ISREG(inode.i_mode) &&
-      (retval = store_data(fs, fd, newfile, &statbuf.st_size)))
+  if (LINUX_S_ISREG(inode.i_mode))
     {
-      close(fd);
+      file_size = statbuf.st_size;
+      if ((retval = store_data(fs, fd, newfile, &file_size)))
+        {
+          close(fd);
 #ifndef DEBUG
-      rm_file(fs, cwd, outfile, newfile);
+          rm_file(fs, cwd, outfile, newfile);
 
 #endif
-      return(retval);
+          return(retval);
+        }
+      statbuf.st_size = file_size;
     }
 
   close(fd);
